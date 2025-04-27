@@ -1,7 +1,7 @@
 'use client';
 import React from "react";
 import Link from "next/link";
-import {GiBookCover} from "react-icons/gi";
+import {GiBookCover, GiPlatform } from "react-icons/gi";
 import {MdLibraryBooks, MdSpaceDashboard, MdEvent, MdSpeakerNotes, MdSettingsApplications} from "react-icons/md";
 import {CgPerformance} from "react-icons/cg";
 import {usePathname} from "next/navigation";
@@ -18,6 +18,7 @@ export default function NavBar() {
     const links = [
         {label: "Overview", href: "/", icon: MdSpaceDashboard},
         {label: "Courses", href: "/courses", icon: MdLibraryBooks},
+        {label: "Platforms", href: "/platforms", icon: GiPlatform},
         {label: "Schedule", href: "/schedule", icon: MdEvent},
         {label: "Performance", href: "/performance", icon: CgPerformance},
         {label: "Notes", href: "/notes", icon: MdSpeakerNotes},
