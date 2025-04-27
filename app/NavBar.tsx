@@ -6,6 +6,7 @@ import {MdLibraryBooks, MdSpaceDashboard, MdEvent, MdSpeakerNotes, MdSettingsApp
 import {CgPerformance} from "react-icons/cg";
 import {usePathname} from "next/navigation";
 import {IconType} from "react-icons";
+import classNames from "classnames";
 
 
 export default function NavBar() {
@@ -55,17 +56,32 @@ export default function NavBar() {
                     <ul className="space-y-2 font-medium">
                         {links.map((link) => {
                             const isActive = link.href === currentPath;
-                            // const sideBarIconStyle = "w-8 h-8 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white";
-
                             const Icon: IconType = link.icon;
 
                             return (
                                 <li key={link.href}>
-                                    <Link href={link.href} key={link.label} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <Link href={link.href} key={link.label}
+                                          className={classNames(
+                                              "flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group",
+                                              {
+                                                  "dark:bg-gray-700": isActive
+                                              }
+                                          )}>
                                         <Icon
-                                            className={`w-8 h-8 text-gray-500 transition duration-75 ${isActive ? 'dark:text-amber-500' : 'dark:text-gray-400'} group-hover:text-gray-900 dark:group-hover:text-white`}/>
+                                            className={classNames(
+                                                "w-8 h-8 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white",
+                                                {
+                                                    "dark:text-amber-500" : isActive,
+                                                    "dark:text-gray-400" : !isActive
+                                                }
+                                            )}/>
+
                                         <span
-                                            className={`ml-3 ${isActive ? 'text-amber-400' : "null"}`}>{link.label}</span>
+                                            className={classNames(
+                                                'ml-3',
+                                                {
+                                                    "text-amber-500": isActive
+                                                })}>{link.label}</span>
                                     </Link>
                                 </li>
                             );
