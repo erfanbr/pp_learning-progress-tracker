@@ -62,7 +62,7 @@ export default function NavBar() {
                                 <li key={link.href}>
                                     <Link href={link.href} key={link.label}
                                           className={classNames(
-                                              "flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group",
+                                              "flex items-center p-2 text-gray-900 rounded-4xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group",
                                               {
                                                   "dark:bg-cyan-600": isActive
                                               }
