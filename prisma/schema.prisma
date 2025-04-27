@@ -13,3 +13,19 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Course {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+  status    Status   @default(NOT_STARTED_YET)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+enum Status {
+  NOT_STARTED_YET
+  IN_PROGRESS
+  DONE
+  BLOCKED
+  ABANDONED
+}

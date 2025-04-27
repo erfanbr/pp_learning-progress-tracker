@@ -75,3 +75,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+#prisma generated file
+app/generated/prisma
