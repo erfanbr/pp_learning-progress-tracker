@@ -5,21 +5,22 @@ import {GiBookCover} from "react-icons/gi";
 import {MdLibraryBooks, MdSpaceDashboard, MdEvent, MdSpeakerNotes, MdSettingsApplications} from "react-icons/md";
 import {CgPerformance} from "react-icons/cg";
 import {usePathname} from "next/navigation";
+import {IconType} from "react-icons";
 
 
 export default function NavBar() {
     const currentPath = usePathname();
     // console.log(currentPath);
 
-    const sideBarIconStyle = "w-8 h-8 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+    const sideBarLogoStyle = "w-8 h-8 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 
     const links = [
-        {label: "Overview", href: "/", icon: <MdSpaceDashboard className={sideBarIconStyle}/>},
-        {label: "Courses", href: "/courses", icon: <MdLibraryBooks className={sideBarIconStyle}/>},
-        {label: "Schedule", href: "/schedule", icon: <MdEvent className={sideBarIconStyle}/>},
-        {label: "Performance", href: "/performance", icon: <CgPerformance className={sideBarIconStyle}/>},
-        {label: "Notes", href: "/notes", icon: <MdSpeakerNotes className={sideBarIconStyle}/>},
-        {label: "Settings", href: "/settings", icon: <MdSettingsApplications className={sideBarIconStyle}/>},
+        {label: "Overview", href: "/", icon: MdSpaceDashboard},
+        {label: "Courses", href: "/courses", icon: MdLibraryBooks},
+        {label: "Schedule", href: "/schedule", icon: MdEvent},
+        {label: "Performance", href: "/performance", icon: CgPerformance},
+        {label: "Notes", href: "/notes", icon: MdSpeakerNotes},
+        {label: "Settings", href: "/settings", icon: MdSettingsApplications},
     ]
 
 
@@ -46,23 +47,29 @@ export default function NavBar() {
 
                     {/*LOGO*/}
                     <Link href="/" className="flex items-center mx-2 border-b-2 mb-3 pb-5"><GiBookCover
-                        className={sideBarIconStyle}/><span
+                        className={sideBarLogoStyle}/><span
                         className="mx-3 self-center text-xl font-semibold whitespace-nowrap dark:text-white">Studyflow</span>
                     </Link>
 
 
                     <ul className="space-y-2 font-medium">
-                        {links.map(link => (
-                            <Link key={link.href} href={link.href}
-                                // className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                  className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group
-                                  ${link.href === currentPath ? 'bg-gray-700' : 'null'}`}>
-                                {link.icon}
-                                <span
-                                    className={`ms-3 ${link.href === currentPath ? 'text-amber-400' : 'text-zinc-200'}`}>{link.label}</span>
-                            </Link>
+                        {links.map((link) => {
+                            const isActive = link.href === currentPath;
+                            // const sideBarIconStyle = "w-8 h-8 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white";
 
-                        ))}
+                            const Icon: IconType = link.icon;
+
+                            return (
+                                <li key={link.href}>
+                                    <Link href={link.href} key={link.label} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <Icon
+                                            className={`w-8 h-8 text-gray-500 transition duration-75 ${isActive ? 'dark:text-amber-500' : 'dark:text-gray-400'} group-hover:text-gray-900 dark:group-hover:text-white`}/>
+                                        <span
+                                            className={`ml-3 ${isActive ? 'text-amber-400' : "null"}`}>{link.label}</span>
+                                    </Link>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
             </aside>
