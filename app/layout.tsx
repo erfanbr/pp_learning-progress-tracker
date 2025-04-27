@@ -30,7 +30,11 @@ export default function RootLayout({
         >
         <NavBar></NavBar>
         <main>
-            {children}
+            <div className="p-4 sm:ml-64">
+                <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+                    {children}
+                </div>
+            </div>
         </main>
         </body>
         </html>
