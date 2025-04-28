@@ -1,5 +1,6 @@
 import React from "react";
 import {prisma} from "@/prisma/client";
+import Link from "next/link";
 
 export default async function PlatformPage() {
     const platforms = await prisma.platform.findMany();
@@ -23,19 +24,18 @@ export default async function PlatformPage() {
                     </thead>
                     <tbody>
                     {platforms.map((platform) => (
-                        <>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                    key={platform.id}>
+
+                            <tr key={platform.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {platform.id}
                                 </th>
                                 <td className="px-6 py-4">{platform.title}</td>
                                 <td className="px-6 py-4">
-                                    <a href="#"
-                                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                    <Link href={`/platforms/${platform.id}`}
+                                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
                                 </td>
                             </tr>
-                        </>
+
                     ))}
                     </tbody>
                 </table>
