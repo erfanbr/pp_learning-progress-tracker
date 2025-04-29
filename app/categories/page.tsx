@@ -3,6 +3,7 @@ import React from "react";
 
 import CategoryTable from "@/app/categories/CategoryTable";
 
+
 interface Props {
     searchParams: {
         sortBy?: string,
