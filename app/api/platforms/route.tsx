@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
-import schema from "@/app/api/platforms/[id]/schema";
+import schema from "@/app/api/platforms/schema";
 
 export async function GET(request: NextRequest) {
     const platforms = await prisma.platform.findMany();

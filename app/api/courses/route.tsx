@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client"
-import schema from "@/app/api/courses/[id]/schema";
+import schema from "@/app/api/courses/schema";
 
 export async function GET( request: NextRequest) {
     const courses = await prisma.course.findMany();
