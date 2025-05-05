@@ -29,8 +29,4 @@ export async function DELETE(request: NextRequest, {params}: Props){
     })
 
     return NextResponse.json(categoryToDelete);
-
-
-
-
 }
