@@ -7,7 +7,7 @@ interface Props {
 
 export async function GET(request: NextRequest, {params}: Props) {
     const categories = await prisma.catergory.findUnique({where: {id: parseInt(params.id)}});
-    if (!categories) return NextResponse.json({error: "Category not found"}, {status: 404})
+    if (!categories) return NextResponse.json({error: "Category not found"}, {status: 404});
 
     return NextResponse.json(categories);
 }
