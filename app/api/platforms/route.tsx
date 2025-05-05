@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
-import schema from "@/app/api/courses/[id]/schema";
+import schema from "@/app/api/platforms/[id]/schema";
 
 export async function GET(request: NextRequest) {
     const platforms = await prisma.platform.findMany();
@@ -16,7 +16,6 @@ export async function POST(request: NextRequest) {
 
     const platform = await prisma.platform.findFirst({
         where: {
-            // id: 4
             title: body.title
         }
     })

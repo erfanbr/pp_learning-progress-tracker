@@ -1,7 +1,6 @@
-import {z} from "zod";
+import {z} from 'zod';
 
-
-const schema = z.object({
+const schema=  z.object({
     title: z.string().min(3).max(150)
 })
 
