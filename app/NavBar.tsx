@@ -66,7 +66,8 @@ export default function NavBar() {
                                           className={classNames(
                                               "flex items-center p-2 text-gray-900 rounded-4xl dark:text-white hover:bg-gray-100 dark:hover:bg-primary-500 group",
                                               {
-                                                  "dark:bg-primary-500": isActive
+                                                  "dark:bg-primary-500": isActive,
+                                                  "border-2 border-zinc-200": isActive
                                               }
                                           )}>
                                         <Icon
