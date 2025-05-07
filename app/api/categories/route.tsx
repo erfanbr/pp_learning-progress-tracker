@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
-import schema from "@/app/api/categories/schema";
+import {createCategorySchema} from "@/app/validationSchema";
 
 export async function GET(request: NextRequest) {
     const categories = await prisma.catergory.findMany();
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const body = await request.json();
 
-    const validatedData = schema.safeParse(body);
+    const validatedData = createCategorySchema.safeParse(body);
     if (!validatedData.success) return NextResponse.json({error: validatedData.error.errors}, {status: 400})
 
     const category = await prisma.catergory.findFirst({

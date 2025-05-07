@@ -5,19 +5,19 @@ import {FaSave} from "react-icons/fa";
 import {MdCancel} from "react-icons/md";
 import {useForm} from "react-hook-form";
 import axios from 'axios';
+import {zodResolver} from "@hookform/resolvers/zod";
+import {createCategorySchema} from "@/app/validationSchema";
+import {z} from 'zod';
 import {useRouter} from "next/navigation";
 
-
-interface CategoryFrom{
-    title: string
-}
+type CategoryFrom= z.infer<typeof createCategorySchema>;
 
 export default function NewCategoryPage() {
     const {
         register,
         handleSubmit,
         formState: {errors, isValid}
-    }= useForm<CategoryFrom>();
+    } = useForm<CategoryFrom>({resolver: zodResolver(createCategorySchema)});
     const router = useRouter();
 
     return (
@@ -53,7 +53,7 @@ export default function NewCategoryPage() {
                         </Link>
                     </div>
                     {/*// <!-- Modal body -->*/}
-                    <form onSubmit={handleSubmit(async (data)=> {
+                    <form onSubmit={handleSubmit(async (data) => {
                         await axios.post('/api/categories', data);
                         router.push('/categories');
                     })}>
@@ -76,11 +76,17 @@ export default function NewCategoryPage() {
                                        dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500
                                        dark:focus:border-primary-500"
                                        {...register('title')}/>
+
                                 {/*validation*/}
-                                {/*<div>*/}
-                                {/*    <p id="filled_error_help" className="mt-2 text-xs text-red-600 dark:text-red-400">*/}
-                                {/*        <span className="font-medium">Oh, snapp!</span> Some error message.</p>*/}
-                                {/*</div>*/}
+                                {
+                                    errors.title &&
+                                    <div>
+                                        <p id="filled_error_help"
+                                           className="mt-2 text-xs text-red-600 dark:text-red-400">
+                                            {errors.title.message}</p>
+                                    </div>
+                                }
+
                             </div>
 
 
@@ -88,7 +94,7 @@ export default function NewCategoryPage() {
 
                         {/*TODO: Fix button style*/}
                         <div className="text-right">
-                        <Link href="/categories/" className="px-5 py-2.5 mr-2.5  text-zinc-200 inline-flex items-center font-medium text-gray-900 focus:outline-none
+                            <Link href="/categories/" className="px-5 py-2.5 mr-2.5  text-zinc-200 inline-flex items-center font-medium text-gray-900 focus:outline-none
                                     bg-white rounded-3xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700
                                     focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800
                                     dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">

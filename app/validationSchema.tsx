@@ -1,0 +1,6 @@
+import {z} from 'zod';
+
+export const createCategorySchema = z.object({
+    title: z.string().min(3, 'Title has to be at least 3 characters').max(150)
+})
+

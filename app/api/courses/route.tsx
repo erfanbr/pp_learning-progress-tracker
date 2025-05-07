@@ -11,7 +11,7 @@ export async function GET( request: NextRequest) {
 // export async function POST(request: NextRequest) {
 //     const body = await request.json();
 //
-//     const validatedData =  schema.safeParse(body);
+//     const validatedData =  validationSchema.safeParse(body);
 //     if (!validatedData.success) return NextResponse.json({error: validatedData.error.errors}, {status: 400})
 //
 //     const course = await prisma.course.findFirst({
