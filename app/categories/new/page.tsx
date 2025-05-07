@@ -1,19 +1,10 @@
-import React from "react";
-import {prisma} from "@/prisma/client";
 import Link from "next/link";
+import React from "react";
+import {FaSave} from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
 import {FaTrashCan} from "react-icons/fa6";
-import { FaSave } from "react-icons/fa";
 
-
-interface Props {
-    params: { slug: string }
-}
-
-export default async function CategoryEditPage(myProp: Props) {
-    const category = await prisma.catergory.findUnique({
-        where: {id: parseInt(myProp.params.slug)}
-    })
-
+export default function NewCategoryPage() {
     return (
         <>
             <div>
@@ -33,7 +24,7 @@ export default async function CategoryEditPage(myProp: Props) {
                     <div
                         className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            Edit Category
+                            Add Category
                         </h3>
                         <Link className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                               href="/categories/">
@@ -53,7 +44,7 @@ export default async function CategoryEditPage(myProp: Props) {
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID:</label>
                                 <input type="text" name="id" id="id"
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-zinc-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="id goes here" disabled={true} readOnly={true} defaultValue={category!.id}/>
+                                       placeholder="id goes here" disabled={true} readOnly={true} defaultValue=""/>
                             </div>
                             <div>
                                 <label htmlFor="title"
@@ -63,7 +54,7 @@ export default async function CategoryEditPage(myProp: Props) {
                                        focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200
                                        dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500
                                        dark:focus:border-primary-500"
-                                       placeholder="Product brand" required={true} value={category!.title}/>
+                                       placeholder="Product brand" required={true} value=""/>
                             </div>
 
 
@@ -71,19 +62,18 @@ export default async function CategoryEditPage(myProp: Props) {
 
                         {/*TODO: Fix button style*/}
                         <div className="text-right">
-                            <button type="button"
-                                    className="mx-2 text-red-600 inline-flex items-center hover:text-white border-2 border-red-600
+                            <Link href="/categories/" className="px-5 py-2.5 mr-2.5  text-zinc-200 inline-flex items-center font-medium text-gray-900 focus:outline-none
+                                    bg-white rounded-3xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700
+                                    focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800
+                                    dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                <MdCancel className="mr-1.5 -ml-1.5 w-5 h-5"/>Cancel
+                            </Link>
+
+                            <button className="px-5 py-2.5 text-zinc-200 inline-flex items-center hover:text-white border-2 border-zinc-200
                                     hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-3xl
-                                    text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white
-                                    dark:hover:bg-red-600 dark:focus:ring-red-900">
-                                <FaTrashCan className="mr-1.5 -ml-1.5 w-5 h-5"/>
-                                Delete
-                            </button>
-                            <button className=" text-zinc-200 inline-flex items-center hover:text-white border-2 border-zinc-200
-                                    hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-3xl
-                                    text-sm px-5 py-2.5 text-center dark:border-zinc-200 dark:text-zinc-200 dark:hover:text-white
+                                    text-sm text-center dark:border-zinc-200 dark:text-zinc-200 dark:hover:text-white
                                      dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-700">
-                                <FaSave className="mr-1.5 -ml-1.5 w-5 h-5"/>Save Changes
+                                <FaSave className="mr-1.5 -ml-1.5 w-5 h-5"/>Add Category
                             </button>
                         </div>
 
@@ -99,6 +89,7 @@ export default async function CategoryEditPage(myProp: Props) {
                 {/*    </div>*/}
                 {/*</div>*/}
             </div>
+
         </>
     );
 }

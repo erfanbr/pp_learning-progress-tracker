@@ -2,7 +2,9 @@ import React, {useState} from "react";
 import {prisma} from "@/prisma/client";
 import Link from "next/link";
 import {sort} from "fast-sort"
-import {FaCaretUp, FaCaretDown} from "react-icons/fa";
+import {FaCaretUp, FaCaretDown, FaSave} from "react-icons/fa";
+import { MdAddCircle } from "react-icons/md";
+import AddItemButton from "@/app/components/AddItemButton";
 
 interface Props {
     sortBy: string;
@@ -83,10 +85,13 @@ export default async function CategoryTable({sortBy, sortType}: Props) {
                                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
                             </td>
                         </tr>
-
                     ))}
                     </tbody>
                 </table>
+                <div className="text-right">
+                    <AddItemButton href="/categories/new" label="Add Category"></AddItemButton>
+                </div>
+
             </div>
         </>
     );
