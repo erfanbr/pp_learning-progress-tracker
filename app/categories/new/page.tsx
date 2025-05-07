@@ -9,8 +9,9 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {createCategorySchema} from "@/app/validationSchema";
 import {z} from 'zod';
 import {useRouter} from "next/navigation";
+import InputErrorMessage from "@/app/components/InputErrorMessage";
 
-type CategoryFrom= z.infer<typeof createCategorySchema>;
+type CategoryFrom = z.infer<typeof createCategorySchema>;
 
 export default function NewCategoryPage() {
     const {
@@ -78,14 +79,7 @@ export default function NewCategoryPage() {
                                        {...register('title')}/>
 
                                 {/*validation*/}
-                                {
-                                    errors.title &&
-                                    <div>
-                                        <p id="filled_error_help"
-                                           className="mt-2 text-xs text-red-600 dark:text-red-400">
-                                            {errors.title.message}</p>
-                                    </div>
-                                }
+                                <InputErrorMessage>{errors.title?.message}</InputErrorMessage>
 
                             </div>
 
