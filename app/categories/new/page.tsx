@@ -1,10 +1,25 @@
+'use client'
 import Link from "next/link";
 import React from "react";
 import {FaSave} from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
-import {FaTrashCan} from "react-icons/fa6";
+import {MdCancel} from "react-icons/md";
+import {useForm} from "react-hook-form";
+import axios from 'axios';
+import {useRouter} from "next/navigation";
+
+
+interface CategoryFrom{
+    title: string
+}
 
 export default function NewCategoryPage() {
+    const {
+        register,
+        handleSubmit,
+        formState: {errors, isValid}
+    }= useForm<CategoryFrom>();
+    const router = useRouter();
+
     return (
         <>
             <div>
@@ -26,8 +41,9 @@ export default function NewCategoryPage() {
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                             Add Category
                         </h3>
-                        <Link className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                              href="/categories/">
+                        <Link
+                            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            href="/categories/">
                             <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path fillRule="evenodd"
@@ -37,24 +53,34 @@ export default function NewCategoryPage() {
                         </Link>
                     </div>
                     {/*// <!-- Modal body -->*/}
-                    <form action="#">
+                    <form onSubmit={handleSubmit(async (data)=> {
+                        await axios.post('/api/categories', data);
+                        router.push('/categories');
+                    })}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
                             <div>
                                 <label htmlFor="id"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID:</label>
                                 <input type="text" name="id" id="id"
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-zinc-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="id goes here" disabled={true} readOnly={true} defaultValue=""/>
+                                       placeholder="ID generates automatically" disabled={true} readOnly={true}
+                                       defaultValue=""/>
                             </div>
+
                             <div>
                                 <label htmlFor="title"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title:</label>
-                                <input type="text" name="title" id="title"
+                                <input type="text" id="title"
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                                        focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200
                                        dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500
                                        dark:focus:border-primary-500"
-                                       placeholder="Product brand" required={true} value=""/>
+                                       {...register('title')}/>
+                                {/*validation*/}
+                                {/*<div>*/}
+                                {/*    <p id="filled_error_help" className="mt-2 text-xs text-red-600 dark:text-red-400">*/}
+                                {/*        <span className="font-medium">Oh, snapp!</span> Some error message.</p>*/}
+                                {/*</div>*/}
                             </div>
 
 
@@ -62,7 +88,7 @@ export default function NewCategoryPage() {
 
                         {/*TODO: Fix button style*/}
                         <div className="text-right">
-                            <Link href="/categories/" className="px-5 py-2.5 mr-2.5  text-zinc-200 inline-flex items-center font-medium text-gray-900 focus:outline-none
+                        <Link href="/categories/" className="px-5 py-2.5 mr-2.5  text-zinc-200 inline-flex items-center font-medium text-gray-900 focus:outline-none
                                     bg-white rounded-3xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700
                                     focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800
                                     dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
