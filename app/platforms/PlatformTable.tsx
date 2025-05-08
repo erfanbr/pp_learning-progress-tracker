@@ -86,7 +86,7 @@ export default async function PlatformTable({sortBy, sortType}: Props) {
                     ))}
                     </tbody>
                 </table>
-                <div className="text-right py-2.5">
+                <div className="text-right py-5">
                     <CustomButton href="/platforms/new" icon={FaSave} buttonType={"primary"}>Add Platform</CustomButton>
                 </div>
             </div>
