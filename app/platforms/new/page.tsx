@@ -1,11 +1,29 @@
+'use client'
 import React from "react";
 import Link from "next/link";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaSave} from "react-icons/fa";
 import {MdCancel} from "react-icons/md";
 import CustomButton from "@/app/components/CustomButton";
+import {useForm} from "react-hook-form";
+import {createPlatformSchema} from "@/app/validationSchema";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {z} from "zod";
+import axios from "axios";
+import {useRouter} from "next/navigation";
+import InputErrorMessage from "@/app/components/InputErrorMessage";
+
+type PlatformForm = z.infer<typeof createPlatformSchema>
 
 export default function AddPlatformPage() {
+    const {
+        register,
+        handleSubmit,
+        formState: {errors, isValid}
+    } = useForm<PlatformForm>({resolver: zodResolver(createPlatformSchema)});
+
+    const router = useRouter();
+
     return (
         <>
             <div>
@@ -39,7 +57,10 @@ export default function AddPlatformPage() {
                         </Link>
                     </div>
                     {/*// <!-- Modal body -->*/}
-                    <form action="#">
+                    <form onSubmit={handleSubmit(async (data)=> {
+                        await axios.post('/api/platforms', data);
+                        router.push('/platforms');
+                    })}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
                             <div>
                                 <label htmlFor="id"
@@ -52,9 +73,12 @@ export default function AddPlatformPage() {
                             <div>
                                 <label htmlFor="title"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title:</label>
-                                <input type="text" name="title" id="title"
+                                <input type="text" id="title"
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="Product brand" required={true}/>
+                                       {...register('title')} placeholder={'Name of Platform'}/>
+
+                                {/*validation*/}
+                                <InputErrorMessage>{errors.title?.message}</InputErrorMessage>
                             </div>
                         </div>
                         <div className="text-right">
