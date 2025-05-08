@@ -3,6 +3,7 @@ import {prisma} from "@/prisma/client";
 import Link from "next/link";
 import {sort} from "fast-sort";
 import {FaCaretDown, FaCaretUp} from "react-icons/fa";
+import AddItemButton from "@/app/components/AddItemButton";
 
 interface Props {
     sortBy: string,
@@ -83,6 +84,9 @@ export default async function PlatformTable({sortBy, sortType} :Props) {
                     ))}
                     </tbody>
                 </table>
+                <div className="text-right">
+                    <AddItemButton href="/platforms/new" label="Add Platform"></AddItemButton>
+                </div>
             </div>
         </>
     );
