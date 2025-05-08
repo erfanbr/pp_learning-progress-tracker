@@ -10,6 +10,7 @@ import {createCategorySchema} from "@/app/validationSchema";
 import {z} from 'zod';
 import {useRouter} from "next/navigation";
 import InputErrorMessage from "@/app/components/InputErrorMessage";
+import CustomButton from "@/app/components/CustomButton";
 
 type CategoryFrom = z.infer<typeof createCategorySchema>;
 
@@ -88,19 +89,8 @@ export default function NewCategoryPage() {
 
                         {/*TODO: Fix button style*/}
                         <div className="text-right">
-                            <Link href="/categories/" className="px-5 py-2.5 mr-2.5  text-zinc-200 inline-flex items-center font-medium text-gray-900 focus:outline-none
-                                    bg-white rounded-3xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700
-                                    focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800
-                                    dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                <MdCancel className="mr-1.5 -ml-1.5 w-5 h-5"/>Cancel
-                            </Link>
-
-                            <button className="px-5 py-2.5 text-zinc-200 inline-flex items-center hover:text-white border-2 border-zinc-200
-                                    hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-3xl
-                                    text-sm text-center dark:border-zinc-200 dark:text-zinc-200 dark:hover:text-white
-                                     dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-700">
-                                <FaSave className="mr-1.5 -ml-1.5 w-5 h-5"/>Add Category
-                            </button>
+                            <CustomButton href="/categories/" icon={MdCancel} buttonType={'discard'}>Cancel</CustomButton>
+                            <CustomButton icon={FaSave} buttonType={'primary'}>Add Category</CustomButton>
                         </div>
 
                     </form>
