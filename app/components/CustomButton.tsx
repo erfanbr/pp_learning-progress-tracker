@@ -2,11 +2,12 @@ import React, {ElementType, PropsWithChildren} from "react";
 import {MdCancel} from "react-icons/md";
 import Link from "next/link";
 import clsx from "clsx";
+import {Button} from "flowbite-react";
 
 type ButtonType = "primary" | "danger" | "discard";
 
 type CancelButtonProps = PropsWithChildren<{
-    href: string;
+    href?: string;
     icon: ElementType;
     buttonType?: ButtonType;
 }>;
@@ -35,11 +36,21 @@ const variantClasses: Record<ButtonType, string> = {
 }
 
 export default function CustomButton({href, icon: Icon, children, buttonType = 'primary'}: CancelButtonProps) {
+    if (href) {
+        return (
+            <>
+                <Link href={href} className={clsx(variantClasses[buttonType])}>
+                    <Icon className="mr-1.5 -ml-1.5 w-5 h-5"/>{children}
+                </Link>
+            </>
+        );
+    }
+
     return (
         <>
-            <Link href={href} className={clsx(variantClasses[buttonType])}>
+            <button className={clsx(variantClasses[buttonType])}>
                 <Icon className="mr-1.5 -ml-1.5 w-5 h-5"/>{children}
-            </Link>
+            </button>
         </>
-    );
+    )
 }
