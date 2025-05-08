@@ -5,6 +5,7 @@ import {sort} from "fast-sort"
 import {FaCaretUp, FaCaretDown, FaSave} from "react-icons/fa";
 import { MdAddCircle } from "react-icons/md";
 import AddItemButton from "@/app/components/AddItemButton";
+import CustomButton from "@/app/components/CustomButton";
 
 interface Props {
     sortBy: string;
@@ -88,8 +89,8 @@ export default async function CategoryTable({sortBy, sortType}: Props) {
                     ))}
                     </tbody>
                 </table>
-                <div className="text-right">
-                    <AddItemButton href="/categories/new" label="Add Category"></AddItemButton>
+                <div className="text-right py-5">
+                    <CustomButton href="/categories/new" icon={FaSave} buttonType={"primary"} >Add Category</CustomButton>
                 </div>
 
             </div>

@@ -2,8 +2,9 @@ import React from "react";
 import {prisma} from "@/prisma/client";
 import Link from "next/link";
 import {sort} from "fast-sort";
-import {FaCaretDown, FaCaretUp} from "react-icons/fa";
+import {FaCaretDown, FaCaretUp, FaSave} from "react-icons/fa";
 import AddItemButton from "@/app/components/AddItemButton";
+import CustomButton from "@/app/components/CustomButton";
 
 interface Props {
     sortBy: string,
@@ -15,7 +16,7 @@ type Platform = {
     title: string;
 };
 
-export default async function PlatformTable({sortBy, sortType} :Props) {
+export default async function PlatformTable({sortBy, sortType}: Props) {
     const platforms = await prisma.platform.findMany();
 
     const sortMethod = sortType;
@@ -55,9 +56,9 @@ export default async function PlatformTable({sortBy, sortType} :Props) {
                                 </Link>
                                 {sortBy === "title" ? (
                                     sortMethod === "asc" ? (
-                                        <FaCaretDown className="ml-3" />
+                                        <FaCaretDown className="ml-3"/>
                                     ) : (
-                                        <FaCaretUp className="ml-3" />
+                                        <FaCaretUp className="ml-3"/>
                                     )
                                 ) : null}
                             </div>
@@ -70,7 +71,8 @@ export default async function PlatformTable({sortBy, sortType} :Props) {
                     <tbody>
                     {sortedPlatforms.map((platform) => (
 
-                        <tr key={platform.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <tr key={platform.id}
+                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {platform.id}
                             </th>
@@ -84,8 +86,8 @@ export default async function PlatformTable({sortBy, sortType} :Props) {
                     ))}
                     </tbody>
                 </table>
-                <div className="text-right">
-                    <AddItemButton href="/platforms/new" label="Add Platform"></AddItemButton>
+                <div className="text-right py-2.5">
+                    <CustomButton href="/platforms/new" icon={FaSave} buttonType={"primary"}>Add Platform</CustomButton>
                 </div>
             </div>
         </>
