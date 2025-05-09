@@ -25,6 +25,17 @@ export default function NewCategoryPage() {
     const [error, setError] = useState('');
     const [isSubmitted, setSubmitted] = useState(false);
 
+    const onFormSubmit = handleSubmit(async (data) => {
+        try{
+            setSubmitted(true);
+            await axios.post('/api/categories', data);
+            router.push('/categories');
+        } catch (error) {
+            setSubmitted(false);
+            setError('Unexpected error has happened');
+        }
+    });
+
     return (
         <>
             <div>
@@ -58,17 +69,7 @@ export default function NewCategoryPage() {
                         </Link>
                     </div>
                     {/*// <!-- Modal body -->*/}
-                    <form onSubmit={handleSubmit(async (data) => {
-                        try{
-                            setSubmitted(true);
-                            await axios.post('/api/categories', data);
-                            router.push('/categories');
-                        } catch (error) {
-                            setSubmitted(false);
-                            setError('Unexpected error has happened');
-                        }
-
-                    })}>
+                    <form onSubmit={onFormSubmit}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
                             <div>
                                 <label htmlFor="id"

@@ -27,6 +27,17 @@ export default function AddPlatformPage() {
     const [error, setError] = useState('');
     const [isSubmitted, setSubmitted] = useState(false);
 
+    const onFormSubmit = handleSubmit(async (data) => {
+        try {
+            setSubmitted(true);
+            await axios.post('/api/platforms', data);
+            router.push('/platforms');
+        } catch (error) {
+            setSubmitted(false);
+            setError('unexpect error has happened!');
+        }
+    });
+
     return (
         <>
             <div>
@@ -60,17 +71,7 @@ export default function AddPlatformPage() {
                         </Link>
                     </div>
                     {/*// <!-- Modal body -->*/}
-                    <form onSubmit={handleSubmit(async (data) => {
-                        try {
-                            setSubmitted(true);
-                            await axios.post('/api/platforms', data);
-                            router.push('/platforms');
-                        } catch (error) {
-                            setSubmitted(false);
-                            setError('unexpect error has happened!');
-                        }
-
-                    })}>
+                    <form onSubmit={onFormSubmit}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
                             <div>
                                 <label htmlFor="id"
