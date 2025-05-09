@@ -1,6 +1,6 @@
 'use client'
 import Link from "next/link";
-import React from "react";
+import React, {useState} from "react";
 import {FaSave} from "react-icons/fa";
 import {MdCancel} from "react-icons/md";
 import {useForm} from "react-hook-form";
@@ -11,6 +11,7 @@ import {z} from 'zod';
 import {useRouter} from "next/navigation";
 import InputErrorMessage from "@/app/components/InputErrorMessage";
 import CustomButton from "@/app/components/CustomButton";
+import Spinner from "@/app/components/Spinner";
 
 type CategoryFrom = z.infer<typeof createCategorySchema>;
 
@@ -18,9 +19,11 @@ export default function NewCategoryPage() {
     const {
         register,
         handleSubmit,
-        formState: {errors, isValid}
+        formState: {errors}
     } = useForm<CategoryFrom>({resolver: zodResolver(createCategorySchema)});
     const router = useRouter();
+    const [error, setError] = useState('');
+    const [isSubmitted, setSubmitted] = useState(false);
 
     return (
         <>
@@ -56,8 +59,15 @@ export default function NewCategoryPage() {
                     </div>
                     {/*// <!-- Modal body -->*/}
                     <form onSubmit={handleSubmit(async (data) => {
-                        await axios.post('/api/categories', data);
-                        router.push('/categories');
+                        try{
+                            setSubmitted(true);
+                            await axios.post('/api/categories', data);
+                            router.push('/categories');
+                        } catch (error) {
+                            setSubmitted(false);
+                            setError('Unexpected error has happened');
+                        }
+
                     })}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
                             <div>
@@ -90,7 +100,7 @@ export default function NewCategoryPage() {
                         {/*TODO: Fix button style*/}
                         <div className="text-right">
                             <CustomButton href="/categories/" icon={MdCancel} buttonType={'discard'}>Cancel</CustomButton>
-                            <CustomButton icon={FaSave} buttonType={'primary'}>Add Category</CustomButton>
+                            <CustomButton icon={FaSave} buttonType={'primary'} isDisabled={isSubmitted}>Add Category {isSubmitted && <Spinner/> }</CustomButton>
                         </div>
 
                     </form>

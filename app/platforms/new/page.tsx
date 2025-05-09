@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaSave} from "react-icons/fa";
@@ -12,6 +12,7 @@ import {z} from "zod";
 import axios from "axios";
 import {useRouter} from "next/navigation";
 import InputErrorMessage from "@/app/components/InputErrorMessage";
+import Spinner from "@/app/components/Spinner";
 
 type PlatformForm = z.infer<typeof createPlatformSchema>
 
@@ -23,6 +24,8 @@ export default function AddPlatformPage() {
     } = useForm<PlatformForm>({resolver: zodResolver(createPlatformSchema)});
 
     const router = useRouter();
+    const [error, setError] = useState('');
+    const [isSubmitted, setSubmitted] = useState(false);
 
     return (
         <>
@@ -57,9 +60,16 @@ export default function AddPlatformPage() {
                         </Link>
                     </div>
                     {/*// <!-- Modal body -->*/}
-                    <form onSubmit={handleSubmit(async (data)=> {
-                        await axios.post('/api/platforms', data);
-                        router.push('/platforms');
+                    <form onSubmit={handleSubmit(async (data) => {
+                        try {
+                            setSubmitted(true);
+                            await axios.post('/api/platforms', data);
+                            router.push('/platforms');
+                        } catch (error) {
+                            setSubmitted(false);
+                            setError('unexpect error has happened!');
+                        }
+
                     })}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
                             <div>
@@ -68,7 +78,7 @@ export default function AddPlatformPage() {
                                 <input type="text" name="id" id="id"
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-zinc-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                        placeholder="ID generates automatically" disabled={true} readOnly={true}
-                                       />
+                                />
                             </div>
                             <div>
                                 <label htmlFor="title"
@@ -82,8 +92,10 @@ export default function AddPlatformPage() {
                             </div>
                         </div>
                         <div className="text-right">
-                            <CustomButton href="/platforms/" icon={MdCancel} buttonType={"discard"}>Cancel</CustomButton>
-                            <CustomButton icon={FaSave} buttonType={"primary"}>Add Platform</CustomButton>
+                            <CustomButton href="/platforms/" icon={MdCancel}
+                                          buttonType={"discard"}>Cancel</CustomButton>
+                            <CustomButton icon={FaSave} buttonType={"primary"} isDisabled={isSubmitted}>Add
+                                Platform {isSubmitted && <Spinner/>}</CustomButton>
                         </div>
                     </form>
                 </div>
