@@ -21,7 +21,7 @@ export default function Home() {
                     Erfan's button
                 </button>
             </div>
-            <div><CourseStatusBadge label={"DONE"} color={"yellow"}/></div>
+            {/*<div><CourseStatusBadge label={"DONE"} color={"yellow"}/></div>*/}
 
         </>
     )

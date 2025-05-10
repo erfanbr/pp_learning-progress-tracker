@@ -5,6 +5,7 @@ import {sort} from "fast-sort";
 import {FaCaretDown, FaCaretUp, FaSave} from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
 import CustomButton from "@/app/components/CustomButton";
+import CourseStatusBadge from "@/app/components/CourseStatusBadge";
 
 interface Props {
     sortBy: string,
@@ -108,7 +109,7 @@ export default async function CoursesTable({sortBy, sortType}: Props) {
                                 {course.id}
                             </th>
                             <td className="px-6 py-4">{course.title}</td>
-                            <td className="px-6 py-4">{course.status}</td>
+                            <td className="px-6 py-4"><CourseStatusBadge status={course.status}/></td>
                             <td className="px-6 py-4">{(course.createdAt).toDateString()}</td>
                             <td className="px-6 py-4">
                                 <Link href={`/courses/${course.id}`}
