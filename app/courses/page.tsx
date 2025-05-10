@@ -1,9 +1,22 @@
 import React from "react";
+import CourseStatusBadge from "@/app/components/CourseStatusBadge";
+import CoursesTable from "@/app/courses/CoursesTable";
 
-export default function CoursesPage() {
+interface Props {
+    searchParams: {
+        sortBy?: string,
+        sortType?: string
+    };
+}
+
+export default function CoursesPage( {searchParams} : Props) {
+    const sortBy = searchParams?.sortBy || "id";
+    const sortType = searchParams?.sortType || "asc";
+
     return (
         <>
-            <div>Welcome to courses page</div>
+            <CoursesTable sortBy={sortBy} sortType={sortType} ></CoursesTable>
+
         </>
     );
 }
