@@ -7,6 +7,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import CustomButton from "@/app/components/CustomButton";
 import CourseStatusBadge from "@/app/components/CourseStatusBadge";
 import delay from "delay";
+import axios from "axios";
 
 interface Props {
     sortBy: string,
@@ -20,7 +21,18 @@ type Course = {
 };
 
 export default async function CoursesTable({sortBy, sortType}: Props) {
-    const courses = await prisma.course.findMany();
+    const courses = await prisma.course.findMany({
+        include: {
+            category: {
+                select: {
+                    title: true,
+                },
+            },
+        },
+    });
+
+
+
     // await delay(2000);
 
     const sortMethod = sortType;
@@ -128,7 +140,7 @@ export default async function CoursesTable({sortBy, sortType}: Props) {
                             <td className="px-6 py-4">{course.title}</td>
                             <td className="px-6 py-4"><CourseStatusBadge status={course.status}/></td>
                             <td className="px-6 py-4">{(course.createdAt).toDateString()}</td>
-                            <td className="px-6 py-4">{(course.category)}</td>
+                            <td className="px-6 py-4">{(course.category!.title)}</td>
                             <td className="px-6 py-4">
                                 <Link href={`/courses/${course.id}`}
                                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>

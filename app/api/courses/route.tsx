@@ -3,7 +3,15 @@ import {prisma} from "@/prisma/client"
 import schema from "@/app/api/courses/schema";
 
 export async function GET( request: NextRequest) {
-    const courses = await prisma.course.findMany();
+    const courses = await prisma.course.findMany({
+        include: {
+            category: {
+                select: {
+                    title: true,
+                },
+            },
+        },
+    });
     return NextResponse.json(courses);
 }
 
