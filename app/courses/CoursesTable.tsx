@@ -6,6 +6,7 @@ import {FaCaretDown, FaCaretUp, FaSave} from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
 import CustomButton from "@/app/components/CustomButton";
 import CourseStatusBadge from "@/app/components/CourseStatusBadge";
+import delay from "delay";
 
 interface Props {
     sortBy: string,
@@ -20,6 +21,7 @@ type Course = {
 
 export default async function CoursesTable({sortBy, sortType}: Props) {
     const courses = await prisma.course.findMany();
+    // await delay(2000);
 
     const sortMethod = sortType;
 
@@ -54,7 +56,7 @@ export default async function CoursesTable({sortBy, sortType}: Props) {
                             <div className="flex">
                                 <Link
                                     href={`/courses?sortBy=title&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}>
-                                    Platform name
+                                    Course name
                                 </Link>
                                 {sortBy === "title" ? (
                                     sortMethod === "asc" ? (
