@@ -22,11 +22,14 @@ model Course {
   updatedAt  DateTime  @updatedAt()
   categoryId Int?
   category   Category? @relation(fields: [categoryId], references: [id])
+  platformId Int?
+  platform   Platform? @relation(fields: [platformId], references: [id])
 }
 
 model Platform {
-  id    Int    @id @default(autoincrement())
-  title String @db.VarChar(255)
+  id     Int      @id @default(autoincrement())
+  title  String   @db.VarChar(255)
+  Course Course[]
 }
 
 model Category {
