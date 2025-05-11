@@ -21,7 +21,7 @@ type Category = {
 export default async function CategoryTable({sortBy, sortType}: Props) {
 
 
-    const categories = await prisma.catergory.findMany();
+    const categories = await prisma.category.findMany();
     const sortMethod = sortType;
 
     const sortedCategories = sortMethod === "asc"

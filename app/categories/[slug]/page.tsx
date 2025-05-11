@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default async function CategoryEditPage(myProp: Props) {
-    const category = await prisma.catergory.findUnique({
+    const category = await prisma.category.findUnique({
         where: {id: parseInt(myProp.params.slug)}
     })
 
