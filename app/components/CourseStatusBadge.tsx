@@ -9,7 +9,7 @@ interface Props {
     status: Status
 }
 
-const statusMap: Record<Status, {label: string, color: colors}> = {
+export const statusMap: Record<Status, {label: string, color: colors}> = {
     NOT_STARTED_YET: { label: 'Not Started Yet', color: 'indigo'},
     IN_PROGRESS: { label: 'In Progress', color: 'blue'},
     BLOCKED: { label: 'Blocked', color: 'red'},
