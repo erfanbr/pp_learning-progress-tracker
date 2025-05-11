@@ -1,9 +1,6 @@
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import React from "react";
-import Link from "next/link";
-import {FaCaretDown, FaCaretUp} from "react-icons/fa";
-import CourseStatusBadge from "@/app/components/CourseStatusBadge";
 import CustomButton from "@/app/components/CustomButton";
 import {IoAddCircleSharp} from "react-icons/io5";
 
