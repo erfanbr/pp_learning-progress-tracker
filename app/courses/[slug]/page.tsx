@@ -2,10 +2,13 @@ import React from "react";
 import {prisma} from "@/prisma/client";
 import Link from "next/link";
 import {FaTrashCan} from "react-icons/fa6";
-import { FaSave } from "react-icons/fa";
+import {FaSave} from "react-icons/fa";
 import CustomButton from "@/app/components/CustomButton";
-import { Status } from "../../generated/prisma/client";
-import {statusMap} from "@/app/components/CourseStatusBadge";
+import {Status} from "../../generated/prisma/client";
+import {statusMap} from "@/app/components/StatusMap";
+import {difficultyMap} from "@/app/components/DifficultyMap";
+import {PriorityMap} from "@/app/components/PriorityMap";
+
 
 
 interface Props {
@@ -13,18 +16,12 @@ interface Props {
 }
 
 
-
 export default async function CourseEditPage(myProp: Props) {
     const course = await prisma.course.findUnique({
         where: {id: parseInt(myProp.params.slug)}
     })
-
-    // const statuses = Object.values(Status);
-    const statuses = Object.entries(statusMap).map(([key, value]) => (
-        <option key={key} value={key}>
-            {value.label}
-        </option>
-    ));
+    const platforms = await prisma.platform.findMany();
+    const categories = await prisma.category.findMany();
 
 
     return (
@@ -61,25 +58,46 @@ export default async function CourseEditPage(myProp: Props) {
                     </div>
                     {/*// <!-- Modal body -->*/}
                     <form action="#">
-                        <div className="grid gap-4 mb-4 sm:grid-cols-2">
-                            <div>
-                                <label htmlFor="id"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID:</label>
-                                <input type="text" name="id" id="id"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-zinc-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="id goes here" disabled={true} readOnly={true}
-                                       defaultValue={course!.id}/>
-                            </div>
-                            <div>
+                        <div className="grid gap-4 mb-4 sm:grid-cols-4">
+                            {/*<div>*/}
+                            {/*    <label htmlFor="id"*/}
+                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>*/}
+                            {/*    <input type="text" name="id" id="id"*/}
+                            {/*           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-zinc-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"*/}
+                            {/*           placeholder="id goes here" disabled={true} readOnly={true}*/}
+                            {/*           defaultValue={course!.id}/>*/}
+                            {/*</div>*/}
+                            <div className={"col-span-2"}>
                                 <label htmlFor="title"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title:</label>
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
                                 <input type="text" name="title" id="title"
                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                        placeholder="Product brand" required={true} value={course!.title}/>
                             </div>
+                            <div className={"col-span-2"}>
+                                <label htmlFor="link"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Link</label>
+                                <input type="text" name="link" id="link"
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                       placeholder="Product brand" required={true}/>
+                            </div>
+                            <div>
+                                <label htmlFor="platform"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Platform</label>
+                                <select id="platform"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    {platforms.map((platform) => (
+                                        <option key={platform.id} value={platform.id}
+                                                selected={course!.platformId === platform.id}>
+                                            {platform.title}
+                                        </option>
+                                    ))};
+                                </select>
+                            </div>
+
                             <div>
                                 <label htmlFor="status"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
                                 <select id="platform"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                     {Object.entries(statusMap).map(([key, value]) => (
@@ -89,6 +107,264 @@ export default async function CourseEditPage(myProp: Props) {
                                     ))};
                                 </select>
                             </div>
+
+                            <div>
+                                <label htmlFor="difficulty"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Difficulty</label>
+                                <select id="difficulty"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    {Object.entries(difficultyMap).map(([key, value]) => (
+                                        <option key={key} value={key} selected={course!.difficulty === key && true}>
+                                            {value.label}
+                                        </option>
+                                    ))};
+                                </select>
+                            </div>
+
+                            <div>
+                                <label htmlFor="cateogry"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                                <select id="cateogry"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    {categories.map((category) => (
+                                        <option key={category.id} value={category.id}
+                                                selected={course!.categoryId === category.id}>
+                                            {category.title}
+                                        </option>
+                                    ))};
+                                </select>
+                            </div>
+
+                            <div>
+                                <label htmlFor="priority"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Priority</label>
+                                <select id="priority"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    {Object.entries(PriorityMap).map(([key, value]) => (
+                                        <option key={key} value={key} selected={course!.priority === key && true}>
+                                            {value.label}
+                                        </option>
+                                    ))};
+                                </select>
+                            </div>
+
+                            {/*Multiple select*/}
+                            {/*<div>*/}
+                            {/*    <label htmlFor="technologies"*/}
+                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technologies*/}
+                            {/*        (more than one can be selected)</label>*/}
+                            {/*    <select multiple id="technologies"*/}
+                            {/*            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">*/}
+                            {/*        <option selected>Choose a country</option>*/}
+                            {/*        <option value="US">United States</option>*/}
+                            {/*        <option value="CA">Canada</option>*/}
+                            {/*        <option value="FR">France</option>*/}
+                            {/*        <option value="DE">Germany</option>*/}
+                            {/*    </select>*/}
+                            {/*</div>*/}
+
+
+                            <div>
+                                <label htmlFor="duration"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duration</label>
+                                <input type="number" value="399" name="price" id="price"
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                       placeholder="$299"/>
+                            </div>
+
+                            <div className={"col-span-2"}>
+                                <label htmlFor="lastSeen"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Seen</label>
+                                <input type="text" name="lastSeen" id="lastSeen"
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                       placeholder="Product brand" required={true}/>
+                            </div>
+
+
+                            {/*Multiple select area*/}
+                            <div className="grid grid-cols-2 gap-2 px-4 md:px-6 md:grid-cols-3 col-span-4">
+                                <div className="flex items-center">
+                                    <input id="apple" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="apple"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Apple (56)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="fitbit" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="fitbit"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Fitbit (56)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="dell" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="dell"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Dell (56)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="asus" type="checkbox" value="" checked
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="asus"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Asus (97)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="logitech" type="checkbox" value="" checked
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="logitech"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Logitech (97)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="msi" type="checkbox" value="" checked
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="msi"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        MSI (97)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="bosch" type="checkbox" value="" checked
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="bosch"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Bosch (176)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="sony" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="sony"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Sony (234)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="samsung" type="checkbox" value="" checked
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="samsung"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Samsung (76)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="canon" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="canon"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Canon (49)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="microsoft" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="microsoft"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Microsoft (45)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="razor" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="razor"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Razor (49)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="emetec" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="emetec"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Emetec (16)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="nvidia" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="nvidia"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Nvidia (45)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="hp" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="hp"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        HP (234)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="benq" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="benq"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        BenQ (45)
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <input id="rockstar" type="checkbox" value=""
+                                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+
+                                    <label htmlFor="rockstar"
+                                           className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Rockstar (49)
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            {/*Note Area*/}
+                            <div className={"col-span-4"}>
+                                <label htmlFor="note"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes</label>
+                                <textarea id="note" rows={4}
+                                          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                          placeholder="Write your thoughts here..."></textarea>
+                            </div>
+
+
                         </div>
                         <div className="text-right">
                             <CustomButton icon={FaTrashCan} buttonType={'danger'}>Delete</CustomButton>

@@ -1,21 +1,15 @@
 
 import React from "react";
 import { Course, Status } from "../generated/prisma/client";
+import {statusMap} from "@/app/components/StatusMap";
 
-type colors = "blue" | "red" | "green" | "yellow" | "indigo";
+
 
 
 interface Props {
     status: Status
 }
 
-export const statusMap: Record<Status, {label: string, color: colors}> = {
-    NOT_STARTED_YET: { label: 'Not Started Yet', color: 'indigo'},
-    IN_PROGRESS: { label: 'In Progress', color: 'blue'},
-    BLOCKED: { label: 'Blocked', color: 'red'},
-    DONE: { label: 'Done', color: 'green'},
-    ABANDONED: { label: 'Abandoned', color: 'yellow'}
-};
 
 
 export default function CourseStatusBadge({status} : Props) {
