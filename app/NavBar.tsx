@@ -4,6 +4,7 @@ import Link from "next/link";
 import {GiBookCover, GiPlatform } from "react-icons/gi";
 import {MdLibraryBooks, MdSpaceDashboard, MdEvent, MdSpeakerNotes, MdSettingsApplications, MdCategory} from "react-icons/md";
 import {CgPerformance} from "react-icons/cg";
+import { IoHardwareChip } from "react-icons/io5";
 import {usePathname} from "next/navigation";
 import {IconType} from "react-icons";
 import classNames from "classnames";
@@ -20,6 +21,7 @@ export default function NavBar() {
         {label: "Courses", href: "/courses", icon: MdLibraryBooks},
         {label: "Platforms", href: "/platforms", icon: GiPlatform},
         {label: "Categories", href: "/categories", icon: MdCategory},
+        {label: "Technologies", href: "/technologies", icon: IoHardwareChip},
         {label: "Schedule", href: "/schedule", icon: MdEvent},
         {label: "Performance", href: "/performance", icon: CgPerformance},
         {label: "Notes", href: "/notes", icon: MdSpeakerNotes},
