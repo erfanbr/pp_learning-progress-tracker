@@ -9,6 +9,8 @@ import {statusMap} from "@/app/components/StatusMap";
 import {difficultyMap} from "@/app/components/DifficultyMap";
 import {PriorityMap} from "@/app/components/PriorityMap";
 import CheckBoxElement from "@/app/components/CheckBoxElement";
+import axios from "axios";
+import {string} from "zod";
 
 
 interface Props {
@@ -17,12 +19,33 @@ interface Props {
 
 
 export default async function CourseEditPage(myProp: Props) {
-    const course = await prisma.course.findUnique({
-        where: {id: parseInt(myProp.params.slug)}
-    })
+    const apiURL = "http://localhost:3000/api/courses/" + myProp.params.slug;
+    const response = await axios.get(apiURL);
+    const course = response.data;
+    // const course = await prisma.course.findUnique({
+    //     where: {id: parseInt(myProp.params.slug)},
+    //     include: {
+    //         category: {
+    //             select: {
+    //                 title: true,
+    //             },
+    //         },
+    //         technology: {
+    //             select: {
+    //                 id: true,
+    //                 title: true,
+    //             },
+    //         },
+    //     }
+    // });
     const platforms = await prisma.platform.findMany();
     const categories = await prisma.category.findMany();
-    const technologies = await prisma.technology.findMany()
+    const technologies = await prisma.technology.findMany();
+
+    const currentTechnologies: number[] = [];
+    course.technology.map((tech: { id: number; }) => (
+        currentTechnologies.push(tech.id)
+    ))
 
 
     return (
@@ -68,6 +91,11 @@ export default async function CourseEditPage(myProp: Props) {
                             {/*           placeholder="id goes here" disabled={true} readOnly={true}*/}
                             {/*           defaultValue={course!.id}/>*/}
                             {/*</div>*/}
+                            {/*{course.map(c => (*/}
+                            {/*    <div>{c.id}</div>*/}
+                            {/*))}*/}
+
+
                             <div className={"col-span-2"}>
                                 <label htmlFor="title"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
@@ -183,16 +211,22 @@ export default async function CourseEditPage(myProp: Props) {
                             </div>
 
 
-
                             {/*Multiple select area*/}
                             <div className={"col-span-4"}>
                                 <label htmlFor="technologies"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technologies
                                 </label>
 
+                                {/*{console.log(currentTechnologies)}*/}
+
+                                {/*{course.technology.map(t => (*/}
+                                {/*    console.log(t.title)*/}
+                                {/*))};*/}
+
                                 <div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">
                                     {technologies.map(technology => (
-                                        <CheckBoxElement title={technology.title} key={technology.id}/>
+                                        <CheckBoxElement title={technology.title} key={technology.id}
+                                                         isCheck={currentTechnologies.includes(technology.id)}/>
                                     ))}
 
 

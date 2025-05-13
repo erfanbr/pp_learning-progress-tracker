@@ -12,7 +12,25 @@ export async function GET( request: NextRequest) {
             },
         },
     });
-    return NextResponse.json(courses);
+
+    const coursesWithTechnologies = await prisma.course.findMany({
+        include: {
+            category: {
+                select: {
+                    title: true,
+                },
+            },
+            technology: {
+                select: {
+                    id: true,
+                    title: true,
+                },
+            },
+        }
+    })
+
+
+    return NextResponse.json(coursesWithTechnologies);
 }
 
 // TODO: Complete this later on
