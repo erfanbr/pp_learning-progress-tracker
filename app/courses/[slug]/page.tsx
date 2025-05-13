@@ -8,6 +8,7 @@ import {Status} from "../../generated/prisma/client";
 import {statusMap} from "@/app/components/StatusMap";
 import {difficultyMap} from "@/app/components/DifficultyMap";
 import {PriorityMap} from "@/app/components/PriorityMap";
+import CheckBoxElement from "@/app/components/CheckBoxElement";
 
 
 interface Props {
@@ -21,6 +22,7 @@ export default async function CourseEditPage(myProp: Props) {
     })
     const platforms = await prisma.platform.findMany();
     const categories = await prisma.category.findMany();
+    const technologies = await prisma.technology.findMany()
 
 
     return (
@@ -181,7 +183,7 @@ export default async function CourseEditPage(myProp: Props) {
                             </div>
 
 
-                            {/*TODO: Bind select area dynamically*/}
+
                             {/*Multiple select area*/}
                             <div className={"col-span-4"}>
                                 <label htmlFor="technologies"
@@ -189,179 +191,13 @@ export default async function CourseEditPage(myProp: Props) {
                                 </label>
 
                                 <div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">
+                                    {technologies.map(technology => (
+                                        <CheckBoxElement title={technology.title} key={technology.id}/>
+                                    ))}
 
-                                    <div className="flex items-center">
-                                        <input id="apple" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
 
-                                        <label htmlFor="apple"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Apple (56)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="fitbit" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="fitbit"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Fitbit (56)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="dell" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="dell"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Dell (56)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="asus" type="checkbox" value="" checked
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="asus"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Asus (97)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="logitech" type="checkbox" value="" checked
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="logitech"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Logitech (97)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="msi" type="checkbox" value="" checked
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="msi"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            MSI (97)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="bosch" type="checkbox" value="" checked
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="bosch"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Bosch (176)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="sony" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="sony"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Sony (234)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="samsung" type="checkbox" value="" checked
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="samsung"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Samsung (76)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="canon" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="canon"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Canon (49)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="microsoft" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="microsoft"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Microsoft (45)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="razor" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="razor"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Razor (49)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="emetec" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="emetec"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Emetec (16)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="nvidia" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="nvidia"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Nvidia (45)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="hp" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="hp"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            HP (234)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="benq" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="benq"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            BenQ (45)
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center">
-                                        <input id="rockstar" type="checkbox" value=""
-                                               className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-
-                                        <label htmlFor="rockstar"
-                                               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                            Rockstar (49)
-                                        </label>
-                                    </div>
                                 </div>
                             </div>
-
 
 
                             {/*Note Area*/}
