@@ -12,6 +12,7 @@ import {useRouter} from "next/navigation";
 import InputErrorMessage from "@/app/components/InputErrorMessage";
 import CustomButton from "@/app/components/CustomButton";
 import Spinner from "@/app/components/Spinner";
+import FormInputFieldElement from "@/app/components/FormInputFieldElement";
 
 type CategoryFrom = z.infer<typeof createCategorySchema>;
 
@@ -26,7 +27,7 @@ export default function NewCategoryPage() {
     const [isSubmitted, setSubmitted] = useState(false);
 
     const onFormSubmit = handleSubmit(async (data) => {
-        try{
+        try {
             setSubmitted(true);
             await axios.post('/api/categories', data);
             router.push('/categories');
@@ -71,37 +72,30 @@ export default function NewCategoryPage() {
                     {/*// <!-- Modal body -->*/}
                     <form onSubmit={onFormSubmit}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
-                            <div>
-                                <label htmlFor="id"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID:</label>
-                                <input type="text" name="id" id="id"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-zinc-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="ID generates automatically" disabled={true} readOnly={true}
-                                       defaultValue=""/>
-                            </div>
 
-                            <div>
-                                <label htmlFor="title"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title:</label>
-                                <input type="text" id="title"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                                       focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200
-                                       dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500
-                                       dark:focus:border-primary-500"
-                                       {...register('title')}/>
+                            <FormInputFieldElement title={"ID:"} id={"id"} columnSize={"1"}
+                                                   placeholder={"ID generate automatically"}
+                                                   defaultValue={""} isDisabled={true} isReadonly={true}/>
 
-                                {/*validation*/}
-                                <InputErrorMessage>{errors.title?.message}</InputErrorMessage>
-
-                            </div>
+                            <FormInputFieldElement
+                                title={"Title"}
+                                id={"title"}
+                                columnSize={"1"}
+                                placeholder={"Category title"}
+                                defaultValue={""}
+                                register={register('title')}
+                                error={errors.title?.message}
+                            />
 
 
                         </div>
 
 
                         <div className="text-right">
-                            <CustomButton href="/categories/" icon={MdCancel} buttonType={'discard'}>Cancel</CustomButton>
-                            <CustomButton icon={FaSave} buttonType={'primary'} isDisabled={isSubmitted}>Add Category {isSubmitted && <Spinner/> }</CustomButton>
+                            <CustomButton href="/categories/" icon={MdCancel}
+                                          buttonType={'discard'}>Cancel</CustomButton>
+                            <CustomButton icon={FaSave} buttonType={'primary'} isDisabled={isSubmitted}>Add
+                                Category {isSubmitted && <Spinner/>}</CustomButton>
                         </div>
 
                     </form>

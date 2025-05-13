@@ -5,7 +5,7 @@ interface Props{
     isCheck: boolean
 }
 
-export default function CheckBoxElement(props : Props) {
+export default function FormCheckBoxElement(props : Props) {
     return (
         <>
             <div className="flex items-center">
