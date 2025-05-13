@@ -98,7 +98,7 @@ export default function NewCategoryPage() {
 
                         </div>
 
-                        {/*TODO: Fix button style*/}
+
                         <div className="text-right">
                             <CustomButton href="/categories/" icon={MdCancel} buttonType={'discard'}>Cancel</CustomButton>
                             <CustomButton icon={FaSave} buttonType={'primary'} isDisabled={isSubmitted}>Add Category {isSubmitted && <Spinner/> }</CustomButton>

@@ -70,7 +70,7 @@ export default async function CategoryEditPage(myProp: Props) {
 
                         </div>
 
-                        {/*TODO: Fix button style*/}
+
                         <div className="text-right">
                             <CustomButton icon={FaTrashCan} buttonType={'danger'}>Delete</CustomButton>
                             <CustomButton icon={FaSave} buttonType={'primary'}>Save Changes</CustomButton>
