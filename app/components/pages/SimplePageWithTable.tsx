@@ -13,23 +13,23 @@ interface Props{
     sortType: string
 }
 
-type Platform = {
+type Element = {
     id: number;
     title: string;
 };
 
-export default async function PageWithSimpleTable({pageHeader, id, sortBy, sortType} : Props) {
+export default async function SimplePageWithTable({pageHeader, id, sortBy, sortType} : Props) {
     const url : string = `http://localhost:3000/api/${pageHeader.toLowerCase()}`;
 
     const response = await axios.get(url);
-    const platforms : {id:number; title: string}[] = response.data;
+    const elements : {id:number; title: string}[] = response.data;
 
     const sortedPlatforms = sortType === "asc"
-        ? sort(platforms).asc(platform =>
-            sortBy in platform ? platform[sortBy as keyof Platform] : platform.id
+        ? sort(elements).asc(platform =>
+            sortBy in platform ? platform[sortBy as keyof Element] : platform.id
         )
-        : sort(platforms).desc(platform =>
-            sortBy in platform ? platform[sortBy as keyof Platform] : platform.id
+        : sort(elements).desc(platform =>
+            sortBy in platform ? platform[sortBy as keyof Element] : platform.id
         );
     return (
         <>
@@ -80,7 +80,6 @@ export default async function PageWithSimpleTable({pageHeader, id, sortBy, sortT
                         </thead>
                         <tbody>
                         {sortedPlatforms.map((platform) => (
-
                             <tr key={platform.id}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -89,7 +88,9 @@ export default async function PageWithSimpleTable({pageHeader, id, sortBy, sortT
                                 <td className="px-6 py-4">{platform.title}</td>
                                 <td className="px-6 py-4">
                                     <Link href={`/${pageHeader.toLowerCase()}/${platform.id}`}
-                                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        Details
+                                    </Link>
                                 </td>
                             </tr>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import PageWithSimpleTable from "@/app/components/PageWithSimpleTable";
+import SimplePageWithTable from "@/app/components/pages/SimplePageWithTable";
 
 interface Props {
     searchParams: {
@@ -16,7 +16,7 @@ export default async function PlatformPage( {searchParams}: Props) {
 
     return (
         <>
-            <PageWithSimpleTable pageHeader={"Platforms"} id={"Platform"} sortBy={sortBy} sortType={sortType}/>
+            <SimplePageWithTable pageHeader={"Platforms"} id={"Platform"} sortBy={sortBy} sortType={sortType}/>
         </>
     );
 }

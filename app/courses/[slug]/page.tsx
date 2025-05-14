@@ -8,7 +8,7 @@ import {Status} from "../../generated/prisma/client";
 import {statusMap} from "@/app/components/StatusMap";
 import {difficultyMap} from "@/app/components/DifficultyMap";
 import {PriorityMap} from "@/app/components/PriorityMap";
-import CheckBoxElement from "@/app/components/CheckBoxElement";
+import FormCheckBoxElement from "@/app/components/FormCheckBoxElement";
 import axios from "axios";
 import {string} from "zod";
 
@@ -225,8 +225,8 @@ export default async function CourseEditPage(myProp: Props) {
 
                                 <div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">
                                     {technologies.map(technology => (
-                                        <CheckBoxElement title={technology.title} key={technology.id}
-                                                         isCheck={currentTechnologies.includes(technology.id)}/>
+                                        <FormCheckBoxElement title={technology.title} key={technology.id}
+                                                             isCheck={currentTechnologies.includes(technology.id)}/>
                                     ))}
 
 

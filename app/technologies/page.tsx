@@ -1,5 +1,5 @@
 import React from "react";
-import PageWithSimpleTable from "@/app/components/PageWithSimpleTable";
+import SimplePageWithTable from "@/app/components/pages/SimplePageWithTable";
 
 interface Props {
     searchParams: {
@@ -14,7 +14,7 @@ export default function TechnologyPage({searchParams}: Props) {
 
     return (
         <>
-            <PageWithSimpleTable pageHeader={"Technologies"} id={"Technology"} sortBy={sortBy} sortType={sortType}/>
+            <SimplePageWithTable pageHeader={"Technologies"} id={"Technology"} sortBy={sortBy} sortType={sortType}/>
         </>
     );
 }
