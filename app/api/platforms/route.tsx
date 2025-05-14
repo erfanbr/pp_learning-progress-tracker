@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
-import schema from "@/app/api/platforms/schema";
+import {createPlatformSchema} from "@/app/validationSchema";
 
 export async function GET(request: NextRequest) {
     const platforms = await prisma.platform.findMany();
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const body = await request.json();
 
-    const validatedData = schema.safeParse(body);
+    const validatedData = createPlatformSchema.safeParse(body);
     if (!validatedData.success) return NextResponse.json({error: validatedData.error.errors}, {status: 400})
 
     const platform = await prisma.platform.findFirst({

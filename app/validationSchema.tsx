@@ -8,3 +8,7 @@ export const createPlatformSchema = z.object({
     title: z.string().min(3, 'Title has to be at least 3 characters').max(150)
 })
 
+export const createTechnologySchema = z.object({
+    title: z.string().min(3, 'Title has to be at least 3 characters').max(150)
+})
+

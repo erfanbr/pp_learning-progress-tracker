@@ -1,7 +1,6 @@
 // 'use client'
 import React from "react";
-
-import CategoryTable from "@/app/categories/CategoryTable";
+import PageWithSimpleTable from "@/app/components/PageWithSimpleTable";
 
 
 interface Props {
@@ -17,7 +16,7 @@ export default function CategoriesPage( {searchParams}: Props) {
 
     return (
         <>
-            <CategoryTable sortBy={sortBy} sortType={sortType}></CategoryTable>
+            <PageWithSimpleTable pageHeader={"Categories"} id={"Category"} sortBy={sortBy} sortType={sortType}/>
         </>
     );
 }

@@ -1,7 +1,5 @@
 import React from "react";
-import {prisma} from "@/prisma/client";
-import Link from "next/link";
-import PlatformTable from "@/app/platforms/PlatformTable";
+import PageWithSimpleTable from "@/app/components/PageWithSimpleTable";
 
 interface Props {
     searchParams: {
@@ -15,10 +13,10 @@ export default async function PlatformPage( {searchParams}: Props) {
     const sortType = searchParams?.sortType || "asc";
 
 
+
     return (
         <>
-            <PlatformTable sortBy={sortBy} sortType={sortType}></PlatformTable>
-
+            <PageWithSimpleTable pageHeader={"Platforms"} id={"Platform"} sortBy={sortBy} sortType={sortType}/>
         </>
     );
 }
