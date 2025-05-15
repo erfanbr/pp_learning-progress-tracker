@@ -102,24 +102,10 @@ export default function SimpleEditPage({id, backURL, apiURL, dataElement}: Props
                     {/*// <!-- Modal body -->*/}
                     <form onSubmit={onFormSubmit}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
-                            {/*<div>*/}
-                            {/*    <label htmlFor="id"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID:</label>*/}
-                            {/*    <input type="text" name="id" id="id"*/}
-                            {/*           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-zinc-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"*/}
-                            {/*           placeholder="id goes here" disabled={true} readOnly={true}*/}
-                            {/*           defaultValue={platform!.id}/>*/}
-                            {/*</div>*/}
                             <FormInputFieldElement title={'Title'} id={'title'}
                                                    defaultValue={dataElement!.id.toString()} columnSize={'1'}
                                                    isDisabled={true} isReadonly={true}/>
-                            {/*<div>*/}
-                            {/*    <label htmlFor="title"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title:</label>*/}
-                            {/*    <input type="text" name="title" id="title"*/}
-                            {/*           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"*/}
-                            {/*           placeholder="Product brand" required={true} value={platform!.title}/>*/}
-                            {/*</div>*/}
+
                             <FormInputFieldElement title={'Title'} id={'title'} defaultValue={dataElement!.title}
                                                    columnSize={'1'} register={register('title')}
                                                    error={errors.title?.message}/>
