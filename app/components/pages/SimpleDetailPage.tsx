@@ -78,7 +78,7 @@ export default async function SimpleDetailPage({pageHeader, id, backURL, params}
                             {/*           placeholder="Product brand" required={true} value={platform!.title}/>*/}
                             {/*</div>*/}
                             <FormInputFieldElement title={'Title'} id={'title'} defaultValue={platform!.title}
-                                                   columnSize={'1'} isReadonly={true} />
+                                                   columnSize={'1'} isDisabled={true} isReadonly={true} />
                         </div>
                         <div className="text-right">
 
