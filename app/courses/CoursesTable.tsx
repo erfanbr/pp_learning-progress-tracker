@@ -39,7 +39,7 @@ export default async function CoursesTable({sortBy, sortType}: Props) {
     });
 
 
-    await delay(2000);
+    // await delay(2000);
 
     const sortMethod = sortType;
 
