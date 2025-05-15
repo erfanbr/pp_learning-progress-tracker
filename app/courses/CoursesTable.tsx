@@ -39,7 +39,7 @@ export default async function CoursesTable({sortBy, sortType}: Props) {
     });
 
 
-    // await delay(2000);
+    await delay(2000);
 
     const sortMethod = sortType;
 
@@ -53,7 +53,14 @@ export default async function CoursesTable({sortBy, sortType}: Props) {
 
     return (
         <>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                <div
+                    className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        Courses Detail
+                    </h3>
+                </div>
+
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
