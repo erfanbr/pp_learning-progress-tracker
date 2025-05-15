@@ -12,6 +12,7 @@ import {useRouter} from "next/navigation";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import React, {useState} from "react";
+import Spinner from "@/app/components/Spinner";
 
 interface Props {
     id: string,
@@ -34,6 +35,7 @@ export default function SimpleEditPage({id, backURL, apiURL, dataElement}: Props
     const router = useRouter();
     const [error, setError] = useState('');
     const [isSubmitted, setSubmitted] = useState(false);
+    const [isDeleted, setDeleted] = useState(false);
 
     const onFormSubmit = handleSubmit(async (data) => {
         const url: string = `http://localhost:3000/api/${apiURL}/${dataElement.id}`;
@@ -52,14 +54,14 @@ export default function SimpleEditPage({id, backURL, apiURL, dataElement}: Props
 
         try {
             const confirmed = window.confirm(`Are you sure you want to delete ID: ${dataElement.id} Title: ${dataElement.title} ?`);
-            if (confirmed){
-                setSubmitted(true);
+            if (confirmed) {
+                setDeleted(true);
                 await axios.delete(url);
                 router.push(`/${apiURL}`);
             }
 
         } catch (error) {
-            setSubmitted(false);
+            setDeleted(false);
             setError('unexpect error has happened!');
         }
     };
@@ -123,8 +125,10 @@ export default function SimpleEditPage({id, backURL, apiURL, dataElement}: Props
                                                    error={errors.title?.message}/>
                         </div>
                         <div className="text-right">
-                            <CustomButton icon={FaTrashCan} buttonType={'danger'} onClick={handleDelete}>Delete</CustomButton>
-                            <CustomButton icon={FaSave} buttonType={'primary'}>Save Changes</CustomButton>
+                            <CustomButton icon={FaTrashCan} buttonType={'danger'} onClick={handleDelete}
+                                          isDisabled={isDeleted}>Delete {isDeleted && <Spinner/>}</CustomButton>
+                            <CustomButton icon={FaSave} buttonType={'primary'} isDisabled={isSubmitted}>Save
+                                Changes {isSubmitted && <Spinner/>}</CustomButton>
 
                         </div>
                     </form>
