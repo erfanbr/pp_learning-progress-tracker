@@ -1,6 +1,6 @@
 import React from "react";
 import {prisma} from "@/prisma/client";
-import SimpleEditPage from "@/app/components/pages/SimpleEditPage";
+
 import SimpleDetailPage from "@/app/components/pages/SimpleDetailPage";
 
 
@@ -15,7 +15,7 @@ export default async function PlatformDetailPage(myProp: Props) {
 
     return (
         <>
-            <SimpleDetailPage params={myProp.params} pageHeader={"Platforms"} id={"Platform"} backURL={'/platforms'} />
+            <SimpleDetailPage params={myProp.params} pageHeader={"Platforms"} id={"Platform"} backURL={'/platforms'} apiURL={'platforms'} />
         </>
     );
 }

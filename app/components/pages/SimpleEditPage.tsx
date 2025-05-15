@@ -24,7 +24,7 @@ interface Props {
 
 type PlatformForm = z.infer<typeof createPlatformSchema>
 
-// TODO: Handle DELETING and PUT by using dataElement and passing value from DetailsPage
+
 export default function SimpleEditPage({id, backURL, apiURL, dataElement}: Props) {
     const {
         register,

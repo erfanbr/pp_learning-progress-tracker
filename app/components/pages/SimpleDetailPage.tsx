@@ -14,16 +14,22 @@ import {useRouter} from "next/navigation";
 interface Props {
     pageHeader: string,
     id: string,
+    apiURL: string,
     backURL: string,
     params: { slug: string }
 }
 
-type PlatformForm = z.infer<typeof createPlatformSchema>
 
-export default async function SimpleDetailPage({pageHeader, id, backURL, params}: Props) {
-    const platform = await prisma.platform.findUnique({
-        where: {id: parseInt(params.slug)}
-    })
+
+export default async function SimpleDetailPage({pageHeader, id, apiURL, backURL, params}: Props) {
+    const url: string = `http://localhost:3000/api/${apiURL}/${params.slug}`;
+
+    const response = await axios.get(url);
+    const dataElement: { id: number; title: string } = response.data;
+
+    // const platform = await prisma.platform.findUnique({
+    //     where: {id: parseInt(params.slug)}
+    // })
 
     return (
         <>
@@ -60,24 +66,9 @@ export default async function SimpleDetailPage({pageHeader, id, backURL, params}
                     {/*// <!-- Modal body -->*/}
                     <form>
                         <div className="grid gap-4 mb-4 sm:grid-cols-2">
-                            {/*<div>*/}
-                            {/*    <label htmlFor="id"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID:</label>*/}
-                            {/*    <input type="text" name="id" id="id"*/}
-                            {/*           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-zinc-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"*/}
-                            {/*           placeholder="id goes here" disabled={true} readOnly={true}*/}
-                            {/*           defaultValue={platform!.id}/>*/}
-                            {/*</div>*/}
-                            <FormInputFieldElement title={'Title'} id={'title'} defaultValue={platform!.id.toString()} columnSize={'1'}
+                            <FormInputFieldElement title={'Title'} id={'title'} defaultValue={dataElement!.id.toString()} columnSize={'1'}
                                                    isDisabled={true} isReadonly={true} />
-                            {/*<div>*/}
-                            {/*    <label htmlFor="title"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title:</label>*/}
-                            {/*    <input type="text" name="title" id="title"*/}
-                            {/*           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"*/}
-                            {/*           placeholder="Product brand" required={true} value={platform!.title}/>*/}
-                            {/*</div>*/}
-                            <FormInputFieldElement title={'Title'} id={'title'} defaultValue={platform!.title}
+                            <FormInputFieldElement title={'Title'} id={'title'} defaultValue={dataElement!.title}
                                                    columnSize={'1'} isDisabled={true} isReadonly={true} />
                         </div>
                         <div className="text-right">
