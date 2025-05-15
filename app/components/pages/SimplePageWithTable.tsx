@@ -5,6 +5,7 @@ import CustomButton from "@/app/components/buttons/CustomButton";
 import {prisma} from "@/prisma/client";
 import {sort} from "fast-sort";
 import axios from "axios";
+import delay from "delay";
 
 interface Props{
     pageHeader : string,
@@ -19,6 +20,9 @@ type Element = {
 };
 
 export default async function SimplePageWithTable({pageHeader, id, sortBy, sortType} : Props) {
+    // used for checking loading and skeleton
+    // await delay(2000);
+
     const url : string = `http://localhost:3000/api/${pageHeader.toLowerCase()}`;
 
     const response = await axios.get(url);
