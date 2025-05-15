@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import {FaCaretDown, FaCaretUp, FaSave} from "react-icons/fa";
-import CustomButton from "@/app/components/CustomButton";
+import CustomButton from "@/app/components/buttons/CustomButton";
 import {prisma} from "@/prisma/client";
 import {sort} from "fast-sort";
 import axios from "axios";

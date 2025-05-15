@@ -1,7 +1,7 @@
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import React from "react";
-import CustomButton from "@/app/components/CustomButton";
+import CustomButton from "@/app/components/buttons/CustomButton";
 import {IoAddCircleSharp} from "react-icons/io5";
 
 export default function LoadingCoursesPage() {

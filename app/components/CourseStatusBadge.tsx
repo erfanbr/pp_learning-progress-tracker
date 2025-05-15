@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Course, Status } from "../generated/prisma/client";
-import {statusMap} from "@/app/components/StatusMap";
+import {statusMap} from "@/app/components/mappings/StatusMap";
 
 
 

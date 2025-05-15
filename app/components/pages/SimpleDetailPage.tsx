@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import CustomButton from "@/app/components/CustomButton";
+import CustomButton from "@/app/components/buttons/CustomButton";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaEdit, FaSave} from "react-icons/fa";
 import {prisma} from "@/prisma/client";

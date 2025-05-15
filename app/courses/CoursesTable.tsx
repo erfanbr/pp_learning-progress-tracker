@@ -4,7 +4,7 @@ import Link from "next/link";
 import {sort} from "fast-sort";
 import {FaCaretDown, FaCaretUp, FaSave} from "react-icons/fa";
 import {IoAddCircleSharp} from "react-icons/io5";
-import CustomButton from "@/app/components/CustomButton";
+import CustomButton from "@/app/components/buttons/CustomButton";
 import CourseStatusBadge from "@/app/components/CourseStatusBadge";
 import delay from "delay";
 import axios from "axios";
