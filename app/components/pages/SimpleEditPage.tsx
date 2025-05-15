@@ -18,13 +18,13 @@ interface Props {
     backURL: string,
     apiURL: string,
     dataElement: { id: number; title: string };
-    params: { slug: string }
+
 }
 
 type PlatformForm = z.infer<typeof createPlatformSchema>
 
 // TODO: Handle DELETING and PUT by using dataElement and passing value from DetailsPage
-export default function SimpleEditPage({id, backURL, params, apiURL, dataElement}: Props) {
+export default function SimpleEditPage({id, backURL, apiURL, dataElement}: Props) {
     const {
         register,
         handleSubmit,
@@ -46,6 +46,24 @@ export default function SimpleEditPage({id, backURL, params, apiURL, dataElement
             setError('unexpect error has happened!');
         }
     });
+
+    const handleDelete = async () => {
+        const url: string = `http://localhost:3000/api/${apiURL}/${dataElement.id}`;
+
+        try {
+            const confirmed = window.confirm(`Are you sure you want to delete ID: ${dataElement.id} Title: ${dataElement.title} ?`);
+            if (confirmed){
+                setSubmitted(true);
+                await axios.delete(url);
+                router.push(`/${apiURL}`);
+            }
+
+        } catch (error) {
+            setSubmitted(false);
+            setError('unexpect error has happened!');
+        }
+    };
+
 
     return (
         <>
@@ -105,8 +123,9 @@ export default function SimpleEditPage({id, backURL, params, apiURL, dataElement
                                                    error={errors.title?.message}/>
                         </div>
                         <div className="text-right">
-                            <CustomButton icon={FaTrashCan} buttonType={'danger'}>Delete</CustomButton>
+                            <CustomButton icon={FaTrashCan} buttonType={'danger'} onClick={handleDelete}>Delete</CustomButton>
                             <CustomButton icon={FaSave} buttonType={'primary'}>Save Changes</CustomButton>
+
                         </div>
                     </form>
                 </div>

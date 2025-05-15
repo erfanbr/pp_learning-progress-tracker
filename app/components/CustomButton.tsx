@@ -11,6 +11,7 @@ type CancelButtonProps = PropsWithChildren<{
     icon: ElementType;
     buttonType?: ButtonType;
     isDisabled?: boolean;
+    onClick? : () => void;
 }>;
 
 const variantClasses: Record<ButtonType, string> = {
@@ -37,7 +38,7 @@ const variantClasses: Record<ButtonType, string> = {
   `,
 }
 
-export default function CustomButton({href, icon: Icon, children, buttonType = 'primary', isDisabled = false}: CancelButtonProps) {
+export default function CustomButton({href, icon: Icon, children, buttonType = 'primary', isDisabled = false, onClick}: CancelButtonProps) {
     if (href) {
         return (
             <>
@@ -50,7 +51,7 @@ export default function CustomButton({href, icon: Icon, children, buttonType = '
 
     return (
         <>
-            <button className={clsx(variantClasses[buttonType])} disabled={isDisabled}>
+            <button className={clsx(variantClasses[buttonType])} disabled={isDisabled} onClick={onClick}>
                 <Icon className="mr-1.5 -ml-1.5 w-5 h-5"/>{children}
             </button>
         </>

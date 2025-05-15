@@ -17,7 +17,7 @@ export default async function EditPlatformPage({params}: Props) {
 
     return (
         <>
-            <SimpleEditPage id={'Platform'} apiURL={'platforms'} backURL={'../'} params={params} dataElement={dataElement}/>
+            <SimpleEditPage id={'Platform'} apiURL={'platforms'} backURL={'../'} dataElement={dataElement}/>
         </>
     );
 }
