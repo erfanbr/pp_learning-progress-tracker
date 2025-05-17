@@ -1,52 +1,41 @@
-import React from "react";
+'use client'
+import React, {useState} from "react";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {createTechnologySchema} from "@/app/validationSchema";
+import {useRouter} from "next/navigation";
 import {prisma} from "@/prisma/client";
 import Link from "next/link";
-import {FaTrashCan} from "react-icons/fa6";
-import {FaSave} from "react-icons/fa";
-import CustomButton from "@/app/components/buttons/CustomButton";
-import {Status} from "../../generated/prisma/client";
+import FormInputFieldElement from "@/app/components/FormInputFieldElement";
 import {statusMap} from "@/app/components/mappings/StatusMap";
 import {difficultyMap} from "@/app/components/mappings/DifficultyMap";
 import {PriorityMap} from "@/app/components/mappings/PriorityMap";
-import FormCheckBoxElement from "@/app/components/FormCheckBoxElement";
-import axios from "axios";
-import {string} from "zod";
+import CustomButton from "@/app/components/buttons/CustomButton";
+import {FaTrashCan} from "react-icons/fa6";
+import {FaSave} from "react-icons/fa";
+import {z} from "zod";
 
+type TechnologyFrom = z.infer<typeof createTechnologySchema>;
+interface Props{
+    platformsData : { id: number; title: string }[],
+    categoriesData : { id: number; title: string }[],
+    technologiesData : { id: number; title: string }[],
 
-interface Props {
-    params: { slug: string }
 }
 
+export default function NewCourseForm({platformsData, categoriesData, technologiesData} : Props) {
+    const {
+        register,
+        handleSubmit,
+        formState: {errors}
+    } = useForm<TechnologyFrom>({resolver: zodResolver(createTechnologySchema)});
+    const router = useRouter();
+    const [error, setError] = useState('');
+    const [isSubmitted, setSubmitted] = useState(false);
 
-export default async function CourseEditPage(myProp: Props) {
-    const apiURL = "http://localhost:3000/api/courses/" + myProp.params.slug;
-    const response = await axios.get(apiURL);
-    const course = response.data;
-    // const course = await prisma.course.findUnique({
-    //     where: {id: parseInt(myProp.params.slug)},
-    //     include: {
-    //         category: {
-    //             select: {
-    //                 title: true,
-    //             },
-    //         },
-    //         technology: {
-    //             select: {
-    //                 id: true,
-    //                 title: true,
-    //             },
-    //         },
-    //     }
-    // });
-    const platforms = await prisma.platform.findMany();
-    const categories = await prisma.category.findMany();
-    const technologies = await prisma.technology.findMany();
-
-    const currentTechnologies: number[] = [];
-    course.technology.map((tech: { id: number; }) => (
-        currentTechnologies.push(tech.id)
-    ))
-
+    const platforms = platformsData;
+    const categories = categoriesData;
+    const technologies = technologiesData;
 
     return (
         <>
@@ -96,13 +85,15 @@ export default async function CourseEditPage(myProp: Props) {
                             {/*))}*/}
 
 
-                            <div className={"col-span-2"}>
-                                <label htmlFor="title"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                                <input type="text" name="title" id="title"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="Product brand" required={true} value={course!.title}/>
-                            </div>
+                            <FormInputFieldElement
+                                title={"Title"}
+                                id={"title"}
+                                columnSize={"2"}
+                                placeholder={`title`}
+                                defaultValue={""}
+                                register={register('title')}
+                                error={errors.title?.message}
+                            />
                             <div className={"col-span-2"}>
                                 <label htmlFor="link"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Link</label>
@@ -116,8 +107,7 @@ export default async function CourseEditPage(myProp: Props) {
                                 <select id="platform"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                     {platforms.map((platform) => (
-                                        <option key={platform.id} value={platform.id}
-                                                selected={course!.platformId === platform.id}>
+                                        <option key={platform.id} value={platform.id}>
                                             {platform.title}
                                         </option>
                                     ))};
@@ -130,7 +120,7 @@ export default async function CourseEditPage(myProp: Props) {
                                 <select id="platform"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                     {Object.entries(statusMap).map(([key, value]) => (
-                                        <option key={key} value={key} selected={course!.status === key && true}>
+                                        <option key={key} value={key}>
                                             {value.label}
                                         </option>
                                     ))};
@@ -143,7 +133,7 @@ export default async function CourseEditPage(myProp: Props) {
                                 <select id="difficulty"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                     {Object.entries(difficultyMap).map(([key, value]) => (
-                                        <option key={key} value={key} selected={course!.difficulty === key && true}>
+                                        <option key={key} value={key}>
                                             {value.label}
                                         </option>
                                     ))};
@@ -156,8 +146,7 @@ export default async function CourseEditPage(myProp: Props) {
                                 <select id="cateogry"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                     {categories.map((category) => (
-                                        <option key={category.id} value={category.id}
-                                                selected={course!.categoryId === category.id}>
+                                        <option key={category.id} value={category.id}>
                                             {category.title}
                                         </option>
                                     ))};
@@ -170,27 +159,13 @@ export default async function CourseEditPage(myProp: Props) {
                                 <select id="priority"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                     {Object.entries(PriorityMap).map(([key, value]) => (
-                                        <option key={key} value={key} selected={course!.priority === key && true}>
+                                        <option key={key} value={key}>
                                             {value.label}
                                         </option>
                                     ))};
                                 </select>
                             </div>
 
-                            {/*Multiple select*/}
-                            {/*<div>*/}
-                            {/*    <label htmlFor="technologies"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technologies*/}
-                            {/*        (more than one can be selected)</label>*/}
-                            {/*    <select multiple id="technologies"*/}
-                            {/*            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">*/}
-                            {/*        <option selected>Choose a country</option>*/}
-                            {/*        <option value="US">United States</option>*/}
-                            {/*        <option value="CA">Canada</option>*/}
-                            {/*        <option value="FR">France</option>*/}
-                            {/*        <option value="DE">Germany</option>*/}
-                            {/*    </select>*/}
-                            {/*</div>*/}
 
                             {/*TODO: format time nicer => based on timepicker from flowbite*/}
                             <div>
@@ -223,14 +198,11 @@ export default async function CourseEditPage(myProp: Props) {
                                 {/*    console.log(t.title)*/}
                                 {/*))};*/}
 
-                                <div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">
-                                    {technologies.map(technology => (
-                                        <FormCheckBoxElement title={technology.title} key={technology.id}
-                                                             isCheck={currentTechnologies.includes(technology.id)}/>
-                                    ))}
-
-
-                                </div>
+                                {/*<div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">*/}
+                                {/*    {technologies.map(technology => (*/}
+                                {/*        <FormCheckBoxElement title={technology.title} key={technology.id}/>*/}
+                                {/*    ))}*/}
+                                {/*</div>*/}
                             </div>
 
 

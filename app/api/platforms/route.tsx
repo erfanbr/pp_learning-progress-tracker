@@ -17,6 +17,9 @@ export async function POST(request: NextRequest) {
     const platform = await prisma.platform.findFirst({
         where: {
             title: body.title
+        },
+        include: {
+            Course: true
         }
     })
 

@@ -73,7 +73,7 @@ export default async function SimpleDetailPage({pageHeader, id, apiURL, backURL,
                         </div>
                         <div className="text-right">
 
-                            <CustomButton icon={MdEditDocument} buttonType={'primary'}
+                            <CustomButton icon={MdEditDocument} buttonStyleType={'primary'}
                                           // href={`/${pageHeader.toLowerCase()}/${params.slug}/edit`}>Edit {id}</CustomButton>
                                           href={`/${pageHeader.toLowerCase()}/${params.slug}/edit`}>Edit {id}</CustomButton>
 

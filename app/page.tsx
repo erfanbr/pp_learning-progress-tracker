@@ -1,4 +1,3 @@
-import CourseStatusBadge from "@/app/components/CourseStatusBadge";
 
 export default function Home() {
     return (
@@ -18,7 +17,7 @@ export default function Home() {
                         className=" m-1.5 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4
                         focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
                         dark:bg-erfan-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    Erfan's button
+                    Erfans button
                 </button>
             </div>
             {/*<div><CourseStatusBadge label={"DONE"} color={"yellow"}/></div>*/}

@@ -98,8 +98,8 @@ export default function SimpleAddPage({id, backURL, apiURL}: Props) {
 
                         <div className="text-right">
                             <CustomButton href="/categories/" icon={MdCancel}
-                                          buttonType={'discard'}>Cancel</CustomButton>
-                            <CustomButton icon={FaSave} buttonType={'primary'} isDisabled={isSubmitted}>Add {id} {isSubmitted && <Spinner/>}</CustomButton>
+                                          buttonStyleType={'discard'}>Cancel</CustomButton>
+                            <CustomButton icon={FaSave} buttonStyleType={'primary'} isDisabled={isSubmitted}>Add {id} {isSubmitted && <Spinner/>}</CustomButton>
                         </div>
 
                     </form>

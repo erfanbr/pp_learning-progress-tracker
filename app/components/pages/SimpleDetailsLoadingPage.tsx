@@ -57,7 +57,7 @@ export default function SimpleDetailsLoadingPage( {pageHeader, numberOfTableColu
                     </tbody>
                 </table>
                 <div className="text-right py-5">
-                    <CustomButton href="/courses/new" icon={IoAddCircleSharp} buttonType={"primary"}>
+                    <CustomButton href="/courses/new" icon={IoAddCircleSharp} buttonStyleType={"primary"}>
                         Add {pageHeader}
                     </CustomButton>
                 </div>

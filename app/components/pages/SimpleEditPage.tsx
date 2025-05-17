@@ -13,6 +13,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import React, {useState} from "react";
 import Spinner from "@/app/components/Spinner";
+import ConfirmModal from "@/app/components/Modal/ConfirmModal";
 
 interface Props {
     id: string,
@@ -33,6 +34,7 @@ export default function SimpleEditPage({id, backURL, apiURL, dataElement}: Props
     } = useForm<PlatformForm>({resolver: zodResolver(createPlatformSchema)});
 
     const router = useRouter();
+    const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState('');
     const [isSubmitted, setSubmitted] = useState(false);
     const [isDeleted, setDeleted] = useState(false);
@@ -48,21 +50,21 @@ export default function SimpleEditPage({id, backURL, apiURL, dataElement}: Props
             setError('unexpect error has happened!');
         }
     });
-
     const handleDelete = async () => {
-        const url: string = `http://localhost:3000/api/${apiURL}/${dataElement.id}`;
+        setShowModal(true);
+    };
 
+    const confirmDelete = async () => {
+        const url = `http://localhost:3000/api/${apiURL}/${dataElement.id}`;
         try {
-            const confirmed = window.confirm(`Are you sure you want to delete ID: ${dataElement.id} Title: ${dataElement.title} ?`);
-            if (confirmed) {
-                setDeleted(true);
-                await axios.delete(url);
-                router.push(`/${apiURL}`);
-            }
-
+            setDeleted(true);
+            await axios.delete(url);
+            router.push(`/${apiURL}`);
         } catch (error) {
             setDeleted(false);
-            setError('unexpect error has happened!');
+            setError('An unexpected error has happened!');
+        } finally {
+            setShowModal(false);
         }
     };
 
@@ -111,13 +113,30 @@ export default function SimpleEditPage({id, backURL, apiURL, dataElement}: Props
                                                    error={errors.title?.message}/>
                         </div>
                         <div className="text-right">
-                            <CustomButton icon={FaTrashCan} buttonType={'danger'} onClick={handleDelete}
-                                          isDisabled={isDeleted}>Delete {isDeleted && <Spinner/>}</CustomButton>
-                            <CustomButton icon={FaSave} buttonType={'primary'} isDisabled={isSubmitted}>Save
+                            <CustomButton icon={FaTrashCan}
+                                          type={'button'}
+                                          buttonStyleType={'danger'}
+                                          onClick={handleDelete}
+                                          isDisabled={isDeleted}>
+                                Delete {isDeleted && <Spinner/>}
+                            </CustomButton>
+
+                            <CustomButton icon={FaSave} buttonStyleType={'primary'} isDisabled={isSubmitted}>Save
                                 Changes {isSubmitted && <Spinner/>}</CustomButton>
+
+
 
                         </div>
                     </form>
+
+                    <ConfirmModal
+                        isOpen={showModal}
+                        title="Confirm Deletion"
+                        message={`Are you sure you want to delete --> ID: ${dataElement.id}, Title: ${dataElement.title}? `}
+                        onConfirm={confirmDelete}
+                        onCancel={() => setShowModal(false)}
+                    />
+
                 </div>
 
 

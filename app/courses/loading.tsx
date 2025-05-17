@@ -53,7 +53,7 @@ export default function LoadingCoursesPage() {
                     </tbody>
                 </table>
                 <div className="text-right py-5">
-                    <CustomButton href="/courses/new" icon={IoAddCircleSharp} buttonType={"primary"}>Add
+                    <CustomButton href="/courses/new" icon={IoAddCircleSharp} buttonStyleType={"primary"}>Add
                         Course</CustomButton>
                 </div>
             </div>

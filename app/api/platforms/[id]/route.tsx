@@ -8,7 +8,12 @@ interface Props {
 
 export async function GET(request: NextRequest, {params}: Props) {
     const platform = await prisma.platform.findUnique({
-            where: {id: parseInt(params.id)}
+            where: {
+                id: parseInt(params.id)
+            },
+        include: {
+                Course: true
+        }
     });
 
     if (!platform) return NextResponse.json({error: "Platform not found"}, {status: 404})

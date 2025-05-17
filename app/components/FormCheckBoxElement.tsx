@@ -2,7 +2,7 @@ import React from "react";
 
 interface Props{
     title: string,
-    isCheck: boolean
+    isCheck?: boolean
 }
 
 export default function FormCheckBoxElement(props : Props) {

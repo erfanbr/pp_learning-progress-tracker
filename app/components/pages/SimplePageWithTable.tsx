@@ -5,7 +5,7 @@ import CustomButton from "@/app/components/buttons/CustomButton";
 import {prisma} from "@/prisma/client";
 import {sort} from "fast-sort";
 import axios from "axios";
-import delay from "delay";
+import delay from "delay"
 
 interface Props{
     pageHeader : string,
@@ -102,7 +102,7 @@ export default async function SimplePageWithTable({pageHeader, id, sortBy, sortT
                         </tbody>
                     </table>
                     <div className="text-right py-5">
-                        <CustomButton href={`/${pageHeader.toLowerCase()}/new`} icon={FaSave} buttonType={"primary"}>
+                        <CustomButton href={`/${pageHeader.toLowerCase()}/new`} icon={FaSave} buttonStyleType={"primary"}>
                             Add {id}
                         </CustomButton>
                     </div>
