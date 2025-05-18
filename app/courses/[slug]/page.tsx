@@ -225,7 +225,10 @@ export default async function CourseEditPage(myProp: Props) {
 
                                 <div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">
                                     {technologies.map(technology => (
-                                        <FormCheckBoxElement title={technology.title} key={technology.id}
+                                        <FormCheckBoxElement title={technology.title}
+                                                             key={technology.id}
+                                                             id={technology.id}
+                                                             value={technology.id.toString()}
                                                              isCheck={currentTechnologies.includes(technology.id)}/>
                                     ))}
 

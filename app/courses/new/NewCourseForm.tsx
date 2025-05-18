@@ -2,7 +2,7 @@
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {createTechnologySchema} from "@/app/validationSchema";
+import {createCourseSchema} from "@/app/validationSchema";
 import {useRouter} from "next/navigation";
 import {prisma} from "@/prisma/client";
 import Link from "next/link";
@@ -14,24 +14,49 @@ import CustomButton from "@/app/components/buttons/CustomButton";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaSave} from "react-icons/fa";
 import {z} from "zod";
+import FormCheckBoxElement from "@/app/components/FormCheckBoxElement";
+import axios from "axios";
+import {MdCancel} from "react-icons/md";
 
-type TechnologyFrom = z.infer<typeof createTechnologySchema>;
-interface Props{
-    platformsData : { id: number; title: string }[],
-    categoriesData : { id: number; title: string }[],
-    technologiesData : { id: number; title: string }[],
+type CourseTechnology = z.infer<typeof createCourseSchema>;
+
+interface Props {
+    platformsData: { id: number; title: string }[],
+    categoriesData: { id: number; title: string }[],
+    technologiesData: { id: number; title: string }[],
 
 }
 
-export default function NewCourseForm({platformsData, categoriesData, technologiesData} : Props) {
+export default function NewCourseForm({platformsData, categoriesData, technologiesData}: Props) {
     const {
         register,
         handleSubmit,
         formState: {errors}
-    } = useForm<TechnologyFrom>({resolver: zodResolver(createTechnologySchema)});
+    } = useForm<CourseTechnology>({resolver: zodResolver(createCourseSchema)});
     const router = useRouter();
     const [error, setError] = useState('');
     const [isSubmitted, setSubmitted] = useState(false);
+
+
+    const onFormSubmit = handleSubmit(async (data) => {
+
+        // add id to technology array so it works on Many 2 Many
+        const transformed = {
+            ...data,
+            technology: data.technology.map((id: string) => ({ id: Number(id) }))
+        };
+        console.log(transformed);
+        const url: string = 'http://localhost:3000/api/courses';
+        try {
+            setSubmitted(true);
+            await axios.post(url, transformed);
+            router.push(`/courses`);
+        } catch (error) {
+            setSubmitted(false);
+            setError('Unexpected error has happened');
+        }
+    });
+
 
     const platforms = platformsData;
     const categories = categoriesData;
@@ -70,7 +95,7 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                         </Link>
                     </div>
                     {/*// <!-- Modal body -->*/}
-                    <form action="#">
+                    <form onSubmit={onFormSubmit}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-4">
                             {/*<div>*/}
                             {/*    <label htmlFor="id"*/}
@@ -89,101 +114,145 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                                 title={"Title"}
                                 id={"title"}
                                 columnSize={"2"}
-                                placeholder={`title`}
+                                placeholder={`Course Title`}
                                 defaultValue={""}
                                 register={register('title')}
                                 error={errors.title?.message}
                             />
-                            <div className={"col-span-2"}>
-                                <label htmlFor="link"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Link</label>
-                                <input type="text" name="link" id="link"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="Product brand" required={true}/>
-                            </div>
+
+                            <FormInputFieldElement
+                                title={"Link"}
+                                id={"link"}
+                                columnSize={"2"}
+                                placeholder={'URL to course content'}
+                                defaultValue={""}
+                                register={register('link')}
+                                error={errors.link?.message}
+                            />
+
+                            {/*TODO: Convert into components for  FK version*/}
                             <div>
                                 <label htmlFor="platform"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Platform</label>
-                                <select id="platform"
+                                <select id="platform" {...register('platformId', {valueAsNumber: true})}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option value=''>Select platform</option>
                                     {platforms.map((platform) => (
                                         <option key={platform.id} value={platform.id}>
                                             {platform.title}
                                         </option>
                                     ))};
                                 </select>
+
+                                {errors.platformId?.message && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.platformId.message}</p>
+                                )}
                             </div>
 
+
+                            {/*TODO: Convert into components for ENUMS*/}
                             <div>
                                 <label htmlFor="status"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                                <select id="platform"
+                                <select id="status" {...register('status')}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option value=''>Select Status</option>
                                     {Object.entries(statusMap).map(([key, value]) => (
+
                                         <option key={key} value={key}>
                                             {value.label}
                                         </option>
                                     ))};
                                 </select>
+
+                                {errors.status?.message && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+                                )}
                             </div>
 
                             <div>
                                 <label htmlFor="difficulty"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Difficulty</label>
-                                <select id="difficulty"
+                                <select id="difficulty" {...register('difficulty')}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option value=''>Select Difficulty</option>
                                     {Object.entries(difficultyMap).map(([key, value]) => (
                                         <option key={key} value={key}>
                                             {value.label}
                                         </option>
                                     ))};
                                 </select>
+
+                                {errors.difficulty?.message && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.difficulty.message}</p>
+                                )}
                             </div>
 
                             <div>
-                                <label htmlFor="cateogry"
+                                <label htmlFor="category"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                <select id="cateogry"
+                                <select id="cateogry" {...register('categoryId', {valueAsNumber: true})}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option value=''>Select Category</option>
                                     {categories.map((category) => (
                                         <option key={category.id} value={category.id}>
                                             {category.title}
                                         </option>
                                     ))};
                                 </select>
+
+                                {errors.categoryId?.message && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.categoryId.message}</p>
+                                )}
                             </div>
 
                             <div>
                                 <label htmlFor="priority"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Priority</label>
-                                <select id="priority"
+                                <select id="priority" {...register('priority')}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option value=''>Select Priority</option>
                                     {Object.entries(PriorityMap).map(([key, value]) => (
                                         <option key={key} value={key}>
                                             {value.label}
                                         </option>
                                     ))};
                                 </select>
+
+                                {errors.priority?.message && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.priority.message}</p>
+                                )}
                             </div>
 
 
                             {/*TODO: format time nicer => based on timepicker from flowbite*/}
-                            <div>
-                                <label htmlFor="duration"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duration</label>
-                                <input type="number" value="399" name="price" id="price"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="$299"/>
-                            </div>
+                            {/*<div>*/}
+                            {/*    <label htmlFor="duration"*/}
+                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duration</label>*/}
+                            {/*    <input type="number" value="399"  id="duration" {...register('duration')}*/}
+                            {/*           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"*/}
+                            {/*           placeholder="$299"/>*/}
+                            {/*</div>*/}
+                            <FormInputFieldElement
+                                title={"Duration (Hours)"}
+                                id={"duration"}
+                                type={'number'}
+                                columnSize={"1"}
+                                placeholder={'Total hours'}
+                                defaultValue={""}
+                                register={register('duration', {valueAsNumber: true})}
+                                error={errors.duration?.message}
+                            />
 
-                            <div className={"col-span-2"}>
-                                <label htmlFor="lastSeen"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
-                                    Seen</label>
-                                <input type="text" name="lastSeen" id="lastSeen"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="Product brand" required={true}/>
-                            </div>
+                            <FormInputFieldElement
+                                title={"Last Seen"}
+                                id={"lastSeen"}
+                                columnSize={"2"}
+                                placeholder={'Last seen video / episode'}
+                                defaultValue={""}
+                                register={register('lastSeen')}
+                                error={errors.lastSeen?.message}
+                            />
 
 
                             {/*Multiple select area*/}
@@ -192,17 +261,20 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technologies
                                 </label>
 
-                                {/*{console.log(currentTechnologies)}*/}
+                                <div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">
+                                    {technologies.map(technology => (
+                                        <FormCheckBoxElement
+                                            title={technology.title}
+                                            key={technology.id}
+                                            id={technology.id}
+                                            value={technology.id.toString()}
+                                            register={register('technology')}/>
+                                    ))}
+                                </div>
 
-                                {/*{course.technology.map(t => (*/}
-                                {/*    console.log(t.title)*/}
-                                {/*))};*/}
-
-                                {/*<div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">*/}
-                                {/*    {technologies.map(technology => (*/}
-                                {/*        <FormCheckBoxElement title={technology.title} key={technology.id}/>*/}
-                                {/*    ))}*/}
-                                {/*</div>*/}
+                                {errors.technology?.message && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.technology.message}</p>
+                                )}
                             </div>
 
 
@@ -210,16 +282,17 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                             <div className={"col-span-4"}>
                                 <label htmlFor="note"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes</label>
-                                <textarea id="note" rows={4}
+                                <textarea id="note" rows={4} {...register('note')}
                                           className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                           placeholder="Write your thoughts here..."></textarea>
                             </div>
-
-
                         </div>
+
                         <div className="text-right">
-                            <CustomButton icon={FaTrashCan} buttonStyleType={'danger'}>Delete</CustomButton>
-                            <CustomButton icon={FaSave} buttonStyleType={'primary'}>Save Changes</CustomButton>
+                            <CustomButton href="/courses/" icon={MdCancel}
+                                          buttonStyleType={'discard'}>Cancel</CustomButton>
+                            <CustomButton type="submit" icon={FaSave} buttonStyleType={'primary'}>Add
+                                Course</CustomButton>
                         </div>
                     </form>
                 </div>

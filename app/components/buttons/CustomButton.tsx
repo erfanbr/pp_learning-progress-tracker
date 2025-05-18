@@ -44,7 +44,7 @@ export default function CustomButton({href, icon: Icon, children, type = 'submit
     if (href) {
         return (
             <>
-                <Link href={href} className={clsx(variantClasses[buttonStyleType])}>
+                <Link type={type} href={href} className={clsx(variantClasses[buttonStyleType])}>
                     <Icon className="mr-1.5 -ml-1.5 w-5 h-5"/>{children}
                 </Link>
             </>

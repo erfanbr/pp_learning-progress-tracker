@@ -6,7 +6,7 @@ type ColumnSize = '1' | '2' | '3' | '4';
 interface InputProps{
     title: string;
     id: string;
-    defaultValue: string;
+    defaultValue: string | number;
     columnSize?: ColumnSize;
     register?: UseFormRegisterReturn;
     placeholder?: string;

@@ -1,4 +1,25 @@
 import {z} from 'zod';
+import {prisma} from "@/prisma/client";
+import {Status} from "@/app/components/enums/Status";
+import {Difficulty} from "@/app/components/enums/Difficulty";
+import {Priority} from "@/app/components/enums/Priority";
+
+// z.setErrorMap((issue, ctx) => {
+//     if (issue.code === 'invalid_enum_value') {
+//         if (ctx.path.includes('status')) {
+//             return { message: 'Please select a valid status' };
+//         }
+//         if (ctx.path.includes('difficulty')) {
+//             return { message: 'Please select a valid difficulty' };
+//         }
+//         if (ctx.path.includes('priority')) {
+//             return { message: 'Please select a valid priority' };
+//         }
+//     }
+//     return { message: ctx.defaultError };
+// });
+
+
 
 export const createCategorySchema = z.object({
     title: z.string().min(3, 'Title has to be at least 3 characters').max(150)
@@ -12,3 +33,28 @@ export const createTechnologySchema = z.object({
     title: z.string().min(1, 'Title has to be at least 1 characters').max(150)
 })
 
+export const createCourseSchema = z.object({
+    title: z.string().min(3, 'Title has to be at least 3 characters').max(150),
+    link: z.string().max(2048),
+    platformId: z.number({invalid_type_error: 'Please select a valid platform'}),
+    status: z.nativeEnum(Status, {
+        errorMap: (issue, ctx) => {
+            return {message: 'Please select a valid status'};
+        },
+    }),
+    difficulty: z.nativeEnum(Difficulty, {
+        errorMap: (issue, ctx) => {
+            return {message: 'Please select a valid difficulty'};
+        },
+    }),
+    categoryId: z.number({invalid_type_error: 'Please select a valid category'}),
+    priority: z.nativeEnum(Priority, {
+        errorMap: (issue, ctx) => {
+            return {message: 'Please select a valid priority'};
+        },
+    }),
+    duration: z.number({invalid_type_error: 'Please enter a valid duration'}).max(2048),
+    lastSeen: z.string().max(150),
+    technology: z.array(z.coerce.string()).nonempty("Please select at least one technology"),
+    note: z.string().max(32688)
+})
