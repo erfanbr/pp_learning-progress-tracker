@@ -33,25 +33,43 @@ export async function GET( request: NextRequest) {
     return NextResponse.json(coursesWithTechnologies);
 }
 
-// TODO: Complete this later on
-// export async function POST(request: NextRequest) {
-//     const body = await request.json();
-//
-//     const validatedData =  validationSchema.safeParse(body);
-//     if (!validatedData.success) return NextResponse.json({error: validatedData.error.errors}, {status: 400})
-//
-//     const course = await prisma.course.findFirst({
-//         where: {
-//             title: body.title
-//         }
-//     })
-//
-//     if (course) return NextResponse.json({error: "Course already exist"}, {status: 400})
-//     const newCourse = await prisma.course.create({
-//         data: {
-//             title: body.title
-//         }
-//     })
-//
-//     return NextResponse.json(newCourse)
-// }
+
+export async function POST(request: NextRequest) {
+    const body = await request.json();
+
+    // const validatedData =  validationSchema.safeParse(body);
+    // if (!validatedData.success) return NextResponse.json({error: validatedData.error.errors}, {status: 400})
+    //
+    // const course = await prisma.course.findFirst({
+    //     where: {
+    //         title: body.title
+    //     }
+    // })
+    //
+    // if (course) return NextResponse.json({error: "Course already exist"}, {status: 400})
+    const newCourse = await prisma.course.create({
+        data: {
+            title: body.title,
+            status: body.status,
+            createdAt: body.createdAt,
+            updatedAt: body.updateAt,
+            duration: body.duration,
+            lastSeen: body.lastSeen,
+            difficulty: body.difficulty,
+            priority: body.priority,
+            link: body.link,
+            note: body.note,
+            categoryId: body.categoryId,
+            platformId: body.platformId,
+            technology: {
+                create: body.technology.map((tech: { id: number; title: string; })  => ({
+                    title: tech.title
+                }))
+            }
+
+        },
+
+    })
+
+    return NextResponse.json(newCourse)
+}
