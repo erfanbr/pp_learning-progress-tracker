@@ -62,8 +62,9 @@ export async function POST(request: NextRequest) {
             categoryId: body.categoryId,
             platformId: body.platformId,
             technology: {
-                create: body.technology.map((tech: { id: number; title: string; })  => ({
-                    title: tech.title
+
+                connect: body.technology.map((tech: {id:number}  )  => ({
+                    id: tech.id
                 }))
             }
 
