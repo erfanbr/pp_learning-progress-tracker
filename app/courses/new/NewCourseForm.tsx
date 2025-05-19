@@ -17,6 +17,7 @@ import {z} from "zod";
 import FormCheckBoxElement from "@/app/components/formInputs/FormCheckBoxElement";
 import axios from "axios";
 import {MdCancel} from "react-icons/md";
+import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDropdownElement";
 
 type CourseTechnology = z.infer<typeof createCourseSchema>;
 
@@ -43,7 +44,7 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
         // add id to technology array so it works on Many 2 Many
         const transformed = {
             ...data,
-            technology: data.technology.map((id: string) => ({ id: Number(id) }))
+            technology: data.technology.map((id: string) => ({id: Number(id)}))
         };
         console.log(transformed);
         const url: string = 'http://localhost:3000/api/courses';
@@ -81,7 +82,7 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                     <div
                         className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            Edit Course
+                            Add a Course
                         </h3>
                         <Link
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -97,17 +98,6 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                     {/*// <!-- Modal body -->*/}
                     <form onSubmit={onFormSubmit}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-4">
-                            {/*<div>*/}
-                            {/*    <label htmlFor="id"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>*/}
-                            {/*    <input type="text" name="id" id="id"*/}
-                            {/*           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-zinc-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"*/}
-                            {/*           placeholder="id goes here" disabled={true} readOnly={true}*/}
-                            {/*           defaultValue={course!.id}/>*/}
-                            {/*</div>*/}
-                            {/*{course.map(c => (*/}
-                            {/*    <div>{c.id}</div>*/}
-                            {/*))}*/}
 
 
                             <FormInputFieldElement
@@ -130,24 +120,14 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                                 error={errors.link?.message}
                             />
 
-                            {/*TODO: Convert into components for  FK version*/}
-                            <div>
-                                <label htmlFor="platform"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Platform</label>
-                                <select id="platform" {...register('platformId', {valueAsNumber: true})}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    <option value=''>Select platform</option>
-                                    {platforms.map((platform) => (
-                                        <option key={platform.id} value={platform.id}>
-                                            {platform.title}
-                                        </option>
-                                    ))};
-                                </select>
 
-                                {errors.platformId?.message && (
-                                    <p className="text-red-500 text-sm mt-1">{errors.platformId.message}</p>
-                                )}
-                            </div>
+                            <FormInputDropDownElement title={'Platform'}
+                                                      id={'platform'}
+                                                      dataSource={platforms}
+                                                      columnSize={'1'}
+                                                      register={register('platformId', {valueAsNumber: true})}
+                                                      error={errors.platformId?.message}
+                            />
 
 
                             {/*TODO: Convert into components for ENUMS*/}
@@ -188,23 +168,14 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                                 )}
                             </div>
 
-                            <div>
-                                <label htmlFor="category"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                <select id="cateogry" {...register('categoryId', {valueAsNumber: true})}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    <option value=''>Select Category</option>
-                                    {categories.map((category) => (
-                                        <option key={category.id} value={category.id}>
-                                            {category.title}
-                                        </option>
-                                    ))};
-                                </select>
+                            <FormInputDropDownElement title={'Category'}
+                                                      id={'category'}
+                                                      dataSource={categories}
+                                                      columnSize={'1'}
+                                                      register={register('categoryId', {valueAsNumber: true})}
+                                                      error={errors.categoryId?.message}
+                            />
 
-                                {errors.categoryId?.message && (
-                                    <p className="text-red-500 text-sm mt-1">{errors.categoryId.message}</p>
-                                )}
-                            </div>
 
                             <div>
                                 <label htmlFor="priority"
@@ -298,14 +269,21 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                 </div>
 
 
-                {/*<div id="defaultModal" tabIndex="-1" aria-hidden="true"*/}
-                {/*     className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">*/}
-                {/*    <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">*/}
-                {/*        <!-- Modal content -->*/}
+                {/*<div id="defaultModal" tabIndex="-1" aria-hidden="true"*/
+                }
+                {/*     className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">*/
+                }
+                {/*    <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">*/
+                }
+                {/*        <!-- Modal content -->*/
+                }
 
-                {/*    </div>*/}
-                {/*</div>*/}
+                {/*    </div>*/
+                }
+                {/*</div>*/
+                }
             </div>
         </>
-    );
+    )
+        ;
 }
