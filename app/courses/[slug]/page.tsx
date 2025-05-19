@@ -8,7 +8,7 @@ import {Status} from "../../generated/prisma/client";
 import {statusMap} from "@/app/components/mappings/StatusMap";
 import {difficultyMap} from "@/app/components/mappings/DifficultyMap";
 import {PriorityMap} from "@/app/components/mappings/PriorityMap";
-import FormCheckBoxElement from "@/app/components/FormCheckBoxElement";
+import FormCheckBoxElement from "@/app/components/formInputs/FormCheckBoxElement";
 import axios from "axios";
 import {string} from "zod";
 

@@ -4,7 +4,7 @@ import CustomButton from "@/app/components/buttons/CustomButton";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaSave} from "react-icons/fa";
 import {prisma} from "@/prisma/client";
-import FormInputFieldElement from "@/app/components/FormInputFieldElement";
+import FormInputFieldElement from "@/app/components/formInputs/FormInputFieldElement";
 import axios from "axios";
 import {z} from "zod";
 import {createPlatformSchema} from "@/app/validationSchema";

@@ -6,7 +6,7 @@ import {createCourseSchema} from "@/app/validationSchema";
 import {useRouter} from "next/navigation";
 import {prisma} from "@/prisma/client";
 import Link from "next/link";
-import FormInputFieldElement from "@/app/components/FormInputFieldElement";
+import FormInputFieldElement from "@/app/components/formInputs/FormInputFieldElement";
 import {statusMap} from "@/app/components/mappings/StatusMap";
 import {difficultyMap} from "@/app/components/mappings/DifficultyMap";
 import {PriorityMap} from "@/app/components/mappings/PriorityMap";
@@ -14,7 +14,7 @@ import CustomButton from "@/app/components/buttons/CustomButton";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaSave} from "react-icons/fa";
 import {z} from "zod";
-import FormCheckBoxElement from "@/app/components/FormCheckBoxElement";
+import FormCheckBoxElement from "@/app/components/formInputs/FormCheckBoxElement";
 import axios from "axios";
 import {MdCancel} from "react-icons/md";
 
