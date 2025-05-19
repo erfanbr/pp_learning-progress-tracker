@@ -18,6 +18,7 @@ import FormCheckBoxElement from "@/app/components/formInputs/FormCheckBoxElement
 import axios from "axios";
 import {MdCancel} from "react-icons/md";
 import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDropdownElement";
+import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInputsDropdownElementEnums";
 
 type CourseTechnology = z.infer<typeof createCourseSchema>;
 
@@ -130,43 +131,22 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                             />
 
 
-                            {/*TODO: Convert into components for ENUMS*/}
-                            <div>
-                                <label htmlFor="status"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                                <select id="status" {...register('status')}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    <option value=''>Select Status</option>
-                                    {Object.entries(statusMap).map(([key, value]) => (
+                            <FormInputDropDownElementEnums title={'Status'}
+                                                      id={'status'}
+                                                      dataSource={statusMap}
+                                                      columnSize={'1'}
+                                                      register={register('status')}
+                                                      error={errors.status?.message}
+                            />
 
-                                        <option key={key} value={key}>
-                                            {value.label}
-                                        </option>
-                                    ))};
-                                </select>
+                            <FormInputDropDownElementEnums title={'Difficulty'}
+                                                           id={'difficulty'}
+                                                           dataSource={difficultyMap}
+                                                           columnSize={'1'}
+                                                           register={register('difficulty')}
+                                                           error={errors.difficulty?.message}
+                            />
 
-                                {errors.status?.message && (
-                                    <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label htmlFor="difficulty"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Difficulty</label>
-                                <select id="difficulty" {...register('difficulty')}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    <option value=''>Select Difficulty</option>
-                                    {Object.entries(difficultyMap).map(([key, value]) => (
-                                        <option key={key} value={key}>
-                                            {value.label}
-                                        </option>
-                                    ))};
-                                </select>
-
-                                {errors.difficulty?.message && (
-                                    <p className="text-red-500 text-sm mt-1">{errors.difficulty.message}</p>
-                                )}
-                            </div>
 
                             <FormInputDropDownElement title={'Category'}
                                                       id={'category'}
@@ -176,24 +156,13 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                                                       error={errors.categoryId?.message}
                             />
 
-
-                            <div>
-                                <label htmlFor="priority"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Priority</label>
-                                <select id="priority" {...register('priority')}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    <option value=''>Select Priority</option>
-                                    {Object.entries(PriorityMap).map(([key, value]) => (
-                                        <option key={key} value={key}>
-                                            {value.label}
-                                        </option>
-                                    ))};
-                                </select>
-
-                                {errors.priority?.message && (
-                                    <p className="text-red-500 text-sm mt-1">{errors.priority.message}</p>
-                                )}
-                            </div>
+                            <FormInputDropDownElementEnums title={'Priority'}
+                                                           id={'priority'}
+                                                           dataSource={PriorityMap}
+                                                           columnSize={'1'}
+                                                           register={register('priority')}
+                                                           error={errors.priority?.message}
+                            />
 
 
                             {/*TODO: format time nicer => based on timepicker from flowbite*/}
