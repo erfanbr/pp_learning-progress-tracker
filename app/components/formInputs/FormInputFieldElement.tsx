@@ -41,7 +41,7 @@ const FormInputFieldElement: React.FC<InputProps> = ({
                 disabled={isDisabled}
                 defaultValue={defaultValue}
                 {...register}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  ${isDisabled ? "dark:bg-gray-400 dark:border-gray-300 dark:text-zinc-600" : "dark:bg-gray-200 dark:border-gray-100 dark:text-zinc-700" } dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500`}
             />
             <div>
                 {error && <p className="text-red-500 text-sm mt-1">{error}</p>}

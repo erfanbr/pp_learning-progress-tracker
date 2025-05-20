@@ -9,7 +9,7 @@ import Link from "next/link";
 import FormInputFieldElement from "@/app/components/formInputs/FormInputFieldElement";
 import {statusMap} from "@/app/components/mappings/StatusMap";
 import {difficultyMap} from "@/app/components/mappings/DifficultyMap";
-import {PriorityMap} from "@/app/components/mappings/PriorityMap";
+import {priorityMap} from "@/app/components/mappings/PriorityMap";
 import CustomButton from "@/app/components/buttons/CustomButton";
 import {FaTrashCan} from "react-icons/fa6";
 import {FaSave} from "react-icons/fa";
@@ -158,7 +158,7 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
 
                             <FormInputDropDownElementEnums title={'Priority'}
                                                            id={'priority'}
-                                                           dataSource={PriorityMap}
+                                                           dataSource={priorityMap}
                                                            columnSize={'1'}
                                                            register={register('priority')}
                                                            error={errors.priority?.message}

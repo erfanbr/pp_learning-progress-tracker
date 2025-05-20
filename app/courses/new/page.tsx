@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import Link from "next/link";
 import {statusMap} from "@/app/components/mappings/StatusMap";
 import {difficultyMap} from "@/app/components/mappings/DifficultyMap";
-import {PriorityMap} from "@/app/components/mappings/PriorityMap";
+import {priorityMap} from "@/app/components/mappings/PriorityMap";
 import FormCheckBoxElement from "@/app/components/formInputs/FormCheckBoxElement";
 import CustomButton from "@/app/components/buttons/CustomButton";
 import {FaTrashCan} from "react-icons/fa6";

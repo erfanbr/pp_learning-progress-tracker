@@ -7,10 +7,14 @@ import CustomButton from "@/app/components/buttons/CustomButton";
 import {Status} from "../../generated/prisma/client";
 import {statusMap} from "@/app/components/mappings/StatusMap";
 import {difficultyMap} from "@/app/components/mappings/DifficultyMap";
-import {PriorityMap} from "@/app/components/mappings/PriorityMap";
+import {priorityMap} from "@/app/components/mappings/PriorityMap";
 import FormCheckBoxElement from "@/app/components/formInputs/FormCheckBoxElement";
 import axios from "axios";
 import {string} from "zod";
+import {MdEditDocument} from "react-icons/md";
+import FormInputFieldElement from "@/app/components/formInputs/FormInputFieldElement";
+import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDropdownElement";
+import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInputsDropdownElementEnums";
 
 
 interface Props {
@@ -18,8 +22,8 @@ interface Props {
 }
 
 
-export default async function CourseEditPage(myProp: Props) {
-    const apiURL = "http://localhost:3000/api/courses/" + myProp.params.slug;
+export default async function CourseDetailPage({params}: Props) {
+    const apiURL = "http://localhost:3000/api/courses/" + params.slug;
     const response = await axios.get(apiURL);
     const course = response.data;
     // const course = await prisma.course.findUnique({
@@ -67,7 +71,7 @@ export default async function CourseEditPage(myProp: Props) {
                     <div
                         className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            Edit Course
+                            Course Details
                         </h3>
                         <Link
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -96,119 +100,88 @@ export default async function CourseEditPage(myProp: Props) {
                             {/*))}*/}
 
 
-                            <div className={"col-span-2"}>
-                                <label htmlFor="title"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                                <input type="text" name="title" id="title"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="Product brand" required={true} value={course!.title}/>
-                            </div>
-                            <div className={"col-span-2"}>
-                                <label htmlFor="link"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Link</label>
-                                <input type="text" name="link" id="link"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="Product brand" required={true}/>
-                            </div>
-                            <div>
-                                <label htmlFor="platform"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Platform</label>
-                                <select id="platform"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    {platforms.map((platform) => (
-                                        <option key={platform.id} value={platform.id}
-                                                selected={course!.platformId === platform.id}>
-                                            {platform.title}
-                                        </option>
-                                    ))};
-                                </select>
-                            </div>
+                            <FormInputFieldElement
+                                title={"Title"}
+                                id={"title"}
+                                columnSize={"2"}
+                                placeholder={`Course Title`}
+                                defaultValue={course!.title}
+                                isReadonly={true}
+                                isDisabled={true}
+                            />
 
-                            <div>
-                                <label htmlFor="status"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                                <select id="platform"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    {Object.entries(statusMap).map(([key, value]) => (
-                                        <option key={key} value={key} selected={course!.status === key && true}>
-                                            {value.label}
-                                        </option>
-                                    ))};
-                                </select>
-                            </div>
+                            <FormInputFieldElement
+                                title={"Link"}
+                                id={"link"}
+                                columnSize={"2"}
+                                placeholder={`Course Link`}
+                                defaultValue={course!.link}
+                                isReadonly={true}
+                                isDisabled={true}
+                            />
 
-                            <div>
-                                <label htmlFor="difficulty"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Difficulty</label>
-                                <select id="difficulty"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    {Object.entries(difficultyMap).map(([key, value]) => (
-                                        <option key={key} value={key} selected={course!.difficulty === key && true}>
-                                            {value.label}
-                                        </option>
-                                    ))};
-                                </select>
-                            </div>
+                            <FormInputDropDownElement title={'Platform'}
+                                                      id={'platform'}
+                                                      dataSource={platforms}
+                                                      defaultValue={course!.platformId}
+                                                      columnSize={'1'}
+                                                      isDisabled={true}
+                            />
 
-                            <div>
-                                <label htmlFor="cateogry"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                <select id="cateogry"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    {categories.map((category) => (
-                                        <option key={category.id} value={category.id}
-                                                selected={course!.categoryId === category.id}>
-                                            {category.title}
-                                        </option>
-                                    ))};
-                                </select>
-                            </div>
+                            <FormInputDropDownElementEnums title={'Status'}
+                                                           id={'status'}
+                                                           dataSource={statusMap}
+                                                           defaultValue={course!.status}
+                                                           columnSize={'1'}
+                                                           isDisabled={true}
+                            />
 
-                            <div>
-                                <label htmlFor="priority"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Priority</label>
-                                <select id="priority"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    {Object.entries(PriorityMap).map(([key, value]) => (
-                                        <option key={key} value={key} selected={course!.priority === key && true}>
-                                            {value.label}
-                                        </option>
-                                    ))};
-                                </select>
-                            </div>
+                            <FormInputDropDownElementEnums title={'Difficulty'}
+                                                           id={'difficulty'}
+                                                           dataSource={difficultyMap}
+                                                           defaultValue={course!.difficulty}
+                                                           columnSize={'1'}
+                                                           isDisabled={true}
+                            />
 
-                            {/*Multiple select*/}
-                            {/*<div>*/}
-                            {/*    <label htmlFor="technologies"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technologies*/}
-                            {/*        (more than one can be selected)</label>*/}
-                            {/*    <select multiple id="technologies"*/}
-                            {/*            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">*/}
-                            {/*        <option selected>Choose a country</option>*/}
-                            {/*        <option value="US">United States</option>*/}
-                            {/*        <option value="CA">Canada</option>*/}
-                            {/*        <option value="FR">France</option>*/}
-                            {/*        <option value="DE">Germany</option>*/}
-                            {/*    </select>*/}
-                            {/*</div>*/}
+
+                            <FormInputDropDownElement title={'Category'}
+                                                      id={'category'}
+                                                      dataSource={categories}
+                                                      defaultValue={course!.categoryId}
+                                                      columnSize={'1'}
+                                                      isDisabled={true}
+                            />
+
+
+                            <FormInputDropDownElementEnums title={'Priority'}
+                                                           id={'priority'}
+                                                           dataSource={priorityMap}
+                                                           defaultValue={course!.priority}
+                                                           columnSize={'1'}
+                                                           isDisabled={true}
+                            />
 
                             {/*TODO: format time nicer => based on timepicker from flowbite*/}
-                            <div>
-                                <label htmlFor="duration"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duration</label>
-                                <input type="number" value="399" name="price" id="price"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="$299"/>
-                            </div>
+                            <FormInputFieldElement
+                                title={"Duration (Hours)"}
+                                id={"duration"}
+                                type={'number'}
+                                columnSize={"1"}
+                                placeholder={'Total hours'}
+                                defaultValue={85}
+                                isDisabled={true}
+                            />
 
-                            <div className={"col-span-2"}>
-                                <label htmlFor="lastSeen"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
-                                    Seen</label>
-                                <input type="text" name="lastSeen" id="lastSeen"
-                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                       placeholder="Product brand" required={true}/>
-                            </div>
+                            <FormInputFieldElement
+                                title={"Last Seen"}
+                                id={"lastSeen"}
+                                columnSize={"2"}
+                                placeholder={'Last seen video / episode'}
+                                defaultValue={course.lastSeen}
+                                isDisabled={true}
+                            />
+
 
 
                             {/*Multiple select area*/}
@@ -228,6 +201,7 @@ export default async function CourseEditPage(myProp: Props) {
                                         <FormCheckBoxElement title={technology.title}
                                                              key={technology.id}
                                                              id={technology.id}
+                                                             isDisabled={true}
                                                              value={technology.id.toString()}
                                                              isCheck={currentTechnologies.includes(technology.id)}/>
                                     ))}
@@ -249,8 +223,11 @@ export default async function CourseEditPage(myProp: Props) {
 
                         </div>
                         <div className="text-right">
-                            <CustomButton icon={FaTrashCan} buttonStyleType={'danger'}>Delete</CustomButton>
-                            <CustomButton icon={FaSave} buttonStyleType={'primary'}>Save Changes</CustomButton>
+                            <CustomButton icon={MdEditDocument}
+                                          href={`/courses/${params.slug}/edit`}
+                                          buttonStyleType={'primary'}>
+                                Edit Course
+                            </CustomButton>
                         </div>
                     </form>
                 </div>

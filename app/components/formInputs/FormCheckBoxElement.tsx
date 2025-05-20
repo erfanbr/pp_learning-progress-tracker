@@ -6,6 +6,7 @@ interface Props{
     id: number,
     value: string,
     register?: UseFormRegisterReturn;
+    isDisabled?: boolean;
     isCheck?: boolean
 }
 
@@ -17,6 +18,7 @@ export default function FormCheckBoxElement(props : Props) {
                     id={`tech-${props.id}`}
                     type="checkbox"
                     value={props.value}
+                    disabled={props.isDisabled}
                     defaultChecked={props.isCheck}
                     {...props.register}
                        className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-200 dark:border-gray-100"/>

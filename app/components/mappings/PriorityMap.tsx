@@ -2,7 +2,7 @@ import colors from "@/app/components/types/Colors";
 import { Priority } from "@/app/generated/prisma";
 
 
-export const PriorityMap: Record<Priority, {label: string, color: colors}> = {
+export const priorityMap: Record<Priority, {label: string, color: colors}> = {
     VERY_LOW: { label: 'Very Low', color: 'indigo'},
     LOW: { label: 'Low', color: 'blue'},
     MEDIUM: { label: 'Medium', color: 'red'},
