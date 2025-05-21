@@ -111,7 +111,7 @@ export default async function CoursesTable({sortBy, sortType}: Props) {
                             <td className="px-6 py-4">{(course.platform!.title)}</td>
                             <td className="px-6 py-4">
                                 <Link href={`/courses/${course.id}`}
-                                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Details</Link>
+                                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
                             </td>
                         </tr>
 
