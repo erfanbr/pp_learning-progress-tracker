@@ -11,7 +11,6 @@ export default async function CourseNewPage() {
 
     return (
         <>
-            {/*TODO: Fix the layout, default values for input fields and API test for adding new course*/}
             <NewCourseForm platformsData={platforms} categoriesData={categories} technologiesData={technologies} ></NewCourseForm>
 
         </>
