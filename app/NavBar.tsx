@@ -6,6 +6,8 @@ import {MdLibraryBooks, MdSpaceDashboard, MdEvent, MdSpeakerNotes, MdSettingsApp
 import {CgPerformance} from "react-icons/cg";
 import { IoHardwareChip } from "react-icons/io5";
 import {usePathname} from "next/navigation";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { MdClose } from "react-icons/md";
 import {IconType} from "react-icons";
 import classNames from "classnames";
 
@@ -39,23 +41,11 @@ export default function NavBar() {
             >
                 <span className="sr-only">Toggle sidebar</span>
                 {isSidebarOpen ? (
-                    // (X) icon
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        />
-                    </svg>
+                    // Close icon
+                    <MdClose className={'w-8 h-8 '}/>
                 ) : (
                     // Hamburger icon
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75z"
-                        />
-                    </svg>
+                    <RxHamburgerMenu className={'w-8 h-8 '}/>
                 )}
             </button>
 
