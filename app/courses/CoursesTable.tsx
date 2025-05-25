@@ -1,4 +1,5 @@
-import React from "react";
+'use client'
+import React, {useState} from "react";
 import {prisma} from "@/prisma/client";
 import Link from "next/link";
 import {sort} from "fast-sort";
@@ -9,10 +10,17 @@ import CourseStatusBadge from "@/app/components/CourseStatusBadge";
 import delay from "delay";
 import axios from "axios";
 import TableHeadWithSorting from "@/app/components/TableHeadWithSorting";
+import CourseFilter from "@/app/courses/CourseFilter";
+import {z} from "zod";
+import {createCourseSchema} from "@/app/validationSchema";
 
-interface Props {
+
+
+interface Props<T extends string> {
     sortBy: string,
-    sortType: string
+    sortType: string,
+    coursesData: T,
+
 }
 
 type Course = {
@@ -22,21 +30,33 @@ type Course = {
 
 };
 
-export default async function CoursesTable({sortBy, sortType}: Props) {
-    const courses = await prisma.course.findMany({
-        include: {
-            category: {
-                select: {
-                    title: true,
-                },
-            },
-            platform: {
-                select: {
-                    title: true,
-                }
-            }
-        },
-    });
+export default function CoursesTable({coursesData, sortBy, sortType}: Props<T>) {
+    // const courses = await prisma.course.findMany({
+    //     include: {
+    //         category: {
+    //             select: {
+    //                 title: true,
+    //             },
+    //         },
+    //         platform: {
+    //             select: {
+    //                 title: true,
+    //             }
+    //         }
+    //     },
+    // });
+    const [currentFilterValue, setCurrentFilterValue] = useState('');
+    //
+    const filteredCourse = currentFilterValue ?
+        coursesData.filter(course => course.status === currentFilterValue) : coursesData;
+
+    // const filteredCourse = coursesData.filter(course => course.status === currentFilterValue);
+
+
+
+    const courses = filteredCourse;
+
+
 
 
     // await delay(2000);
@@ -51,6 +71,8 @@ export default async function CoursesTable({sortBy, sortType}: Props) {
             sortBy in course ? course[sortBy as keyof Course] : course.id
         );
 
+    // const [currentFilterValue, setFilterValue] = useState('');
+
     return (
         <>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
@@ -59,7 +81,15 @@ export default async function CoursesTable({sortBy, sortType}: Props) {
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         Courses Detail
                     </h3>
+
+                    <CourseFilter onFilterValueClick={(status) => setCurrentFilterValue(status)} ></CourseFilter>
+
+
+
+
                 </div>
+
+
 
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

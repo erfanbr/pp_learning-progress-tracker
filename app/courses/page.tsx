@@ -1,6 +1,9 @@
-import React from "react";
-import CourseStatusBadge from "@/app/components/CourseStatusBadge";
+import React, {useState} from "react";
+
 import CoursesTable from "@/app/courses/CoursesTable";
+import CourseFilter from "@/app/courses/CourseFilter";
+import CourseEditPageForm from "@/app/courses/[slug]/CourseEditPageForm";
+import {prisma} from "@/prisma/client";
 
 interface Props {
     searchParams: {
@@ -9,14 +12,36 @@ interface Props {
     };
 }
 
-export default function CoursesPage( {searchParams} : Props) {
+export default async function CoursesPage( {searchParams} : Props) {
     const sortBy = searchParams?.sortBy || "id";
     const sortType = searchParams?.sortType || "asc";
 
+    const courses = await prisma.course.findMany({
+        include: {
+            category: {
+                select: {
+                    title: true,
+                },
+            },
+            platform: {
+                select: {
+                    title: true,
+                }
+            }
+        },
+    });
+
+
+
+
+
+
+
+
     return (
         <>
-            <CoursesTable sortBy={sortBy} sortType={sortType} ></CoursesTable>
 
+            <CoursesTable coursesData={courses} sortBy={sortBy} sortType={sortType}></CoursesTable>
         </>
     );
 }
