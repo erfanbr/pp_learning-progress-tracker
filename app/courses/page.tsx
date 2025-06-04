@@ -31,6 +31,10 @@ export default async function CoursesPage( {searchParams} : Props) {
         },
     });
 
+    const platforms = await prisma.platform.findMany();
+    const categories = await prisma.category.findMany();
+    const technologies = await prisma.technology.findMany();
+
 
 
 
@@ -41,7 +45,7 @@ export default async function CoursesPage( {searchParams} : Props) {
     return (
         <>
 
-            <CoursesTable coursesData={courses} sortBy={sortBy} sortType={sortType}></CoursesTable>
+            <CoursesTable coursesData={courses} sortBy={sortBy} sortType={sortType} platformsData={platforms}></CoursesTable>
         </>
     );
 }

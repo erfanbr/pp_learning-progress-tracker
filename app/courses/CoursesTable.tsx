@@ -15,11 +15,12 @@ import {z} from "zod";
 import {createCourseSchema} from "@/app/validationSchema";
 
 
-
 interface Props<T extends string> {
     sortBy: string,
     sortType: string,
+    platformsData: { id: number; title: string }[],
     coursesData: T,
+
 
 }
 
@@ -30,7 +31,7 @@ type Course = {
 
 };
 
-export default function CoursesTable({coursesData, sortBy, sortType}: Props<T>) {
+export default function CoursesTable({coursesData, sortBy, sortType, platformsData}: Props<T>) {
     // const courses = await prisma.course.findMany({
     //     include: {
     //         category: {
@@ -47,16 +48,14 @@ export default function CoursesTable({coursesData, sortBy, sortType}: Props<T>) 
     // });
     const [currentFilterValue, setCurrentFilterValue] = useState('');
     //
+    // const filteredCourse = currentFilterValue ?
+    //     coursesData.filter(course => course.status === currentFilterValue) : coursesData;
+
     const filteredCourse = currentFilterValue ?
-        coursesData.filter(course => course.status === currentFilterValue) : coursesData;
-
-    // const filteredCourse = coursesData.filter(course => course.status === currentFilterValue);
-
+        coursesData.filter(course => course.platformId === currentFilterValue) : coursesData;
 
 
     const courses = filteredCourse;
-
-
 
 
     // await delay(2000);
@@ -75,19 +74,27 @@ export default function CoursesTable({coursesData, sortBy, sortType}: Props<T>) 
 
     return (
         <>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+            <div
+                className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                 <div
                     className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         Courses Detail
                     </h3>
 
-                    <CourseFilter onFilterValueClick={(status) => setCurrentFilterValue(status)} ></CourseFilter>
-
-
-
 
                 </div>
+                <div
+                    className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+
+                    <h4 className="text-m font-semibold text-gray-900 dark:text-white">
+                        Filter
+                    </h4>
+                    <CourseFilter dataSource={platformsData}
+                                  onFilterValueClick={(status) => setCurrentFilterValue(parseInt(status))}></CourseFilter>
+                </div>
+
+
 
 
 
@@ -106,7 +113,8 @@ export default function CoursesTable({coursesData, sortBy, sortType}: Props<T>) 
                                               url={`/courses?sortBy=status&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
                                               sortBy={sortBy}/>
 
-                        <TableHeadWithSorting title={"Creation Time"} stringTitle={"creationTime"} sortMethod={sortMethod}
+                        <TableHeadWithSorting title={"Creation Time"} stringTitle={"creationTime"}
+                                              sortMethod={sortMethod}
                                               url={`/courses?sortBy=creationTime&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
                                               sortBy={sortBy}/>
 
