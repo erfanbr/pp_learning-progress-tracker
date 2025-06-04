@@ -1,74 +1,144 @@
 'use client';
-import React from "react";
+import React, {useState} from "react";
 import {statusMap} from "@/app/components/mappings/StatusMap";
-import CustomButton from "@/app/components/buttons/CustomButton";
-import {Fa0} from "react-icons/fa6";
-import {FaSave} from "react-icons/fa";
+
 
 interface Props {
     dataSource: { id: number; title: string }[],
     onFilterValueClick: (arg0: string) => void,
+    onStatusValueClick: (arg0: string) => void,
 
 }
 
-export default function CourseFilter({onFilterValueClick, dataSource}: Props) {
+export default function CourseFilter({onFilterValueClick, onStatusValueClick, dataSource}: Props) {
+    const [isCollapsed, setIsCollapsed] = useState(false);
     return (
         <>
             <div className={`col-span-2`}>
 
-                {/*status version*/}
-
-                {/*<select*/}
-                {/*    id={'filter-value'}*/}
-                {/*    className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "dark:bg-gray-200 dark:border-gray-100 dark:text-zinc-700" dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500`}*/}
-                {/*>*/}
-                {/*    <option value="" onClick={()=> onFilterValueClick('')}>Select Filter</option>*/}
-                {/*    {Object.entries(statusMap).map(([key, value]) => (*/}
-                {/*        <option key={key} value={key} onClick={()=> onFilterValueClick(key)}>*/}
-                {/*            {value.label}*/}
-                {/*        </option>*/}
-                {/*    ))}*/}
-                {/*    */}
-                {/*</select>*/}
 
                 {/*platform version*/}
-                {/*TODO: find a way to make same thing work for category, no hard coding ofc*/}
 
-                {/*<h2 id="accordion-collapse-heading-2">*/}
-                {/*    <button type="button"*/}
-                {/*            className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"*/}
-                {/*            data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"*/}
-                {/*            aria-controls="accordion-collapse-body-2">*/}
-                {/*        <span>Is there a Figma file available?</span>*/}
-                {/*        <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"*/}
-                {/*             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">*/}
-                {/*            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"*/}
-                {/*                  d="M9 5 5 1 1 5"/>*/}
-                {/*        </svg>*/}
-                {/*    </button>*/}
-                {/*</h2>*/}
-                {/*<div id="accordion-collapse-body-2" className="hidden" aria-labelledby="accordion-collapse-heading-2">*/}
-                {/*    <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700">*/}
-                {/*        <p className="mb-2 text-gray-500 dark:text-gray-400">Flowbite is first conceptualized and*/}
-                {/*            designed using the Figma software so everything you see in the library has a design*/}
-                {/*            equivalent in our Figma file.</p>*/}
-                {/*        <p className="text-gray-500 dark:text-gray-400">Check out the <a*/}
-                {/*            href="https://flowbite.com/figma/"*/}
-                {/*            className="text-blue-600 dark:text-blue-500 hover:underline">Figma design system</a> based*/}
-                {/*            on the utility classes from Tailwind CSS and components from Flowbite.</p>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-                <select
-                    id={'filter-value'}
-                    className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "dark:bg-gray-200 dark:border-gray-100 dark:text-zinc-700" dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500`}
-                >
-                    <option value="" onClick={() => onFilterValueClick('')}>Select Filter</option>
-                    {dataSource.map((d) => (
-                        <option key={d.id} value={d.id} onClick={() => onFilterValueClick(d.id.toString())}>
-                            {d.title}
-                        </option>
-                    ))}
-                </select>
+                <div className="">
+                    <h2 id="accordion-collapse-heading-2">
+                        <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}
+                                className="flex items-center pt-2 justify-between w-full font-medium rtl:text-right text-gray-500 pb-4 mb-4 rounded-t border-b sm:mb-5  border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                                data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
+                                aria-controls="accordion-collapse-body-2">
+                            <span>Status</span>
+                            <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 5 5 1 1 5"/>
+                            </svg>
+                        </button>
+                    </h2>
+                    <div id="accordion-collapse-body-2" className={` ${isCollapsed ? 'hidden' : ''}`}
+                         aria-labelledby="accordion-collapse-heading-2">
+
+                        {/*<div className={"mb-3"}>*/}
+                        {/*    <select name="" id="" className="form-select">*/}
+                        {/*        <option key="all-categories" value="" onClick={() => onFilterValueClick('')}>All categories</option>*/}
+                        {/*        {Object.entries(statusMap).map(([key, value]) => (*/}
+                        {/*            <option key={key} value={key} onClick={() => onFilterValueClick(key)}>*/}
+                        {/*                {value.label}*/}
+                        {/*            </option>*/}
+                        {/*        ))}*/}
+                        {/*    </select>*/}
+                        {/*</div>*/}
+
+
+                        <fieldset>
+                            <legend className="sr-only">Status</legend>
+
+                            {Object.entries(statusMap).map(([key, value]) => (
+                                <div key={key} className="flex items-center mb-4">
+                                    <input id={key} value={key} type="radio" name="statuses"
+                                           className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                            onClick={()=> onStatusValueClick(key)}/>
+                                    <label htmlFor="country-option-1"
+                                           className="block ms-2  text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        {value.label}
+                                    </label>
+                                </div>
+                            ))}
+
+                            {/*<div className="flex items-center mb-4">*/}
+                            {/*    <input id="country-option-1" type="radio" name="countries" value="Japong"*/}
+                            {/*           className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"*/}
+                            {/*           checked/>*/}
+                            {/*    <label htmlFor="country-option-1"*/}
+                            {/*           className="block ms-2  text-sm font-medium text-gray-900 dark:text-gray-300">*/}
+                            {/*        United States*/}
+                            {/*    </label>*/}
+                            {/*</div>*/}
+
+                            {/*<div className="flex items-center mb-4">*/}
+                            {/*    <input id="country-option-2" type="radio" name="countries" value="Germany"*/}
+                            {/*           className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"/>*/}
+                            {/*    <label htmlFor="country-option-2"*/}
+                            {/*           className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">*/}
+                            {/*        Germany*/}
+                            {/*    </label>*/}
+                            {/*</div>*/}
+
+                            {/*<div className="flex items-center mb-4">*/}
+                            {/*    <input id="country-option-3" type="radio" name="countries" value="Spain"*/}
+                            {/*           className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"/>*/}
+                            {/*    <label htmlFor="country-option-3"*/}
+                            {/*           className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">*/}
+                            {/*        Spain*/}
+                            {/*    </label>*/}
+                            {/*</div>*/}
+
+                            {/*<div className="flex items-center mb-4">*/}
+                            {/*    <input id="country-option-4" type="radio" name="countries" value="United Kingdom"*/}
+                            {/*           className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"/>*/}
+                            {/*    <label htmlFor="country-option-4"*/}
+                            {/*           className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">*/}
+                            {/*        United Kingdom*/}
+                            {/*    </label>*/}
+                            {/*</div>*/}
+
+                            {/*<div className="flex items-center mb-4">*/}
+                            {/*    <input id="option-disabled" type="radio" name="countries" value="China"*/}
+                            {/*           className="w-4 h-4 border-gray-200 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"*/}
+                            {/*           disabled/>*/}
+                            {/*    <label htmlFor="option-disabled"*/}
+                            {/*           className="block ms-2 text-sm font-medium text-gray-300 dark:text-gray-700">*/}
+                            {/*        China (disabled)*/}
+                            {/*    </label>*/}
+                            {/*</div>*/}
+                        </fieldset>
+
+                    </div>
+                </div>
+
+                <div className="grid gap-4 mb-4 sm:grid-cols-4">
+
+
+                    {/*/!*Filter Platform*!/*/}
+                    <div className="col-span-1">
+                        <select
+                            id={'filter-value'}
+                            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "dark:bg-gray-200 dark:border-gray-100 dark:text-zinc-700" dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500`}
+                        >
+                            <option value="" onClick={() => onFilterValueClick('')}>Select Filter</option>
+                            {dataSource.map((d) => (
+                                <option key={d.id} value={d.id} onClick={() => onFilterValueClick(d.id.toString())}>
+                                    {d.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+                <div
+                    className="col-span-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        Erfan test
+                    </h3>
+                </div>
 
             </div>
 

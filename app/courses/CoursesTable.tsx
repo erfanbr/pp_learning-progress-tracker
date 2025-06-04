@@ -46,13 +46,16 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
     //         }
     //     },
     // });
-    const [currentFilterValue, setCurrentFilterValue] = useState('');
-    //
-    // const filteredCourse = currentFilterValue ?
-    //     coursesData.filter(course => course.status === currentFilterValue) : coursesData;
+    const [currentStatusFilter, setCurrentStatusFilter] = useState('');
+    const [currentPlatformFilter, setCurrentPlatformFilter] = useState('');
 
-    const filteredCourse = currentFilterValue ?
-        coursesData.filter(course => course.platformId === currentFilterValue) : coursesData;
+    const filteredCourse = coursesData.filter(course => {
+        const matchesStatus = currentStatusFilter ? course.status === currentStatusFilter : true;
+        const matchesPlatform = currentPlatformFilter ? course.platformId === currentPlatformFilter : true;
+        return matchesStatus && matchesPlatform;
+    });
+
+
 
 
     const courses = filteredCourse;
@@ -70,11 +73,12 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
             sortBy in course ? course[sortBy as keyof Course] : course.id
         );
 
-    // const [currentFilterValue, setFilterValue] = useState('');
+
 
     return (
         <>
             <div
+
                 className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                 <div
                     className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
@@ -85,13 +89,15 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
 
                 </div>
                 <div
-                    className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                    className="pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
 
                     <h4 className="text-m font-semibold text-gray-900 dark:text-white">
                         Filter
                     </h4>
                     <CourseFilter dataSource={platformsData}
-                                  onFilterValueClick={(status) => setCurrentFilterValue(parseInt(status))}></CourseFilter>
+                                  onFilterValueClick={(platfromId) => setCurrentPlatformFilter(parseInt(platfromId))}
+                                  onStatusValueClick={(status) => setCurrentStatusFilter(status)}
+                    ></CourseFilter>
                 </div>
 
 
