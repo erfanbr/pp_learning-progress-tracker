@@ -2,11 +2,14 @@ import React, {useState} from "react";
 import colors from "@/app/components/types/Colors";
 import {FaCaretDown, FaCaretUp} from "react-icons/fa";
 
+type ColumnSize = '1' | '2' | '3' | '4';
+
 interface Props<T extends string> {
     onValueChange: (arg0: string) => void,
     title: string,
     dataSource: Record<T, { label: string; color: colors }>,
     initiallyCollapsed: boolean,
+    columnSize?: ColumnSize;
 
 }
 
@@ -14,20 +17,21 @@ const CollapsibleFilter = <T extends string>({
                                                  dataSource,
                                                  title,
                                                  initiallyCollapsed,
-                                                 onValueChange
+                                                 onValueChange,
+                                                 columnSize = '4',
                                              }: Props<T>) => {
     const [isCollapsed, setIsCollapsed] = useState(initiallyCollapsed);
 
     return (
         <>
-            <div className="">
+            <div className={`col-span-${columnSize}`}>
                 <h2 id="accordion-collapse-heading-2">
                     <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}
                             className="flex items-center pt-2 justify-between w-full font-medium rtl:text-right text-gray-500 pb-4 mb-4 rounded-t border-b sm:mb-5  border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
                             data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
                             aria-controls="accordion-collapse-body-2">
                         <span>{title}</span>
-                        {isCollapsed ? <FaCaretDown /> : <FaCaretUp />}
+                        {isCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
 
                     </button>
                 </h2>

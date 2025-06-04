@@ -50,6 +50,7 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
     // });
     const [currentStatusFilter, setCurrentStatusFilter] = useState('');
     const [currentDifficultyFilter, setCurrentDifficultyFilter] = useState('');
+    const [currentPriorityFilter, setCurrentPriorityFilter] = useState('');
 
     const [currentPlatformFilter, setCurrentPlatformFilter] = useState('');
 
@@ -57,9 +58,11 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
     const filteredCourse = coursesData.filter(course => {
         const matchesStatus = currentStatusFilter ? course.status === currentStatusFilter : true;
         const matchesDifficulty = currentDifficultyFilter ? course.difficulty === currentDifficultyFilter : true;
+        const matchesPriority = currentPriorityFilter ? course.priority === currentPriorityFilter : true;
         const matchesPlatform = currentPlatformFilter ? course.platformId === currentPlatformFilter : true;
-        return matchesStatus && matchesDifficulty && matchesPlatform;
+        return matchesStatus && matchesDifficulty && matchesPriority && matchesPlatform;
     });
+
 
 
     const courses = filteredCourse;
@@ -101,6 +104,7 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
                                   onFilterValueClick={(platfromId) => setCurrentPlatformFilter(parseInt(platfromId))}
                                   onStatusValueClick={(status) => setCurrentStatusFilter(status)}
                                   onDifficultyValueClick={(difficulty) => setCurrentDifficultyFilter(difficulty)}
+                                  onPriorityValueClick={(priority) => setCurrentPriorityFilter(priority)}
 
                     ></CourseFilter>
                 </div>

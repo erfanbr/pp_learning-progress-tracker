@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {statusMap} from "@/app/components/mappings/StatusMap";
 import CollapsibleFilter from "@/app/courses/CollapsibleFilter";
 import {difficultyMap} from "@/app/components/mappings/DifficultyMap";
+import {priorityMap} from "@/app/components/mappings/PriorityMap";
 
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
     onFilterValueClick: (arg0: string) => void,
     onStatusValueClick: (arg0: string) => void,
     onDifficultyValueClick: (arg0: string) => void,
+    onPriorityValueClick: (arg0: string) => void,
 
 }
 
@@ -17,65 +19,34 @@ export default function CourseFilter({
                                          onFilterValueClick,
                                          onStatusValueClick,
                                          onDifficultyValueClick,
-                                         dataSource}: Props) {
+                                         onPriorityValueClick,
+                                         dataSource
+                                     }: Props) {
     return (
         <>
             <div className={`col-span-2`}>
 
 
-                {/*Status Filter version*/}
-
-                {/*<div className="">*/}
-                {/*    <h2 id="accordion-collapse-heading-2">*/}
-                {/*        <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}*/}
-                {/*                className="flex items-center pt-2 justify-between w-full font-medium rtl:text-right text-gray-500 pb-4 mb-4 rounded-t border-b sm:mb-5  border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"*/}
-                {/*                data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"*/}
-                {/*                aria-controls="accordion-collapse-body-2">*/}
-                {/*            <span>Status</span>*/}
-                {/*            <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"*/}
-                {/*                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">*/}
-                {/*                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"*/}
-                {/*                      stroke-width="2"*/}
-                {/*                      d="M9 5 5 1 1 5"/>*/}
-                {/*            </svg>*/}
-                {/*        </button>*/}
-                {/*    </h2>*/}
-
-                {/*    <div id="accordion-collapse-body-2" className={` ${isCollapsed ? 'hidden' : ''}`}*/}
-                {/*         aria-labelledby="accordion-collapse-heading-2">*/}
-
-                {/*        <fieldset className="flex flex-wrap gap-4">*/}
-                {/*            <legend className="sr-only">Status</legend>*/}
-
-                {/*            {Object.entries(statusMap).map(([key, value]) => (*/}
-                {/*                <div key={key} className="flex items-center mb-4">*/}
-                {/*                    <input id={key}*/}
-                {/*                           value={key}*/}
-                {/*                           type="radio"*/}
-                {/*                           name="statuses"*/}
-                {/*                           className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"*/}
-                {/*                           onClick={()=> onStatusValueClick(key)}/>*/}
-                {/*                    <label htmlFor="key"*/}
-                {/*                           className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">*/}
-                {/*                        {value.label}*/}
-                {/*                    </label>*/}
-                {/*                </div>*/}
-                {/*            ))}*/}
-                {/*        </fieldset>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-
-                <CollapsibleFilter title={"Status"}
-                                   onValueChange={onStatusValueClick}
-                                   dataSource={statusMap}
-                                   initiallyCollapsed={false} />
-
-                <CollapsibleFilter title={"Difficulty"}
-                                   onValueChange={onDifficultyValueClick}
-                                   dataSource={difficultyMap}
-                                   initiallyCollapsed={false} />
-
                 <div className="grid gap-4 mb-4 sm:grid-cols-4">
+                    <CollapsibleFilter title={"Status"}
+                                       onValueChange={onStatusValueClick}
+                                       dataSource={statusMap}
+                                       initiallyCollapsed={false}
+                                       columnSize='4'
+                    />
+
+                    <CollapsibleFilter title={"Difficulty"}
+                                       onValueChange={onDifficultyValueClick}
+                                       dataSource={difficultyMap}
+                                       initiallyCollapsed={false}
+                                       columnSize='4'
+                    />
+                    <CollapsibleFilter title={"Priority"}
+                                       onValueChange={onPriorityValueClick}
+                                       dataSource={priorityMap}
+                                       initiallyCollapsed={false}
+                                       columnSize='4'
+                    />
 
 
                     {/*/!*Filter Platform*!/*/}
