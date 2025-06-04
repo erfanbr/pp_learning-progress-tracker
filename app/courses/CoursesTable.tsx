@@ -13,6 +13,8 @@ import TableHeadWithSorting from "@/app/components/TableHeadWithSorting";
 import CourseFilter from "@/app/courses/CourseFilter";
 import {z} from "zod";
 import {createCourseSchema} from "@/app/validationSchema";
+import {statusMap} from "@/app/components/mappings/StatusMap";
+import CourseDifficultyBadge from "@/app/components/CourseDifficultyBadge";
 
 
 interface Props<T extends string> {
@@ -47,15 +49,17 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
     //     },
     // });
     const [currentStatusFilter, setCurrentStatusFilter] = useState('');
+    const [currentDifficultyFilter, setCurrentDifficultyFilter] = useState('');
+
     const [currentPlatformFilter, setCurrentPlatformFilter] = useState('');
+
 
     const filteredCourse = coursesData.filter(course => {
         const matchesStatus = currentStatusFilter ? course.status === currentStatusFilter : true;
+        const matchesDifficulty = currentDifficultyFilter ? course.difficulty === currentDifficultyFilter : true;
         const matchesPlatform = currentPlatformFilter ? course.platformId === currentPlatformFilter : true;
-        return matchesStatus && matchesPlatform;
+        return matchesStatus && matchesDifficulty && matchesPlatform;
     });
-
-
 
 
     const courses = filteredCourse;
@@ -72,7 +76,6 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
         : sort(courses).desc(course =>
             sortBy in course ? course[sortBy as keyof Course] : course.id
         );
-
 
 
     return (
@@ -97,11 +100,10 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
                     <CourseFilter dataSource={platformsData}
                                   onFilterValueClick={(platfromId) => setCurrentPlatformFilter(parseInt(platfromId))}
                                   onStatusValueClick={(status) => setCurrentStatusFilter(status)}
+                                  onDifficultyValueClick={(difficulty) => setCurrentDifficultyFilter(difficulty)}
+
                     ></CourseFilter>
                 </div>
-
-
-
 
 
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -119,15 +121,15 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
                                               url={`/courses?sortBy=status&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
                                               sortBy={sortBy}/>
 
-                        <TableHeadWithSorting title={"Creation Time"} stringTitle={"creationTime"}
-                                              sortMethod={sortMethod}
-                                              url={`/courses?sortBy=creationTime&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
-                                              sortBy={sortBy}/>
-
 
                         {/*/!*TODO: Fix category sorting*!/*/}
                         <TableHeadWithSorting title={"Category"} stringTitle={"categoryId"} sortMethod={sortMethod}
                                               url={`/courses?sortBy=categoryId&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
+                                              sortBy={sortBy}/>
+
+                        <TableHeadWithSorting title={"Difficulty"} stringTitle={"difficulty"}
+                                              sortMethod={sortMethod}
+                                              url={`/courses?sortBy=difficulty&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
                                               sortBy={sortBy}/>
 
                         {/*/!*TODO: Fix Platform sorting*!/*/}
@@ -150,8 +152,8 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
                             </th>
                             <td className="px-6 py-4">{course.title}</td>
                             <td className="px-6 py-4"><CourseStatusBadge status={course.status}/></td>
-                            <td className="px-6 py-4">{(course.createdAt).toDateString()}</td>
                             <td className="px-6 py-4">{(course.category!.title)}</td>
+                            <td className="px-6 py-4"><CourseDifficultyBadge difficulty={course.difficulty}/></td>
                             <td className="px-6 py-4">{(course.platform!.title)}</td>
                             <td className="px-6 py-4">
                                 <Link href={`/courses/${course.id}`}
