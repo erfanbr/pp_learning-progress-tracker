@@ -65,8 +65,15 @@ export default function CourseFilter({
                 {/*    </div>*/}
                 {/*</div>*/}
 
-                <CollapsibleFilter title={"Status"} onValueChange={onStatusValueClick} dataSource={statusMap} initiallyCollapsed={true} />
-                <CollapsibleFilter title={"Difficulty"} onValueChange={onDifficultyValueClick} dataSource={difficultyMap} initiallyCollapsed={true} />
+                <CollapsibleFilter title={"Status"}
+                                   onValueChange={onStatusValueClick}
+                                   dataSource={statusMap}
+                                   initiallyCollapsed={false} />
+
+                <CollapsibleFilter title={"Difficulty"}
+                                   onValueChange={onDifficultyValueClick}
+                                   dataSource={difficultyMap}
+                                   initiallyCollapsed={false} />
 
                 <div className="grid gap-4 mb-4 sm:grid-cols-4">
 
@@ -86,12 +93,7 @@ export default function CourseFilter({
                         </select>
                     </div>
                 </div>
-                <div
-                    className="col-span-4">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                        Erfan test
-                    </h3>
-                </div>
+
 
             </div>
 

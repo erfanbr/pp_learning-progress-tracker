@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import colors from "@/app/components/types/Colors";
+import {FaCaretDown, FaCaretUp} from "react-icons/fa";
 
 interface Props<T extends string> {
     onValueChange: (arg0: string) => void,
@@ -26,12 +27,8 @@ const CollapsibleFilter = <T extends string>({
                             data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
                             aria-controls="accordion-collapse-body-2">
                         <span>{title}</span>
-                        <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
-                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M9 5 5 1 1 5"/>
-                        </svg>
+                        {isCollapsed ? <FaCaretDown /> : <FaCaretUp />}
+
                     </button>
                 </h2>
 
@@ -39,17 +36,17 @@ const CollapsibleFilter = <T extends string>({
                      aria-labelledby="accordion-collapse-heading-2">
 
                     <fieldset className="flex flex-wrap gap-4">
-                        <legend className="sr-only">Status</legend>
+                        <legend className="sr-only">{title}</legend>
 
                         {Object.entries(dataSource).map(([key, value]) => (
                             <div key={key} className="flex items-center mb-4">
                                 <input id={key}
                                        value={key}
                                        type="radio"
-                                       name="statuses"
+                                       name={title}
                                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
                                        onClick={() => onValueChange(key)}/>
-                                <label htmlFor="key"
+                                <label htmlFor={key}
                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                     {value.label}
                                 </label>
