@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import colors from "@/app/components/types/Colors";
 import {FaCaretDown, FaCaretUp} from "react-icons/fa";
+import CustomButton from "@/app/components/buttons/CustomButton";
+import {IoAddCircleSharp} from "react-icons/io5";
 
 type ColumnSize = '1' | '2' | '3' | '4';
 
@@ -58,6 +60,7 @@ const CollapsibleFilter = <T extends string>({
                         ))}
                     </fieldset>
                 </div>
+
             </div>
         </>
     );

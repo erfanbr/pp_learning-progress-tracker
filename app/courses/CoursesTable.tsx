@@ -15,6 +15,7 @@ import {z} from "zod";
 import {createCourseSchema} from "@/app/validationSchema";
 import {statusMap} from "@/app/components/mappings/StatusMap";
 import CourseDifficultyBadge from "@/app/components/CourseDifficultyBadge";
+import {MdCancel} from "react-icons/md";
 
 
 interface Props<T extends string> {
@@ -53,7 +54,7 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
     const [currentPriorityFilter, setCurrentPriorityFilter] = useState('');
     const [currentPlatformFilter, setCurrentPlatformFilter] = useState('');
 
-    const [isCollapsed, setIsCollapsed] = useState(true);
+    const [isCollapsed, setIsCollapsed] = useState(false);
 
 
 
@@ -64,6 +65,13 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
         const matchesPlatform = currentPlatformFilter ? course.platformId === currentPlatformFilter : true;
         return matchesStatus && matchesDifficulty && matchesPriority && matchesPlatform;
     });
+
+    const handleClearFilter= () => {
+        setCurrentStatusFilter('');
+        setCurrentDifficultyFilter('');
+        setCurrentPriorityFilter('');
+        setCurrentPlatformFilter('');
+    }
 
 
     const courses = filteredCourse;
@@ -117,6 +125,16 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
                         >
 
                         </CourseFilter>
+
+                        <div className="text-right">
+                            <CustomButton
+                                icon={MdCancel}
+                                onClick={() => handleClearFilter()}
+                                buttonStyleType={"discard"}>
+                                Clear Filters
+                            </CustomButton>
+                        </div>
+
                     </div>
 
                 </div>
