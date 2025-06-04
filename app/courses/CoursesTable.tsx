@@ -51,8 +51,10 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
     const [currentStatusFilter, setCurrentStatusFilter] = useState('');
     const [currentDifficultyFilter, setCurrentDifficultyFilter] = useState('');
     const [currentPriorityFilter, setCurrentPriorityFilter] = useState('');
-
     const [currentPlatformFilter, setCurrentPlatformFilter] = useState('');
+
+    const [isCollapsed, setIsCollapsed] = useState(true);
+
 
 
     const filteredCourse = coursesData.filter(course => {
@@ -62,7 +64,6 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
         const matchesPlatform = currentPlatformFilter ? course.platformId === currentPlatformFilter : true;
         return matchesStatus && matchesDifficulty && matchesPriority && matchesPlatform;
     });
-
 
 
     const courses = filteredCourse;
@@ -97,16 +98,27 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
                 <div
                     className="pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
 
-                    <h4 className="text-m font-semibold text-gray-900 dark:text-white">
-                        Filter
-                    </h4>
-                    <CourseFilter dataSource={platformsData}
-                                  onFilterValueClick={(platfromId) => setCurrentPlatformFilter(parseInt(platfromId))}
-                                  onStatusValueClick={(status) => setCurrentStatusFilter(status)}
-                                  onDifficultyValueClick={(difficulty) => setCurrentDifficultyFilter(difficulty)}
-                                  onPriorityValueClick={(priority) => setCurrentPriorityFilter(priority)}
+                    <h2 id="accordion-collapse-heading-2">
+                        <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}
+                                className="flex items-center pt-2 justify-between w-full font-medium rtl:text-right text-gray-500 pb-4 mb-4 rounded-t border-b sm:mb-5  border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                                data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
+                                aria-controls="accordion-collapse-body-2">
+                            <span>Filters</span>
+                            {isCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
 
-                    ></CourseFilter>
+                        </button>
+                    </h2>
+                    <div className={` ${isCollapsed ? 'hidden' : ''}`}>
+                        <CourseFilter dataSource={platformsData}
+                                      onFilterValueClick={(platfromId) => setCurrentPlatformFilter(parseInt(platfromId))}
+                                      onStatusValueClick={(status) => setCurrentStatusFilter(status)}
+                                      onDifficultyValueClick={(difficulty) => setCurrentDifficultyFilter(difficulty)}
+                                      onPriorityValueClick={(priority) => setCurrentPriorityFilter(priority)}
+                        >
+
+                        </CourseFilter>
+                    </div>
+
                 </div>
 
 
