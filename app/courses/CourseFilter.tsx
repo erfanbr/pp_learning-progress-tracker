@@ -17,7 +17,7 @@ export default function CourseFilter({onFilterValueClick, onStatusValueClick, da
             <div className={`col-span-2`}>
 
 
-                {/*platform version*/}
+                {/*Status Filter version*/}
 
                 <div className="">
                     <h2 id="accordion-collapse-heading-2">
@@ -34,84 +34,28 @@ export default function CourseFilter({onFilterValueClick, onStatusValueClick, da
                             </svg>
                         </button>
                     </h2>
+
                     <div id="accordion-collapse-body-2" className={` ${isCollapsed ? 'hidden' : ''}`}
                          aria-labelledby="accordion-collapse-heading-2">
 
-                        {/*<div className={"mb-3"}>*/}
-                        {/*    <select name="" id="" className="form-select">*/}
-                        {/*        <option key="all-categories" value="" onClick={() => onFilterValueClick('')}>All categories</option>*/}
-                        {/*        {Object.entries(statusMap).map(([key, value]) => (*/}
-                        {/*            <option key={key} value={key} onClick={() => onFilterValueClick(key)}>*/}
-                        {/*                {value.label}*/}
-                        {/*            </option>*/}
-                        {/*        ))}*/}
-                        {/*    </select>*/}
-                        {/*</div>*/}
-
-
-                        <fieldset>
+                        <fieldset className="flex flex-wrap gap-4">
                             <legend className="sr-only">Status</legend>
 
                             {Object.entries(statusMap).map(([key, value]) => (
                                 <div key={key} className="flex items-center mb-4">
-                                    <input id={key} value={key} type="radio" name="statuses"
+                                    <input id={key}
+                                           value={key}
+                                           type="radio"
+                                           name="statuses"
                                            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                                            onClick={()=> onStatusValueClick(key)}/>
-                                    <label htmlFor="country-option-1"
-                                           className="block ms-2  text-sm font-medium text-gray-900 dark:text-gray-300">
+                                           onClick={()=> onStatusValueClick(key)}/>
+                                    <label htmlFor="key"
+                                           className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                         {value.label}
                                     </label>
                                 </div>
                             ))}
-
-                            {/*<div className="flex items-center mb-4">*/}
-                            {/*    <input id="country-option-1" type="radio" name="countries" value="Japong"*/}
-                            {/*           className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"*/}
-                            {/*           checked/>*/}
-                            {/*    <label htmlFor="country-option-1"*/}
-                            {/*           className="block ms-2  text-sm font-medium text-gray-900 dark:text-gray-300">*/}
-                            {/*        United States*/}
-                            {/*    </label>*/}
-                            {/*</div>*/}
-
-                            {/*<div className="flex items-center mb-4">*/}
-                            {/*    <input id="country-option-2" type="radio" name="countries" value="Germany"*/}
-                            {/*           className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"/>*/}
-                            {/*    <label htmlFor="country-option-2"*/}
-                            {/*           className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">*/}
-                            {/*        Germany*/}
-                            {/*    </label>*/}
-                            {/*</div>*/}
-
-                            {/*<div className="flex items-center mb-4">*/}
-                            {/*    <input id="country-option-3" type="radio" name="countries" value="Spain"*/}
-                            {/*           className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"/>*/}
-                            {/*    <label htmlFor="country-option-3"*/}
-                            {/*           className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">*/}
-                            {/*        Spain*/}
-                            {/*    </label>*/}
-                            {/*</div>*/}
-
-                            {/*<div className="flex items-center mb-4">*/}
-                            {/*    <input id="country-option-4" type="radio" name="countries" value="United Kingdom"*/}
-                            {/*           className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus-ring-blue-600 dark:bg-gray-700 dark:border-gray-600"/>*/}
-                            {/*    <label htmlFor="country-option-4"*/}
-                            {/*           className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">*/}
-                            {/*        United Kingdom*/}
-                            {/*    </label>*/}
-                            {/*</div>*/}
-
-                            {/*<div className="flex items-center mb-4">*/}
-                            {/*    <input id="option-disabled" type="radio" name="countries" value="China"*/}
-                            {/*           className="w-4 h-4 border-gray-200 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"*/}
-                            {/*           disabled/>*/}
-                            {/*    <label htmlFor="option-disabled"*/}
-                            {/*           className="block ms-2 text-sm font-medium text-gray-300 dark:text-gray-700">*/}
-                            {/*        China (disabled)*/}
-                            {/*    </label>*/}
-                            {/*</div>*/}
                         </fieldset>
-
                     </div>
                 </div>
 
