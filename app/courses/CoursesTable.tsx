@@ -66,7 +66,7 @@ export default function CoursesTable({
     const [currentCategoryFilter, setCurrentCategoryFilter] = useState('');
     const [currentTechnologyFilter, setCurrentTechnologyFilter] = useState('');
 
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(true);
 
 
     const filteredCourse = coursesData.filter(course => {
@@ -120,7 +120,7 @@ export default function CoursesTable({
 
                 </div>
                 <div
-                    className="pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                    className="pb-4 mb-4 rounded-t sm:mb-5 dark:border-gray-600">
 
                     <h2 id="accordion-collapse-heading-2">
                         <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}
@@ -146,7 +146,7 @@ export default function CoursesTable({
 
                         </CourseFilter>
 
-                        <div className="text-right">
+                        <div className="pb-4 mb-4 text-right border-b dark:border-gray-600">
                             <CustomButton
                                 icon={MdCancel}
                                 onClick={() => handleClearFilter()}

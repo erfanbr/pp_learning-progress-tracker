@@ -18,7 +18,7 @@ interface Props<T extends string> {
 const CollapsibleFilterEnums = <T extends string>({
                                                  dataSource,
                                                  title,
-                                                 initiallyCollapsed,
+                                                 initiallyCollapsed = true,
                                                  onValueChange,
                                                  columnSize = '4',
                                              }: Props<T>) => {

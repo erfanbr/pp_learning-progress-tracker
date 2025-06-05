@@ -44,39 +44,39 @@ export default function CourseFilter({
                     <CollapsibleFilterEnums title={"Status"}
                                             onValueChange={onStatusValueClick}
                                             dataSource={statusMap}
-                                            initiallyCollapsed={false}
+                                            initiallyCollapsed={true}
                                             columnSize='2'
                     />
 
                     <CollapsibleFilterEnums title={"Difficulty"}
                                             onValueChange={onDifficultyValueClick}
                                             dataSource={difficultyMap}
-                                            initiallyCollapsed={false}
+                                            initiallyCollapsed={true}
                                             columnSize='2'
                     />
                     <CollapsibleFilterEnums title={"Priority"}
                                             onValueChange={onPriorityValueClick}
                                             dataSource={priorityMap}
-                                            initiallyCollapsed={false}
+                                            initiallyCollapsed={true}
                                             columnSize='2'
                     />
 
                     <CollapsibleFilter title={"Platforms"}
                                        onValueChange={onPlatformValueClick}
                                        dataSource={platformData}
-                                       initiallyCollapsed={false}
+                                       initiallyCollapsed={true}
                                        columnSize='2'
                     />
                     <CollapsibleFilter title={"Categories"}
                                        onValueChange={onCategoryValueClick}
                                        dataSource={categoryData}
-                                       initiallyCollapsed={false}
+                                       initiallyCollapsed={true}
                                        columnSize='2'
                     />
                     <CollapsibleFilter title={"Technologies"}
                                        onValueChange={onTechnologyValueClick}
                                        dataSource={technologiesData}
-                                       initiallyCollapsed={false}
+                                       initiallyCollapsed={true}
                                        columnSize='2'
                     />
 
