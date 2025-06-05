@@ -11,11 +11,13 @@ import {prisma} from "@/prisma/client";
 interface Props {
     platformData: { id: number; title: string }[],
     categoryData: { id: number; title: string }[],
+    technologiesData: { id: number; title: string }[],
     onPlatformValueClick: (arg0: string) => void,
     onCategoryValueClick: (arg0: string) => void,
     onStatusValueClick: (arg0: string) => void,
     onDifficultyValueClick: (arg0: string) => void,
     onPriorityValueClick: (arg0: string) => void,
+    onTechnologyValueClick: (arg0: string) => void,
 
 }
 
@@ -25,8 +27,11 @@ export default function CourseFilter({
                                          onStatusValueClick,
                                          onDifficultyValueClick,
                                          onPriorityValueClick,
+                                         onTechnologyValueClick,
                                          platformData,
-                                         categoryData
+                                         categoryData,
+                                         technologiesData
+
                                      }: Props) {
 
 
@@ -57,16 +62,22 @@ export default function CourseFilter({
                     />
 
                     <CollapsibleFilter title={"Platforms"}
-                                            onValueChange={onPlatformValueClick}
-                                            dataSource={platformData}
-                                            initiallyCollapsed={false}
-                                            columnSize='2'
+                                       onValueChange={onPlatformValueClick}
+                                       dataSource={platformData}
+                                       initiallyCollapsed={false}
+                                       columnSize='2'
                     />
                     <CollapsibleFilter title={"Categories"}
-                                            onValueChange={onCategoryValueClick}
-                                            dataSource={categoryData}
-                                            initiallyCollapsed={false}
-                                            columnSize='2'
+                                       onValueChange={onCategoryValueClick}
+                                       dataSource={categoryData}
+                                       initiallyCollapsed={false}
+                                       columnSize='2'
+                    />
+                    <CollapsibleFilter title={"Technologies"}
+                                       onValueChange={onTechnologyValueClick}
+                                       dataSource={technologiesData}
+                                       initiallyCollapsed={false}
+                                       columnSize='2'
                     />
 
 

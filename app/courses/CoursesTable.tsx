@@ -23,6 +23,7 @@ interface Props<T extends string> {
     sortType: string,
     platformsData: { id: number; title: string }[],
     categoryData: { id: number; title: string }[],
+    technologiesData: { id: number; title: string }[],
     coursesData: T,
 
 
@@ -40,8 +41,10 @@ export default function CoursesTable({
                                          sortBy,
                                          sortType,
                                          platformsData,
-                                         categoryData
-}: Props<T>) {
+                                         categoryData,
+                                         technologiesData,
+
+                                     }: Props<T>) {
     // const courses = await prisma.course.findMany({
     //     include: {
     //         category: {
@@ -61,9 +64,9 @@ export default function CoursesTable({
     const [currentPriorityFilter, setCurrentPriorityFilter] = useState('');
     const [currentPlatformFilter, setCurrentPlatformFilter] = useState('');
     const [currentCategoryFilter, setCurrentCategoryFilter] = useState('');
+    const [currentTechnologyFilter, setCurrentTechnologyFilter] = useState('');
 
     const [isCollapsed, setIsCollapsed] = useState(false);
-
 
 
     const filteredCourse = coursesData.filter(course => {
@@ -72,15 +75,20 @@ export default function CoursesTable({
         const matchesPriority = currentPriorityFilter ? course.priority === currentPriorityFilter : true;
         const matchesPlatform = currentPlatformFilter ? course.platformId === currentPlatformFilter : true;
         const matchesCategory = currentCategoryFilter ? course.categoryId === currentCategoryFilter : true;
-        return matchesStatus && matchesDifficulty && matchesPriority && matchesPlatform && matchesCategory;
+        const matchesTechnology = currentTechnologyFilter
+            ? course.technology.some(tech => tech.id === currentTechnologyFilter) : true;
+
+        return matchesStatus && matchesDifficulty && matchesPriority && matchesPlatform && matchesCategory && matchesTechnology;
     });
 
-    const handleClearFilter= () => {
+    const handleClearFilter = () => {
         setCurrentStatusFilter('');
         setCurrentDifficultyFilter('');
         setCurrentPriorityFilter('');
         setCurrentPlatformFilter('');
         setCurrentCategoryFilter('');
+        setCurrentTechnologyFilter('');
+
     }
 
     const courses = filteredCourse;
@@ -97,7 +105,6 @@ export default function CoursesTable({
         : sort(courses).desc(course =>
             sortBy in course ? course[sortBy as keyof Course] : course.id
         );
-
 
     return (
         <>
@@ -128,8 +135,10 @@ export default function CoursesTable({
                     <div className={` ${isCollapsed ? 'hidden' : ''}`}>
                         <CourseFilter platformData={platformsData}
                                       categoryData={categoryData}
+                                      technologiesData={technologiesData}
                                       onPlatformValueClick={(platformId) => setCurrentPlatformFilter(parseInt(platformId))}
                                       onCategoryValueClick={(category) => setCurrentCategoryFilter(parseInt(category))}
+                                      onTechnologyValueClick={(technology) => setCurrentTechnologyFilter(parseInt(technology))}
                                       onStatusValueClick={(status) => setCurrentStatusFilter(status)}
                                       onDifficultyValueClick={(difficulty) => setCurrentDifficultyFilter(difficulty)}
                                       onPriorityValueClick={(priority) => setCurrentPriorityFilter(priority)}
