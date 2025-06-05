@@ -25,10 +25,10 @@ export default function NavBar() {
         {label: "Platforms", href: "/platforms", icon: GiPlatform},
         {label: "Categories", href: "/categories", icon: MdCategory},
         {label: "Technologies", href: "/technologies", icon: IoHardwareChip},
-        {label: "Schedule", href: "/schedule", icon: MdEvent},
-        {label: "Performance", href: "/performance", icon: CgPerformance},
-        {label: "Notes", href: "/notes", icon: MdSpeakerNotes},
-        {label: "Settings", href: "/settings", icon: MdSettingsApplications},
+        // {label: "Schedule", href: "/schedule", icon: MdEvent},
+        // {label: "Performance", href: "/performance", icon: CgPerformance},
+        // {label: "Notes", href: "/notes", icon: MdSpeakerNotes},
+        // {label: "Settings", href: "/settings", icon: MdSettingsApplications},
     ]
 
 
