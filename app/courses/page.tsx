@@ -45,7 +45,7 @@ export default async function CoursesPage( {searchParams} : Props) {
     return (
         <>
 
-            <CoursesTable coursesData={courses} sortBy={sortBy} sortType={sortType} platformsData={platforms}></CoursesTable>
+            <CoursesTable coursesData={courses} sortBy={sortBy} sortType={sortType} platformsData={platforms} categoryData={categories}></CoursesTable>
         </>
     );
 }

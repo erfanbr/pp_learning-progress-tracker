@@ -15,7 +15,7 @@ interface Props<T extends string> {
 
 }
 
-const CollapsibleFilter = <T extends string>({
+const CollapsibleFilterEnums = <T extends string>({
                                                  dataSource,
                                                  title,
                                                  initiallyCollapsed,
@@ -66,4 +66,4 @@ const CollapsibleFilter = <T extends string>({
     );
 }
 
-export default CollapsibleFilter;
+export default CollapsibleFilterEnums;

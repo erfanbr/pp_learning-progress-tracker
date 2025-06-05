@@ -22,6 +22,7 @@ interface Props<T extends string> {
     sortBy: string,
     sortType: string,
     platformsData: { id: number; title: string }[],
+    categoryData: { id: number; title: string }[],
     coursesData: T,
 
 
@@ -34,7 +35,13 @@ type Course = {
 
 };
 
-export default function CoursesTable({coursesData, sortBy, sortType, platformsData}: Props<T>) {
+export default function CoursesTable({
+                                         coursesData,
+                                         sortBy,
+                                         sortType,
+                                         platformsData,
+                                         categoryData
+}: Props<T>) {
     // const courses = await prisma.course.findMany({
     //     include: {
     //         category: {
@@ -53,6 +60,7 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
     const [currentDifficultyFilter, setCurrentDifficultyFilter] = useState('');
     const [currentPriorityFilter, setCurrentPriorityFilter] = useState('');
     const [currentPlatformFilter, setCurrentPlatformFilter] = useState('');
+    const [currentCategoryFilter, setCurrentCategoryFilter] = useState('');
 
     const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -63,7 +71,8 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
         const matchesDifficulty = currentDifficultyFilter ? course.difficulty === currentDifficultyFilter : true;
         const matchesPriority = currentPriorityFilter ? course.priority === currentPriorityFilter : true;
         const matchesPlatform = currentPlatformFilter ? course.platformId === currentPlatformFilter : true;
-        return matchesStatus && matchesDifficulty && matchesPriority && matchesPlatform;
+        const matchesCategory = currentCategoryFilter ? course.categoryId === currentCategoryFilter : true;
+        return matchesStatus && matchesDifficulty && matchesPriority && matchesPlatform && matchesCategory;
     });
 
     const handleClearFilter= () => {
@@ -71,8 +80,8 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
         setCurrentDifficultyFilter('');
         setCurrentPriorityFilter('');
         setCurrentPlatformFilter('');
+        setCurrentCategoryFilter('');
     }
-
 
     const courses = filteredCourse;
 
@@ -117,8 +126,10 @@ export default function CoursesTable({coursesData, sortBy, sortType, platformsDa
                         </button>
                     </h2>
                     <div className={` ${isCollapsed ? 'hidden' : ''}`}>
-                        <CourseFilter dataSource={platformsData}
-                                      onFilterValueClick={(platfromId) => setCurrentPlatformFilter(parseInt(platfromId))}
+                        <CourseFilter platformData={platformsData}
+                                      categoryData={categoryData}
+                                      onPlatformValueClick={(platformId) => setCurrentPlatformFilter(parseInt(platformId))}
+                                      onCategoryValueClick={(category) => setCurrentCategoryFilter(parseInt(category))}
                                       onStatusValueClick={(status) => setCurrentStatusFilter(status)}
                                       onDifficultyValueClick={(difficulty) => setCurrentDifficultyFilter(difficulty)}
                                       onPriorityValueClick={(priority) => setCurrentPriorityFilter(priority)}
