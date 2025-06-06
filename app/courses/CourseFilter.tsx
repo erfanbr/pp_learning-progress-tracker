@@ -1,10 +1,7 @@
 'use client';
 import React, {useState} from "react";
-
 import {statusMap, difficultyMap, priorityMap} from '@/app/components'
-// import {statusMap} from "@/app/components/mappings/StatusMap";
 import CollapsibleFilterEnums from "@/app/courses/CollapsibleFilterEnums";
-
 import CollapsibleFilter from "@/app/courses/CollpsibleFilter";
 import {prisma} from "@/prisma/client";
 
