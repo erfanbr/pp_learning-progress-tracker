@@ -42,7 +42,7 @@ export default async function CoursesPage( {searchParams} : Props) {
     const categories = await prisma.category.findMany();
     const technologies = await prisma.technology.findMany();
 
-    await delay(2000);
+    // await delay(2000);
 
     return (
         <>
