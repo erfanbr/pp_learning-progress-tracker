@@ -5,6 +5,7 @@ import NavBar from "@/app/NavBar";
 import {ThemeModeScript} from 'flowbite-react';
 import {Button, createTheme, ThemeProvider} from "flowbite-react";
 import '../styles/input.css'
+import DynamicTitle from "@/app/DynamicTitle";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -17,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "StudyFlow",
+    // title: "StudyFlow",
     description: "Keep tracks of your learning needs in one place!",
 };
 
@@ -45,6 +46,7 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
+            <DynamicTitle/>
             <NavBar></NavBar>
             <main>
                 <div className="p-4 sm:ml-64">
