@@ -1,7 +1,5 @@
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import {Skeleton, CustomButton} from '@/app/components/index'
 import React from "react";
-import CustomButton from "@/app/components/buttons/CustomButton";
 import {IoAddCircleSharp} from "react-icons/io5";
 
 interface Props{
