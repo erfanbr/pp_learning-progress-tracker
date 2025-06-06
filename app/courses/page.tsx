@@ -4,6 +4,7 @@ import CoursesTable from "@/app/courses/CoursesTable";
 import CourseFilter from "@/app/courses/CourseFilter";
 import CourseEditPageForm from "@/app/courses/[slug]/CourseEditPageForm";
 import {prisma} from "@/prisma/client";
+import delay from "delay";
 
 interface Props {
     searchParams: {
@@ -41,12 +42,7 @@ export default async function CoursesPage( {searchParams} : Props) {
     const categories = await prisma.category.findMany();
     const technologies = await prisma.technology.findMany();
 
-
-
-
-
-
-
+    await delay(2000);
 
     return (
         <>
