@@ -1,20 +1,14 @@
 'use client'
 import React, {useState} from "react";
-import {prisma} from "@/prisma/client";
 import Link from "next/link";
 import {sort} from "fast-sort";
 import {FaCaretDown, FaCaretUp, FaSave} from "react-icons/fa";
 import {IoAddCircleSharp} from "react-icons/io5";
-import CustomButton from "@/app/components/buttons/CustomButton";
-import CourseStatusBadge from "@/app/components/CourseStatusBadge";
+import {CustomButton, CourseStatusBadge, TableHeadWithSorting, CourseDifficultyBadge} from '@/app/components'
 import delay from "delay";
-import axios from "axios";
-import TableHeadWithSorting from "@/app/components/TableHeadWithSorting";
+
 import CourseFilter from "@/app/courses/CourseFilter";
-import {z} from "zod";
-import {createCourseSchema} from "@/app/validationSchema";
-import {statusMap} from "@/app/components/mappings/StatusMap";
-import CourseDifficultyBadge from "@/app/components/CourseDifficultyBadge";
+
 import {MdCancel} from "react-icons/md";
 
 
@@ -45,20 +39,7 @@ export default function CoursesTable({
                                          technologiesData,
 
                                      }: Props<T>) {
-    // const courses = await prisma.course.findMany({
-    //     include: {
-    //         category: {
-    //             select: {
-    //                 title: true,
-    //             },
-    //         },
-    //         platform: {
-    //             select: {
-    //                 title: true,
-    //             }
-    //         }
-    //     },
-    // });
+
     const [currentStatusFilter, setCurrentStatusFilter] = useState('');
     const [currentDifficultyFilter, setCurrentDifficultyFilter] = useState('');
     const [currentPriorityFilter, setCurrentPriorityFilter] = useState('');

@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 
 import CoursesTable from "@/app/courses/CoursesTable";
-import CourseFilter from "@/app/courses/CourseFilter";
-import CourseEditPageForm from "@/app/courses/[slug]/CourseEditPageForm";
 import {prisma} from "@/prisma/client";
 import delay from "delay";
 
