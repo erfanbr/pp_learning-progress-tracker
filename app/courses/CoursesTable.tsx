@@ -10,6 +10,7 @@ import delay from "delay";
 import CourseFilter from "@/app/courses/CourseFilter";
 
 import {MdCancel} from "react-icons/md";
+import PageHeader from "@/app/components/pages/PageHeader";
 
 
 interface Props<T extends string> {
@@ -19,8 +20,6 @@ interface Props<T extends string> {
     categoryData: { id: number; title: string }[],
     technologiesData: { id: number; title: string }[],
     coursesData: T,
-
-
 }
 
 type Course = {
@@ -92,14 +91,8 @@ export default function CoursesTable({
             <div
 
                 className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-                <div
-                    className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                        Courses Detail
-                    </h3>
+                <PageHeader pageHeader="Courses Detail" />
 
-
-                </div>
                 <div
                     className="pb-4 mb-4 rounded-t sm:mb-5 dark:border-gray-600">
 
