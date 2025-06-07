@@ -14,23 +14,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model LearningPath {
+  id         Int      @id @default(autoincrement())
+  title      String   @db.VarChar(255)
+  learnOrder Int      @unique
+  course     Course[]
+}
+
 model Course {
-  id         Int          @id @default(autoincrement())
-  title      String       @db.VarChar(255)
-  status     Status       @default(NOT_STARTED_YET)
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime?    @updatedAt()
-  duration   Float?       @db.Float()
-  lastSeen   String?      @db.VarChar(255)
-  difficulty Difficulty   @default(BEGINNER)
-  technology Technology[]
-  priority   Priority     @default(VERY_LOW)
-  link       String?      @db.VarChar(2048)
-  note       String?      @db.MediumText()
-  categoryId Int
-  category   Category?    @relation(fields: [categoryId], references: [id])
-  platformId Int
-  platform   Platform?    @relation(fields: [platformId], references: [id])
+  id             Int           @id @default(autoincrement())
+  title          String        @db.VarChar(255)
+  status         Status        @default(NOT_STARTED_YET)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime?     @updatedAt()
+  duration       Float?        @db.Float()
+  lastSeen       String?       @db.VarChar(255)
+  difficulty     Difficulty    @default(BEGINNER)
+  technology     Technology[]
+  priority       Priority      @default(VERY_LOW)
+  link           String?       @db.VarChar(2048)
+  note           String?       @db.MediumText()
+  categoryId     Int
+  category       Category?     @relation(fields: [categoryId], references: [id])
+  platformId     Int
+  platform       Platform?     @relation(fields: [platformId], references: [id])
+  LearningPath   LearningPath? @relation(fields: [learningPathId], references: [id])
+  learningPathId Int?
 }
 
 model Platform {
