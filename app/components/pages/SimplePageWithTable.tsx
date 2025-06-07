@@ -12,6 +12,7 @@ import SimpleTable from "@/app/components/pages/SimpleTable";
 interface Props{
     pageHeader : string,
     id : string,
+    apiPath: string,
     sortBy: string,
     sortType: string
 }
@@ -21,11 +22,11 @@ type Element = {
     title: string;
 };
 
-export default async function SimplePageWithTable({pageHeader, id, sortBy, sortType} : Props) {
+export default async function SimplePageWithTable({pageHeader, apiPath, id, sortBy, sortType} : Props) {
     // used for checking loading and skeleton
     // await delay(2000);
 
-    const url : string = `http://localhost:3000/api/${pageHeader.toLowerCase()}`;
+    const url : string = `http://localhost:3000/api/${apiPath}`;
 
     const response = await axios.get(url);
     const elements : {id:number; title: string}[] = response.data;

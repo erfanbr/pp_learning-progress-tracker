@@ -16,7 +16,13 @@ export default async function PlatformPage( {searchParams}: Props) {
 
     return (
         <>
-            <SimplePageWithTable pageHeader={"Platforms"} id={"Platform"} sortBy={sortBy} sortType={sortType}/>
+            <SimplePageWithTable
+                pageHeader={"Platforms"}
+                apiPath={'platforms'}
+                id={"Platform"}
+                sortBy={sortBy}
+                sortType={sortType}
+            />
         </>
     );
 }

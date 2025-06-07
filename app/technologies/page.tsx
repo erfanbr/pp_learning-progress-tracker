@@ -14,7 +14,13 @@ export default function TechnologyPage({searchParams}: Props) {
 
     return (
         <>
-            <SimplePageWithTable pageHeader={"Technologies"} id={"Technology"} sortBy={sortBy} sortType={sortType}/>
+            <SimplePageWithTable
+                pageHeader={"Technologies"}
+                apiPath={'technologies'}
+                id={"Technology"}
+                sortBy={sortBy}
+                sortType={sortType}
+            />
         </>
     );
 }

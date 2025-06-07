@@ -16,7 +16,11 @@ export default function CategoriesPage( {searchParams}: Props) {
 
     return (
         <>
-            <SimplePageWithTable pageHeader={"Categories"} id={"Category"} sortBy={sortBy} sortType={sortType}/>
+            <SimplePageWithTable pageHeader={"Categories"}
+                                 apiPath={"categories"}
+                                 id={"Category"}
+                                 sortBy={sortBy}
+                                 sortType={sortType}/>
         </>
     );
 }
