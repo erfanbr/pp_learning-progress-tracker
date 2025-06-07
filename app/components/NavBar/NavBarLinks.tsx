@@ -11,7 +11,7 @@ const navBarLinks = [
     {label: "Platforms", href: "/platforms", icon: GiPlatform},
     {label: "Categories", href: "/categories", icon: MdCategory},
     {label: "Technologies", href: "/technologies", icon: IoHardwareChip},
-    {label: "Learning Path", href: "/learning_path", icon: GiPathDistance},
+    {label: "Learning Path", href: "/learning_paths", icon: GiPathDistance},
     // {label: "Schedule", href: "/schedule", icon: MdEvent},
     // {label: "Performance", href: "/performance", icon: CgPerformance},
     // {label: "Notes", href: "/notes", icon: MdSpeakerNotes},
