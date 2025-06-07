@@ -15,31 +15,41 @@ datasource db {
 }
 
 model LearningPath {
-  id         Int      @id @default(autoincrement())
-  title      String   @db.VarChar(255)
-  learnOrder Int      @unique
-  course     Course[]
+  id          Int                  @id @default(autoincrement())
+  title       String               @db.VarChar(255)
+  description String?              @db.MediumText()
+  courses     LearningPathCourse[]
 }
 
 model Course {
+  id                 Int                  @id @default(autoincrement())
+  title              String               @db.VarChar(255)
+  status             Status               @default(NOT_STARTED_YET)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime?            @updatedAt()
+  duration           Float?               @db.Float()
+  lastSeen           String?              @db.VarChar(255)
+  difficulty         Difficulty           @default(BEGINNER)
+  technology         Technology[]
+  priority           Priority             @default(VERY_LOW)
+  link               String?              @db.VarChar(2048)
+  note               String?              @db.MediumText()
+  categoryId         Int
+  category           Category?            @relation(fields: [categoryId], references: [id])
+  platformId         Int
+  platform           Platform?            @relation(fields: [platformId], references: [id])
+  LearningPathCourse LearningPathCourse[]
+}
+
+model LearningPathCourse {
   id             Int           @id @default(autoincrement())
-  title          String        @db.VarChar(255)
-  status         Status        @default(NOT_STARTED_YET)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime?     @updatedAt()
-  duration       Float?        @db.Float()
-  lastSeen       String?       @db.VarChar(255)
-  difficulty     Difficulty    @default(BEGINNER)
-  technology     Technology[]
-  priority       Priority      @default(VERY_LOW)
-  link           String?       @db.VarChar(2048)
-  note           String?       @db.MediumText()
-  categoryId     Int
-  category       Category?     @relation(fields: [categoryId], references: [id])
-  platformId     Int
-  platform       Platform?     @relation(fields: [platformId], references: [id])
-  LearningPath   LearningPath? @relation(fields: [learningPathId], references: [id])
+  learningPath   LearningPath? @relation(fields: [learningPathId], references: [id])
   learningPathId Int?
+  course         Course        @relation(fields: [courseId], references: [id])
+  courseId       Int
+  order          Int
+
+  @@unique([learningPathId, courseId])
 }
 
 model Platform {
