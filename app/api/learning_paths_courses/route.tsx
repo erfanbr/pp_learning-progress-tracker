@@ -3,24 +3,26 @@ import {prisma} from "@/prisma/client";
 import {createLearningPathSchema, createPlatformSchema} from "@/app/validationSchema";
 
 export async function GET(request: NextRequest) {
-    const learningPaths = await prisma.learningPath.findMany({
+    const result = await prisma.learningPathCourse.findMany({
         include: {
-            courses: {
+            course: {
                 select: {
                     id: true,
-                    course: {
-                        select: {
-                            title: true,
-                            categoryId: true,
-                        }
-                    }
+                    title: true
+                },
+            },
+            learningPath: {
+                select: {
+                    id: true,
+                    title: true
                 }
             }
         }
     });
 
 
-    return NextResponse.json(learningPaths);
+    return NextResponse.json(result);
+
 }
 
 
@@ -30,18 +32,17 @@ export async function POST(request: NextRequest) {
     const validatedData = createLearningPathSchema.safeParse(body);
     if (!validatedData.success) return NextResponse.json({error: validatedData.error.errors}, {status: 400})
 
-    const learningPath = await prisma.learningPath.findFirst({
+    const learningPath = await prisma.learningPathCourse.findFirst({
         where: {
             title: body.title
         }
     })
 
-    if (learningPath) return NextResponse.json({error: "This Learning Path already exists"}, {status: 400});
+    if (learningPath) return NextResponse.json({error: "This Learning Path Course already exists"}, {status: 400});
 
     const newLearningPath = await prisma.learningPath.create({
         data: {
             title: body.title,
-            description: body.description
         }
     })
 

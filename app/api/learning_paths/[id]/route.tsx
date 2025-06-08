@@ -10,6 +10,24 @@ export async function GET(request: NextRequest, {params}: Props) {
     const result = await prisma.learningPath.findUnique({
         where: {
             id: parseInt(params.id)
+        },
+        include: {
+            courses: {
+                orderBy: {
+                    order: 'asc',
+                },
+                select: {
+                    id: true,
+                    order: true,
+                    course: {
+                        select: {
+                            id: true,
+                            title: true
+                        }
+                    },
+
+                }
+            }
         }
     });
 
