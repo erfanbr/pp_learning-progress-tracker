@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
     // title: "StudyFlow",
-    description: "Keep tracks of your learning needs in one place!",
+    description: "Keep tracks of your learning_paths_courses needs in one place!",
 };
 
 const erfansTheme = createTheme({
