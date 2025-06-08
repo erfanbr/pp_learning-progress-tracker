@@ -18,8 +18,9 @@ export async function GET(request: NextRequest, {params}: Props) {
             },
             course: {
                 select: {
+                    id: true,
                     title: true,
-                    categoryId: true,
+                    status: true,
                 }
             }
         }

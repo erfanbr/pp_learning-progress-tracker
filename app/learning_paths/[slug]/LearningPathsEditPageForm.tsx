@@ -3,15 +3,16 @@ import Link from "next/link";
 import FormInputFieldElement from "@/app/components/formInputs/FormInputFieldElement";
 import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDropdownElement";
 import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInputsDropdownElementEnums";
-import {difficultyMap, priorityMap, statusMap} from "@/app/components";
+import {CourseStatusBadge, difficultyMap, priorityMap, statusMap} from "@/app/components";
 import FormCheckBoxElement from "@/app/components/formInputs/FormCheckBoxElement";
 import CustomButton from "../../components/buttons/CustomButton";
-import {FaTrashCan} from "react-icons/fa6";
+import {FaMagnifyingGlass, FaTrashCan} from "react-icons/fa6";
 import Spinner from "@/app/components/Spinner";
 import {FaSave} from "react-icons/fa";
 import ConfirmModal from "@/app/components/Modal/ConfirmModal";
 import {z} from "zod";
 import {createLearningPathSchema} from "@/app/validationSchema";
+import {CourseStatusLearningPathBadge} from "@/app/components/CourseStatusBadge";
 
 // type LearningPaths = z.infer<typeof createLearningPathSchema>;
 
@@ -49,207 +50,235 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData}: Pr
         <>
             <div>
 
-                <div>{learningPathsCoursesData[0]?.learningPath?.title}</div>
-                <div>{learningPathsCoursesData[0]?.learningPath?.description}</div>
-                {/*<div>{learningPathsCoursesData!.description}</div>*/}
+                {/*<div>{learningPathsCoursesData[0]?.learningPath?.title}</div>*/}
+                {/*<div>{learningPathsCoursesData[0]?.learningPath?.description}</div>*/}
 
-                <div className={"text-amber-500"}>****************************************</div>
 
-                <h2>Courses:</h2>
-                <div className={"text-amber-500"}>****************************************</div>
+                {/*<div className={"text-amber-500"}>****************************************</div>*/}
 
-                {/*TODO: Style this page nicer*/}
+                {/*<h2>Courses:</h2>*/}
+                {/*<div className={"text-amber-500"}>****************************************</div>*/}
+
                 {/*TODO: Style add drag option to change order for each elements*/}
 
-                <ul>
-                    {learningPathsCoursesData.map((c) => (
-                        <li key={c.id}>{c.course.title} - Order is: {c.order}</li>
-                    ))}
-                </ul>
+
+                <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                    {/*// <!-- Modal header -->*/}
+                    <div
+                        className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                            View Learning Path
+                        </h3>
+                        <Link
+                            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            href="/learning_paths/">
+                            <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd"
+                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                      clipRule="evenodd"></path>
+                            </svg>
+                        </Link>
+                    </div>
+                    {/*// <!-- Modal body -->*/}
+                    <form>
+                        <div className="grid gap-4 mb-4 sm:grid-cols-4">
 
 
-                {/*<div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">*/}
-                {/*// <!-- Modal header -->*/}
-                {/*    <div*/}
-                {/*        className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">*/}
-                {/*        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">*/}
-                {/*            Edit a Course*/}
-                {/*        </h3>*/}
-                {/*        <Link*/}
-                {/*            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"*/}
-                {/*            href="/courses/">*/}
-                {/*            <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"*/}
-                {/*                 xmlns="http://www.w3.org/2000/svg">*/}
-                {/*                <path fillRule="evenodd"*/}
-                {/*                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"*/}
-                {/*                      clipRule="evenodd"></path>*/}
-                {/*            </svg>*/}
-                {/*        </Link>*/}
-                {/*    </div>*/}
-                {/*// <!-- Modal body -->*/}
-                {/*    <form onSubmit={onFormSubmit}>*/}
-                {/*        <div className="grid gap-4 mb-4 sm:grid-cols-4">*/}
+                            <FormInputFieldElement
+                                title={"Title"}
+                                id={"title"}
+                                columnSize={"2"}
+                                placeholder={`Course Title`}
+                                defaultValue={learningPathsCoursesData[0]?.learningPath?.title}
+                                isDisabled={true}
+                                isReadonly={true}
+                            />
+
+                            {/*Note Area*/}
+                            <div className={"col-span-4"}>
+                                <label htmlFor="description"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                <textarea id="description"
+                                          defaultValue={learningPathsCoursesData[0]?.learningPath?.description}
+                                          rows={4}
+                                          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                          placeholder="Write your thoughts here...">
+
+                                </textarea>
+                            </div>
+
+                            <div className={"col-span-4 ml-2.5 mt-2.5"}>
+
+                                <ol className="relative border-s border-gray-200 dark:border-gray-700">
+                                    {learningPathsCoursesData.map((c) => (
+                                        <li className="mb-10 ms-6" key={c.id}>
+                                        <span
+                                            className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-2 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                                            <svg className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true"
+                                                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                            </svg>
+                                        </span>
+                                            <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                                                {c.course.title}
+                                                <CourseStatusLearningPathBadge status={c.course.status} />
+                                                {/*<span*/}
+                                                {/*    className="bg-blue-100 text-blue-800 text-m font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300 ms-3">*/}
+                                                {/*    */}
+                                                {/*    /!*{c.course.status}*!/*/}
+                                                {/*</span>*/}
+                                            </h3>
+                                            <time
+                                                className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                                                {"Learning Order: " + c.order}
+                                            </time>
+                                            <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Get
+                                                access to over 20+ pages including a dashboard layout, charts, kanban board,
+                                                calendar, and pre-order E-commerce & Marketing pages.</p>
+                                            {/*<a href="#"*/}
+                                            {/*   className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">*/}
+                                            {/*    <svg className="w-3.5 h-3.5 me-2.5" aria-hidden="true"*/}
+                                            {/*         xmlns="http://www.w3.org/2000/svg" fill="currentColor"*/}
+                                            {/*         viewBox="0 0 20 20">*/}
+                                            {/*        <path*/}
+                                            {/*            d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>*/}
+                                            {/*        <path*/}
+                                            {/*            d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>*/}
+                                            {/*    </svg>*/}
+                                            {/*    Download ZIP</a>*/}
+
+                                                    <div className='text-right mt-2.5'>
+                                                        <CustomButton icon={FaMagnifyingGlass}
+                                                                      buttonStyleType={"discard"}
+                                                                      type={"button"}
+                                                                      href={`/courses/${c.course.id}`}>Course Details
+                                                        </CustomButton>
+                                                    </div>
+                                        </li>
+                                    ))}
+
+                                    {/*<li className="mb-10 ms-6">*/}
+                                    {/*    <span*/}
+                                    {/*        className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-2 ring-white dark:ring-gray-900 dark:bg-blue-900">*/}
+                                    {/*        <svg className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true"*/}
+                                    {/*             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">*/}
+                                    {/*            <path*/}
+                                    {/*                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>*/}
+                                    {/*        </svg>*/}
+                                    {/*    </span>*/}
+                                    {/*    <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Flowbite*/}
+                                    {/*        Application UI v2.0.0 <span*/}
+                                    {/*            className="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300 ms-3">Latest</span>*/}
+                                    {/*    </h3>*/}
+                                    {/*    <time*/}
+                                    {/*        className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Released*/}
+                                    {/*        on January 13th, 2022*/}
+                                    {/*    </time>*/}
+                                    {/*    <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Get*/}
+                                    {/*        access to over 20+ pages including a dashboard layout, charts, kanban board,*/}
+                                    {/*        calendar, and pre-order E-commerce & Marketing pages.</p>*/}
+                                    {/*    <a href="#"*/}
+                                    {/*       className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">*/}
+                                    {/*        <svg className="w-3.5 h-3.5 me-2.5" aria-hidden="true"*/}
+                                    {/*             xmlns="http://www.w3.org/2000/svg" fill="currentColor"*/}
+                                    {/*             viewBox="0 0 20 20">*/}
+                                    {/*            <path*/}
+                                    {/*                d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>*/}
+                                    {/*            <path*/}
+                                    {/*                d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>*/}
+                                    {/*        </svg>*/}
+                                    {/*        Download ZIP</a>*/}
+                                    {/*</li>*/}
 
 
-                {/*            <FormInputFieldElement*/}
-                {/*                title={"Title"}*/}
-                {/*                id={"title"}*/}
-                {/*                columnSize={"2"}*/}
-                {/*                placeholder={`Course Title`}*/}
-                {/*                defaultValue={courseData.title}*/}
-                {/*                register={register('title')}*/}
-                {/*                error={errors.title?.message}*/}
-                {/*            />*/}
-
-                {/*            <FormInputFieldElement*/}
-                {/*                title={"Link"}*/}
-                {/*                id={"link"}*/}
-                {/*                columnSize={"2"}*/}
-                {/*                placeholder={'URL to course content'}*/}
-                {/*                defaultValue={courseData.link}*/}
-                {/*                register={register('link')}*/}
-                {/*                error={errors.link?.message}*/}
-                {/*            />*/}
 
 
-                {/*            <FormInputDropDownElement title={'Platform'}*/}
-                {/*                                      id={'platform'}*/}
-                {/*                                      dataSource={platforms}*/}
-                {/*                                      defaultValue={courseData.platformId}*/}
-                {/*                                      columnSize={'1'}*/}
-                {/*                                      register={register('platformId', {valueAsNumber: true})}*/}
-                {/*                                      error={errors.platformId?.message}*/}
-                {/*            />*/}
+                                </ol>
 
 
-                {/*            <FormInputDropDownElementEnums title={'Status'}*/}
-                {/*                                           id={'status'}*/}
-                {/*                                           dataSource={statusMap}*/}
-                {/*                                           defaultValue={courseData.status}*/}
-                {/*                                           columnSize={'1'}*/}
-                {/*                                           register={register('status')}*/}
-                {/*                                           error={errors.status?.message}*/}
-                {/*            />*/}
-
-                {/*            <FormInputDropDownElementEnums title={'Difficulty'}*/}
-                {/*                                           id={'difficulty'}*/}
-                {/*                                           dataSource={difficultyMap}*/}
-                {/*                                           defaultValue={courseData.difficulty}*/}
-                {/*                                           columnSize={'1'}*/}
-                {/*                                           register={register('difficulty')}*/}
-                {/*                                           error={errors.difficulty?.message}*/}
-                {/*            />*/}
+                            </div>
 
 
-                {/*            <FormInputDropDownElement title={'Category'}*/}
-                {/*                                      id={'category'}*/}
-                {/*                                      dataSource={categories}*/}
-                {/*                                      defaultValue={courseData.categoryId}*/}
-                {/*                                      columnSize={'1'}*/}
-                {/*                                      register={register('categoryId', {valueAsNumber: true})}*/}
-                {/*                                      error={errors.categoryId?.message}*/}
-                {/*            />*/}
-
-                {/*            <FormInputDropDownElementEnums title={'Priority'}*/}
-                {/*                                           id={'priority'}*/}
-                {/*                                           dataSource={priorityMap}*/}
-                {/*                                           defaultValue={courseData.priority}*/}
-                {/*                                           columnSize={'1'}*/}
-                {/*                                           register={register('priority')}*/}
-                {/*                                           error={errors.priority?.message}*/}
-                {/*            />*/}
-
-
-                {/*            /!*TODO: format time nicer => based on timepicker from flowbite*!/*/}
-                {/*            /!*<div>*!/*/}
-                {/*            /!*    <label htmlFor="duration"*!/*/}
-                {/*            /!*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duration</label>*!/*/}
-                {/*            /!*    <input type="number" value="399"  id="duration" {...register('duration')}*!/*/}
-                {/*            /!*           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"*!/*/}
-                {/*            /!*           placeholder="$299"/>*!/*/}
-                {/*            /!*</div>*!/*/}
-                {/*            <FormInputFieldElement*/}
-                {/*                title={"Duration (Hours)"}*/}
-                {/*                id={"duration"}*/}
-                {/*                type={'number'}*/}
-                {/*                columnSize={"1"}*/}
-                {/*                placeholder={'Total hours'}*/}
-                {/*                defaultValue={courseData.duration}*/}
-                {/*                register={register('duration', {valueAsNumber: true})}*/}
-                {/*                error={errors.duration?.message}*/}
-                {/*            />*/}
-
-                {/*            <FormInputFieldElement*/}
-                {/*                title={"Last Seen"}*/}
-                {/*                id={"lastSeen"}*/}
-                {/*                columnSize={"2"}*/}
-                {/*                placeholder={'Last seen video / episode'}*/}
-                {/*                defaultValue={courseData.lastSeen}*/}
-                {/*                register={register('lastSeen')}*/}
-                {/*                error={errors.lastSeen?.message}*/}
-                {/*            />*/}
+                            {/*{learningPathsCoursesData.map((c) => (*/}
+                            {/*    <div key={c.id} className={"col-span-4"}>*/}
+                            {/*        <FormInputFieldElement*/}
+                            {/*            title={"Learning Order: " + c.order}*/}
+                            {/*            id={c.id}*/}
+                            {/*            columnSize={"4"}*/}
+                            {/*            placeholder={`Course Title`}*/}
+                            {/*            defaultValue={c.course.title}*/}
+                            {/*            isDisabled={true}*/}
+                            {/*            isReadonly={true}*/}
+                            {/*        />*/}
+                            {/*        <div className='text-right mt-2.5'>*/}
+                            {/*            <CustomButton icon={FaMagnifyingGlass}*/}
+                            {/*                          buttonStyleType={"outline_primary"}*/}
+                            {/*                          type={"button"}*/}
+                            {/*                          href={`/courses/${c.course.id}`}>Course Details*/}
+                            {/*            </CustomButton>*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
+                            {/*))}*/}
 
 
-                {/*            /!*Multiple select area*!/*/}
-                {/*            <div className={"col-span-4"}>*/}
-                {/*                <label htmlFor="technologies"*/}
-                {/*                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technologies*/}
-                {/*                </label>*/}
-
-                {/*                <div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">*/}
-                {/*                    {technologies.map(technology => (*/}
-                {/*                        <FormCheckBoxElement*/}
-                {/*                            title={technology.title}*/}
-                {/*                            key={technology.id}*/}
-                {/*                            id={technology.id}*/}
-                {/*                            value={technology.id.toString()}*/}
-                {/*                            isCheck={currentTechnologiesId.includes(technology.id)}*/}
-                {/*                            register={register('technology')}/>*/}
-                {/*                    ))}*/}
-                {/*                </div>*/}
-
-                {/*                {errors.technology?.message && (*/}
-                {/*                    <p className="text-red-500 text-sm mt-1">{errors.technology.message}</p>*/}
-                {/*                )}*/}
-                {/*            </div>*/}
+                            {/*<FormInputDropDownElement title={'Platform'}*/}
+                            {/*                          id={'platform'}*/}
+                            {/*                          dataSource={platforms}*/}
+                            {/*                          defaultValue={learningPathsCoursesData.platformId}*/}
+                            {/*                          columnSize={'1'}*/}
+                            {/*                          register={register('platformId', {valueAsNumber: true})}*/}
+                            {/*                          error={errors.platformId?.message}*/}
+                            {/*/>*/}
 
 
-                {/*            /!*Note Area*!/*/}
-                {/*            <div className={"col-span-4"}>*/}
-                {/*                <label htmlFor="note"*/}
-                {/*                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes</label>*/}
-                {/*                <textarea id="note" rows={4} {...register('note')}*/}
-                {/*                          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"*/}
-                {/*                          placeholder="Write your thoughts here..."></textarea>*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
+                            {/*Multiple select area*/}
+                            {/*<div className={"col-span-4"}>*/}
+                            {/*    <label htmlFor="technologies"*/}
+                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technologies*/}
+                            {/*    </label>*/}
 
-                {/*        <div className="text-right">*/}
-                {/*            <CustomButton icon={FaTrashCan}*/}
-                {/*                          type={'button'}*/}
-                {/*                          buttonStyleType={'danger'}*/}
-                {/*                          onClick={handleDelete}*/}
-                {/*                          isDisabled={isDeleted}>*/}
-                {/*                Delete {isDeleted && <Spinner/>}*/}
-                {/*            </CustomButton>*/}
+                            {/*    <div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">*/}
+                            {/*        {technologies.map(technology => (*/}
+                            {/*            <FormCheckBoxElement*/}
+                            {/*                title={technology.title}*/}
+                            {/*                key={technology.id}*/}
+                            {/*                id={technology.id}*/}
+                            {/*                value={technology.id.toString()}*/}
+                            {/*                isCheck={currentTechnologiesId.includes(technology.id)}*/}
+                            {/*                register={register('technology')}/>*/}
+                            {/*        ))}*/}
+                            {/*    </div>*/}
 
-                {/*            <CustomButton*/}
-                {/*                icon={FaSave}*/}
-                {/*                buttonStyleType={'primary'}*/}
-                {/*                isDisabled={isSubmitted}>*/}
-                {/*                Save Changes {isSubmitted && <Spinner/>}*/}
-                {/*            </CustomButton>*/}
-                {/*        </div>*/}
-                {/*    </form>*/}
+                            {/*    {errors.technology?.message && (*/}
+                            {/*        <p className="text-red-500 text-sm mt-1">{errors.technology.message}</p>*/}
+                            {/*    )}*/}
+                            {/*</div>*/}
 
-                {/*    <ConfirmModal*/}
-                {/*        isOpen={showModal}*/}
-                {/*        title="Confirm Deletion"*/}
-                {/*        message={`Are you sure you want to delete --> ID: ${id}, Title: ${courseData.title}? `}*/}
-                {/*        onConfirm={confirmDelete}*/}
-                {/*        onCancel={() => setShowModal(false)}*/}
-                {/*    />*/}
-                {/*</div>*/}
+
+                        </div>
+
+                        {/*<div className="text-right">*/}
+                        {/*    <CustomButton icon={FaTrashCan}*/}
+                        {/*                  type={'button'}*/}
+                        {/*                  buttonStyleType={'danger'}*/}
+                        {/*                  onClick={handleDelete}*/}
+                        {/*                  isDisabled={isDeleted}>*/}
+                        {/*        Delete {isDeleted && <Spinner/>}*/}
+                        {/*    </CustomButton>*/}
+
+                        {/*    <CustomButton*/}
+                        {/*        icon={FaSave}*/}
+                        {/*        buttonStyleType={'primary'}*/}
+                        {/*        isDisabled={isSubmitted}>*/}
+                        {/*        Save Changes {isSubmitted && <Spinner/>}*/}
+                        {/*    </CustomButton>*/}
+                        {/*</div>*/}
+                    </form>
+
+
+                </div>
 
             </div>
         </>

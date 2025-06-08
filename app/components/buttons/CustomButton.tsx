@@ -4,7 +4,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import {Button} from "flowbite-react";
 
-type ButtonStyleType = "primary" | "danger" | "discard";
+type ButtonStyleType = "primary" | "danger" | "discard" | "outline_primary";
 type ButtonType = 'reset' | 'submit' | 'button';
 
 type CancelButtonProps = PropsWithChildren<{
@@ -38,6 +38,13 @@ const variantClasses: Record<ButtonStyleType, string> = {
     focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800
     dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700
   `,
+
+    outline_primary: `
+    px-5 py-2.5 mr-2.5  text-zinc-200 inline-flex items-center font-medium text-gray-900 focus:outline-none
+    bg-white rounded-3xl border border-primary-500 hover:bg-gray-100 hover:text-blue-700
+    focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800
+    dark:text-primary-500 dark:border-primary-500 dark:hover:text-white dark:hover:bg-primary-500
+  `,
 }
 
 export default function CustomButton({href, icon: Icon, children, type = 'submit', buttonStyleType = 'primary', isDisabled = false, onClick}: CancelButtonProps) {
@@ -45,7 +52,7 @@ export default function CustomButton({href, icon: Icon, children, type = 'submit
         return (
             <>
                 <Link type={type} href={href} className={clsx(variantClasses[buttonStyleType])}>
-                    <Icon className="mr-1.5 -ml-1.5 w-5 h-5"/>{children}
+                    <Icon className="mr-1.5 -ml-1.5 w-4 h-4"/>{children}
                 </Link>
             </>
         );
@@ -54,7 +61,7 @@ export default function CustomButton({href, icon: Icon, children, type = 'submit
     return (
         <>
             <button type={type} className={clsx(variantClasses[buttonStyleType])} disabled={isDisabled} onClick={onClick}>
-                <Icon className="mr-1.5 -ml-1.5 w-5 h-5"/>{children}
+                <Icon className="mr-1.5 -ml-1.5 w-4 h-4"/>{children}
             </button>
         </>
     )
