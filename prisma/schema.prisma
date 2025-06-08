@@ -34,6 +34,7 @@ model Course {
   priority           Priority             @default(VERY_LOW)
   link               String?              @db.VarChar(2048)
   note               String?              @db.MediumText()
+  description        String?              @db.MediumText()
   categoryId         Int
   category           Category?            @relation(fields: [categoryId], references: [id])
   platformId         Int

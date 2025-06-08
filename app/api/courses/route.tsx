@@ -61,6 +61,7 @@ export async function POST(request: NextRequest) {
             note: body.note,
             categoryId: body.categoryId,
             platformId: body.platformId,
+            description: body.description,
             technology: {
 
                 connect: body.technology.map((tech: {id:number}  )  => ({

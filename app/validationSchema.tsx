@@ -60,5 +60,6 @@ export const createCourseSchema = z.object({
     duration: z.number({invalid_type_error: 'Please enter a valid duration'}).max(2048).nullable(),
     lastSeen: z.string().max(150),
     technology: z.array(z.coerce.string()).nonempty("Please select at least one technology"),
-    note: z.string().max(32688)
+    note: z.string().max(32688).nullable(),
+    description: z.string().max(32688).nullable()
 })

@@ -146,6 +146,15 @@ export default function CourseEditPageForm({id, platformsData, categoriesData, t
                                 register={register('link')}
                                 error={errors.link?.message}
                             />
+                            <FormInputFieldElement
+                                title={"Description"}
+                                id={"description"}
+                                columnSize={"4"}
+                                placeholder={`Course Description`}
+                                defaultValue={courseData.description}
+                                register={register('description')}
+                                error={errors.title?.message}
+                            />
 
 
                             <FormInputDropDownElement title={'Platform'}

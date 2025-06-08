@@ -87,6 +87,7 @@ export async function PUT(request: NextRequest, {params}: Props) {
             note: body.note,
             categoryId: body.categoryId,
             platformId: body.platformId,
+            description: body.description,
             technology: {
 
                 connect: body.technology.map((tech: { id: number }) => ({
