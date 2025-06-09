@@ -2,7 +2,7 @@
 Keep tracks of your learning needs in one place! 
 
 
-🔴🔴 IMPORTANT: That this app is still work in progress 🔴🔴 
+🔴🔴 IMPORTANT: That this app is still a work in progress 🔴🔴 
 
 
 
