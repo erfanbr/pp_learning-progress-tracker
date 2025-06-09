@@ -3,7 +3,7 @@ Keep tracks of your learning needs in one place!
 
 
 ## Description
-StudyFlow is a web application that allow user to add courses and keep tracks of its learning progress.
+StudyFlow is a web application that allows users to add courses and keep track of their learning progress. Additionally, users can create a learning path and study each course based on that path.
 
 
 
@@ -16,7 +16,7 @@ StudyFlow is a web application that allow user to add courses and keep tracks of
 - [Screenshots](#screenshots)
 - [Badges](#badges)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
 
 ### Features
  - Adding / modifying / deleting courses, technologies, platforms, categories (Done)
@@ -29,6 +29,17 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 MIT
 
 ### Screenshots
+Courses Page:
+![img.png](screenshots_images/course_page_sc.png)
+
+Courses Edit Page:
+![img.png](screenshots_images/course_edit_sc.png)
+
+Platforms Page: 
+![img.png](screenshots_images/platforms_page_sc.png)
+
+Platform detail page:
+![img.png](screenshots_images/platform_edit_sc.png)
 
 
 
