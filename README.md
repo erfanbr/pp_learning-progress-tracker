@@ -1,5 +1,10 @@
 # StudyFlow
-Keep tracks of your learning needs in one place!
+Keep tracks of your learning needs in one place! 
+
+
+🔴🔴 IMPORTANT: That this app is still work in progress 🔴🔴 
+
+
 
 
 ## Description
@@ -21,8 +26,8 @@ StudyFlow is a web application that allows users to add courses and keep track o
 ### Features
  - Adding / modifying / deleting courses, technologies, platforms, categories (Done)
  - Filtering courses based on categories, priority, difficulty (Done)
- - User authenticaiton (TBA)
  - Creating a learning path (TBA)
+ - User authentication (TBA)
  - Responsive layout(TBA)
 
 ### License
