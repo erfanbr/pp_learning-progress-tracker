@@ -1,18 +1,11 @@
-import React from "react";
+'use client'
+import React, {useState} from "react";
 import Link from "next/link";
 import FormInputFieldElement from "@/app/components/formInputs/FormInputFieldElement";
-import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDropdownElement";
-import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInputsDropdownElementEnums";
-import {CourseStatusBadge, difficultyMap, priorityMap, statusMap} from "@/app/components";
-import FormCheckBoxElement from "@/app/components/formInputs/FormCheckBoxElement";
 import CustomButton from "../../components/buttons/CustomButton";
 import {FaMagnifyingGlass, FaTrashCan} from "react-icons/fa6";
-import Spinner from "@/app/components/Spinner";
-import {FaSave} from "react-icons/fa";
-import ConfirmModal from "@/app/components/Modal/ConfirmModal";
-import {z} from "zod";
-import {createLearningPathSchema} from "@/app/validationSchema";
 import {CourseStatusLearningPathBadge} from "@/app/components/CourseStatusBadge";
+import {FaCaretDown, FaCaretUp} from "react-icons/fa";
 
 // type LearningPaths = z.infer<typeof createLearningPathSchema>;
 
@@ -46,22 +39,13 @@ interface Props {
 }
 
 export default function LearningPathsEditPageForm({learningPathsCoursesData}: Props) {
+    const [isTitleCollapsed, setTitleCollapsed] = useState(true);
+    const [isDescriptionCollapsed, setDescriptionCollapsed] = useState(true);
+    const [isLearningPathCollapsed, setLearningPathCollapsed] = useState(false);
+
     return (
         <>
             <div>
-
-                {/*<div>{learningPathsCoursesData[0]?.learningPath?.title}</div>*/}
-                {/*<div>{learningPathsCoursesData[0]?.learningPath?.description}</div>*/}
-
-
-                {/*<div className={"text-amber-500"}>****************************************</div>*/}
-
-                {/*<h2>Courses:</h2>*/}
-                {/*<div className={"text-amber-500"}>****************************************</div>*/}
-
-                {/*TODO: Style add drag option to change order for each elements*/}
-
-
                 <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                     {/*// <!-- Modal header -->*/}
                     <div
@@ -81,58 +65,106 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData}: Pr
                         </Link>
                     </div>
                     {/*// <!-- Modal body -->*/}
-                    <form>
-                        <div className="grid gap-4 mb-4 sm:grid-cols-4">
 
 
-                            <FormInputFieldElement
-                                title={"Title"}
-                                id={"title"}
-                                columnSize={"2"}
-                                placeholder={`Course Title`}
-                                defaultValue={learningPathsCoursesData[0]?.learningPath?.title}
-                                isDisabled={true}
-                                isReadonly={true}
-                            />
+                    {/*Tittle Section*/}
+                    <div id="accordion-open" data-accordion="open">
+                        <h2 id="accordion-open-heading-1">
+                            <button type="button"
+                                    onClick={() => setTitleCollapsed(!isTitleCollapsed)}
+                                    className={`flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 ${isTitleCollapsed ? 'dark:bg-gray-800' : 'dark:bg-gray-700'} dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 gap-3`}
+                                    data-accordion-target="#accordion-open-body-1" aria-expanded="true"
+                                    aria-controls="accordion-open-body-1">
+                                <span className="flex items-center"><svg className="w-5 h-5 me-2 shrink-0"
+                                                                         fill="currentColor" viewBox="0 0 20 20"
+                                                                         xmlns="http://www.w3.org/2000/svg"><path
+                                    fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd"></path></svg> Title: </span>
+                                {isTitleCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
+                            </button>
+                        </h2>
+                        <div id="accordion-open-body-1" className={` ${isTitleCollapsed ? 'hidden' : ''}`} aria-labelledby="accordion-open-heading-1">
+                            <div
+                                className="p-10 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                                <p className="mb-2 text-gray-500 dark:text-gray-400">
+                                    {learningPathsCoursesData[0]?.learningPath?.title}
+                                </p>
 
-                            {/*Note Area*/}
-                            <div className={"col-span-4"}>
-                                <label htmlFor="description"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                <textarea id="description"
-                                          defaultValue={learningPathsCoursesData[0]?.learningPath?.description}
-                                          rows={4}
-                                          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                          placeholder="Write your thoughts here...">
-
-                                </textarea>
                             </div>
+                        </div>
 
-                            <div className={"col-span-4 ml-2.5 mt-2.5"}>
+                        {/*Description Section*/}
+                        <h2 id="accordion-open-heading-2">
+                            <button type="button"
+                                    onClick={() => setDescriptionCollapsed(!isDescriptionCollapsed)}
+                                    className={`flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 ${isDescriptionCollapsed ? 'dark:bg-gray-800' : 'dark:bg-gray-700'} dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 gap-3`}
+                                    data-accordion-target="#accordion-open-body-2" aria-expanded="false"
+                                    aria-controls="accordion-open-body-2">
+                                <span className="flex items-center"><svg className="w-5 h-5 me-2 shrink-0"
+                                                                         fill="currentColor" viewBox="0 0 20 20"
+                                                                         xmlns="http://www.w3.org/2000/svg"><path
+                                    fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd"></path></svg>Description:</span>
+                                {isDescriptionCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
+                            </button>
+                        </h2>
+                        <div id="accordion-open-body-2" className={` ${isDescriptionCollapsed ? 'hidden' : ''}`} aria-labelledby="accordion-open-heading-2">
+                            <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                                <p className="mb-2 text-gray-500 dark:text-gray-400">
+                                    {learningPathsCoursesData[0]?.learningPath?.description}
+                                </p>
 
-                                <ol className="relative border-s border-gray-200 dark:border-gray-700">
-                                    {learningPathsCoursesData.map((c) => (
-                                        <li className="mb-10 ms-6" key={c.id}>
-                                        <span
-                                            className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-2 ring-white dark:ring-gray-100 dark:bg-primary-500">
-                                            <svg className="w-2.5 h-2.5 text-blue-800 dark:text-gray-100" aria-hidden="true"
-                                                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                                            </svg>
-                                        </span>
-                                            <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                                                {c.course.title}
-                                                <CourseStatusLearningPathBadge status={c.course.status} />
+                            </div>
+                        </div>
 
-                                            </h3>
-                                            <time
-                                                className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                                                {"Learning Order: " + c.order}
-                                            </time>
-                                            <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-                                                {c.course.description}
-                                            </p>
+
+
+                        {/*Learning Path Section*/}
+                        <h2 id="accordion-open-heading-3">
+                            <button type="button"
+                                    onClick={() => setLearningPathCollapsed(!isLearningPathCollapsed)}
+                                    className={`flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 ${isLearningPathCollapsed ? 'dark:bg-gray-800' : 'dark:bg-gray-700'} dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 gap-3`}
+                                    data-accordion-target="#accordion-open-body-3" aria-expanded="false"
+                                    aria-controls="accordion-open-body-3">
+                                <span className="flex items-center"><svg className="w-5 h-5 me-2 shrink-0"
+                                                                         fill="currentColor" viewBox="0 0 20 20"
+                                                                         xmlns="http://www.w3.org/2000/svg"><path
+                                    fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd"></path></svg>Learning Path Breakdown:</span>
+                                {isLearningPathCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
+                            </button>
+
+                        </h2>
+                        <div id="accordion-open-body-3" className={` ${isLearningPathCollapsed ? 'hidden' : ''}`} aria-labelledby="accordion-open-heading-3">
+                            <div className="p-10  border border-t-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800" >
+                                        <ol className="relative border-s border-gray-200 dark:border-gray-700">
+                                            {learningPathsCoursesData.map((c) => (
+                                                <li className="mb-10 ms-6" key={c.id}>
+                                                    <span
+                                                        className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-2 ring-white dark:ring-gray-100 dark:bg-primary-500">
+                                                        <svg className="w-2.5 h-2.5 text-blue-800 dark:text-gray-100"
+                                                             aria-hidden="true"
+                                                             xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                             viewBox="0 0 20 20">
+                                                            <path
+                                                                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                                        </svg>
+                                                    </span>
+                                                    <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                                                        {c.course.title}
+                                                        <CourseStatusLearningPathBadge status={c.course.status}/>
+
+                                                    </h3>
+                                                    <time
+                                                        className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                                                        {"Learning Order: " + c.order}
+                                                    </time>
+                                                    <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                                                        {c.course.description}
+                                                    </p>
 
 
                                                     <div className='text-right mt-2.5'>
@@ -142,92 +174,16 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData}: Pr
                                                                       href={`/courses/${c.course.id}`}>Course Details
                                                         </CustomButton>
                                                     </div>
-                                        </li>
-                                    ))}
-                                </ol>
-
+                                                </li>
+                                            ))}
+                                        </ol>
 
                             </div>
-
-
-                            {/*{learningPathsCoursesData.map((c) => (*/}
-                            {/*    <div key={c.id} className={"col-span-4"}>*/}
-                            {/*        <FormInputFieldElement*/}
-                            {/*            title={"Learning Order: " + c.order}*/}
-                            {/*            id={c.id}*/}
-                            {/*            columnSize={"4"}*/}
-                            {/*            placeholder={`Course Title`}*/}
-                            {/*            defaultValue={c.course.title}*/}
-                            {/*            isDisabled={true}*/}
-                            {/*            isReadonly={true}*/}
-                            {/*        />*/}
-                            {/*        <div className='text-right mt-2.5'>*/}
-                            {/*            <CustomButton icon={FaMagnifyingGlass}*/}
-                            {/*                          buttonStyleType={"outline_primary"}*/}
-                            {/*                          type={"button"}*/}
-                            {/*                          href={`/courses/${c.course.id}`}>Course Details*/}
-                            {/*            </CustomButton>*/}
-                            {/*        </div>*/}
-                            {/*    </div>*/}
-                            {/*))}*/}
-
-
-                            {/*<FormInputDropDownElement title={'Platform'}*/}
-                            {/*                          id={'platform'}*/}
-                            {/*                          dataSource={platforms}*/}
-                            {/*                          defaultValue={learningPathsCoursesData.platformId}*/}
-                            {/*                          columnSize={'1'}*/}
-                            {/*                          register={register('platformId', {valueAsNumber: true})}*/}
-                            {/*                          error={errors.platformId?.message}*/}
-                            {/*/>*/}
-
-
-                            {/*Multiple select area*/}
-                            {/*<div className={"col-span-4"}>*/}
-                            {/*    <label htmlFor="technologies"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technologies*/}
-                            {/*    </label>*/}
-
-                            {/*    <div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">*/}
-                            {/*        {technologies.map(technology => (*/}
-                            {/*            <FormCheckBoxElement*/}
-                            {/*                title={technology.title}*/}
-                            {/*                key={technology.id}*/}
-                            {/*                id={technology.id}*/}
-                            {/*                value={technology.id.toString()}*/}
-                            {/*                isCheck={currentTechnologiesId.includes(technology.id)}*/}
-                            {/*                register={register('technology')}/>*/}
-                            {/*        ))}*/}
-                            {/*    </div>*/}
-
-                            {/*    {errors.technology?.message && (*/}
-                            {/*        <p className="text-red-500 text-sm mt-1">{errors.technology.message}</p>*/}
-                            {/*    )}*/}
-                            {/*</div>*/}
-
-
                         </div>
-
-                        {/*<div className="text-right">*/}
-                        {/*    <CustomButton icon={FaTrashCan}*/}
-                        {/*                  type={'button'}*/}
-                        {/*                  buttonStyleType={'danger'}*/}
-                        {/*                  onClick={handleDelete}*/}
-                        {/*                  isDisabled={isDeleted}>*/}
-                        {/*        Delete {isDeleted && <Spinner/>}*/}
-                        {/*    </CustomButton>*/}
-
-                        {/*    <CustomButton*/}
-                        {/*        icon={FaSave}*/}
-                        {/*        buttonStyleType={'primary'}*/}
-                        {/*        isDisabled={isSubmitted}>*/}
-                        {/*        Save Changes {isSubmitted && <Spinner/>}*/}
-                        {/*    </CustomButton>*/}
-                        {/*</div>*/}
-                    </form>
-
+                    </div>
 
                 </div>
+
 
             </div>
         </>
