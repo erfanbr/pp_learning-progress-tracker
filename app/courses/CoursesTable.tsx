@@ -98,7 +98,7 @@ export default function CoursesTable({
 
                     <h2 id="accordion-collapse-heading-2">
                         <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}
-                                className="flex items-center pt-2 justify-between w-full font-medium rtl:text-right text-gray-500 pb-4 mb-4 rounded-t border-b sm:mb-5  border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                                className={`flex items-center p-3 justify-between w-full font-medium rtl:text-right text-gray-500 mb-4 border-b sm:mb-5  border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-600 dark:text-gray-400 ${isCollapsed ? 'dark:bg-gray-800' : 'dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700 gap-3`}
                                 data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
                                 aria-controls="accordion-collapse-body-2">
                             <span>Filters</span>
