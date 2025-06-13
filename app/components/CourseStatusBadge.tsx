@@ -15,7 +15,7 @@ export default function CourseStatusBadge({status} : Props) {
     return (
         <>
             <span
-                className={`bg-${statusMap[status].color}-100 text-${statusMap[status].color}-800 text-xs font-medium me-2 px-2.5 
+                className={`text-xs font-medium me-2 px-2.5 
                 py-0.5 rounded-full dark:bg-${statusMap[status].color}-900 dark:text-${statusMap[status].color}-300`}>
                 {statusMap[status].label}
             </span>
@@ -27,7 +27,7 @@ export function CourseStatusLearningPathBadge({status} : Props) {
     return (
         <>
             <span
-                className={`bg-${statusMap[status].color}-100 text-${statusMap[status].color}-800 text-sm font-medium text-
+                className={`text-sm font-medium text-
                 me-2 px-2.5 py-0.5 rounded-full 
                 dark:bg-${statusMap[status].color}-900 dark:text-${statusMap[status].color}-300 ms-3`}>
                 {statusMap[status].label}
