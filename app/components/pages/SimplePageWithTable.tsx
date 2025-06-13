@@ -51,7 +51,7 @@ export default async function SimplePageWithTable({pageHeader, apiPath, id, sort
                     />
 
                     <div className="text-right py-5">
-                        <CustomButton href={`/${pageHeader.toLowerCase()}/new`} icon={FaSave} buttonStyleType={"primary"}>
+                        <CustomButton href={`/${pageHeader.toLowerCase().replace(/ /g, "_")}/new`} icon={FaSave} buttonStyleType={"primary"}>
                             Add {id}
                         </CustomButton>
                     </div>
