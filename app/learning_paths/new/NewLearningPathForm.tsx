@@ -1,8 +1,8 @@
 'use client'
-import React, {useState} from "react";
-import {useForm} from "react-hook-form";
+import React, {useEffect, useState} from "react";
+import {Controller, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {createCourseSchema} from "@/app/validationSchema";
+import {createCourseSchema, createLearningPathSchema} from "@/app/validationSchema";
 import {useRouter} from "next/navigation";
 import {prisma} from "@/prisma/client";
 import Link from "next/link";
@@ -11,74 +11,148 @@ import {statusMap} from "@/app/components/mappings/StatusMap";
 import {difficultyMap} from "@/app/components/mappings/DifficultyMap";
 import {priorityMap} from "@/app/components/mappings/PriorityMap";
 import CustomButton from "@/app/components/buttons/CustomButton";
-import {FaTrashCan} from "react-icons/fa6";
-import {FaSave} from "react-icons/fa";
+import {FaInfo, FaTrashCan} from "react-icons/fa6";
+import {FaMinus, FaPlus, FaSave} from "react-icons/fa";
 import {z} from "zod";
 import FormCheckBoxElement from "@/app/components/formInputs/FormCheckBoxElement";
 import axios from "axios";
 import {MdCancel} from "react-icons/md";
 import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDropdownElement";
 import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInputsDropdownElementEnums";
+import FormInputDropDownElementLearningPath from "@/app/components/formInputs/FormInputDropDownElementLearningPath";
 
-type CourseTechnology = z.infer<typeof createCourseSchema>;
+type LearningPath = z.infer<typeof createLearningPathSchema>;
 
 interface Props {
+    coursesData: { id: number; title: string }[],
     // platformsData: { id: number; title: string }[],
     // categoriesData: { id: number; title: string }[],
     // technologiesData: { id: number; title: string }[],
 
 }
 
-export default function NewLearningPathForm({platformsData, categoriesData, technologiesData}: Props) {
+export default function NewLearningPathForm({coursesData}: Props) {
+    const [numberOfCourses, setNumberOfCourses] = useState(2);
+
     const {
         register,
         handleSubmit,
-        formState: {errors}
-    } = useForm<CourseTechnology>({resolver: zodResolver(createCourseSchema)});
-    const router = useRouter();
-    const [error, setError] = useState('');
-    const [isSubmitted, setSubmitted] = useState(false);
-    const [totalCourses, setTotalCourses] = useState(4);
-
-
-    const onFormSubmit = handleSubmit(async (data) => {
-
-        // add id to technology array so it works on Many 2 Many
-        const transformed = {
-            ...data,
-            technology: data.technology.map((id: string) => ({id: Number(id)}))
-        };
-        console.log(transformed);
-        const url: string = 'http://localhost:3000/api/courses';
-        try {
-            setSubmitted(true);
-            await axios.post(url, transformed);
-            router.push(`/courses`);
-        } catch (error) {
-            setSubmitted(false);
-            setError('Unexpected error has happened');
-        }
+        control,
+        watch,
+        getValues,
+        formState: {errors},
+        setValue
+    } = useForm({
+        defaultValues: {
+            selectedFruits: Array(numberOfCourses).fill(''),
+        },
     });
 
 
-    // const platforms = platformsData;
-    // const categories = categoriesData;
-    // const technologies = technologiesData;
+    // const {
+    //     register,
+    //     handleSubmit,
+    //     formState: {errors}
+    // } = useForm<LearningPath>({resolver: zodResolver(createLearningPathSchema)});
+
+    const router = useRouter();
+    const [error, setError] = useState('');
+    const [isSubmitted, setSubmitted] = useState(false);
+
+    const [coursesArray, setCoursesArray] = useState<number[]>([]);
+    // const [availableCourses, setAvailableCourses] = useState<string[]>(['Apple', 'Banana', 'Cherry', 'Date']);
+    // const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
+
+
+    // const allOptions  = ['Apple', 'Banana', 'Cherry', 'Date'];
+    const tempRest: string[] = [];
+    coursesData.map(c => (
+        tempRest.push(c.title)
+    ))
+    const allOptions = tempRest;
+    const watchedFruits = watch('selectedFruits') || [];
+    const selectedCourses = watchedFruits.filter(f => f);
+
+
+    useEffect(() => {
+        const current = watch('selectedFruits') || [];
+        const newValues = [...current];
+
+        while (newValues.length < numberOfCourses) newValues.push('');
+        while (newValues.length > numberOfCourses) newValues.pop();
+
+        setValue('selectedFruits', newValues);
+    }, [numberOfCourses]);
+
+
+    const removeCourse = (courseToRemove: string) => {
+        setAvailableCourses(prevCourses =>
+            prevCourses.filter(course => course !== courseToRemove)
+        );
+    };
+
+    // const dynamicDropDown = (value) => {
+    //     // console.log( 'dropdown click');
+    //     // console.log( 'value that was click: ' + value );
+    //     setSelectedCourses(prevCourses => [...prevCourses, value]);
+    //     // removeCourse(value);
+    // }
+
+    const getFilteredOptions = (index: number, currentValue: string) => {
+        return allOptions.filter(
+            (opt) => !watchedFruits.includes(opt) || opt === currentValue
+        );
+    };
+
+    const onFormSubmit_v2 = handleSubmit(async (data) => {
+        console.log('Form submitted_v2!');
+        console.log('Data:', data);
+
+        // add id to technology array so it works on Many 2 Many
+        // const transformed = {
+        //     ...data,
+        //     technology: data.technology.map((id: string) => ({id: Number(id)}))
+        // };
+        // console.log(transformed);
+        // const url: string = 'http://localhost:3000/api/courses';
+        // try {
+        //     setSubmitted(true);
+        //     await axios.post(url, transformed);
+        //     router.push(`/courses`);
+        // } catch (error) {
+        //     setSubmitted(false);
+        //     setError('Unexpected error has happened');
+        // }
+    });
+
+    const renderDropdown = (index: number) => (
+        <Controller
+            key={index}
+            name={`selectedFruits.${index}` as const}
+            control={control}
+            render={({field}) => {
+                const filteredOptions = getFilteredOptions(index, field.value);
+                return (
+                    <select
+                        {...field}
+                        className="col-span-2 form-select bg-gray-700 text-white mb-2 p-2 rounded w-full"
+                    >
+                        <option value="">Choose a course</option>
+                        {filteredOptions.map((fruit) => (
+                            <option key={fruit} value={fruit}>
+                                {fruit}
+                            </option>
+                        ))}
+                    </select>
+                );
+            }}
+        />
+    );
+
 
     return (
         <>
             <div>
-                {/*<h1>Post: {myProp.params.slug}</h1>*/}
-                {/*<div>{course!.title}</div>*/}
-                {/*<div>{course!.id}</div>*/}
-
-
-                {/*<div className="flex justify-center m-5">*/}
-                {/*    <button id="defaultModalButton" data-modal-target="defaultModal" data-modal-toggle="defaultModal" className="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">*/}
-                {/*        Create product*/}
-                {/*    </button>*/}
-                {/*</div>*/}
-
                 <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                     {/*// <!-- Modal header -->*/}
                     <div
@@ -98,126 +172,66 @@ export default function NewLearningPathForm({platformsData, categoriesData, tech
                         </Link>
                     </div>
                     {/*// <!-- Modal body -->*/}
-                    <form onSubmit={onFormSubmit}>
+                    <form onSubmit={onFormSubmit_v2}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-4">
 
+                            {/*TODO: Add option to add Learning Path*/}
 
                             <FormInputFieldElement
                                 title={"Title"}
                                 id={"title"}
                                 columnSize={"4"}
-                                placeholder={`Course Title`}
                                 defaultValue={""}
+                                placeholder={`Learning Path Title`}
                                 register={register('title')}
-                                error={errors.title?.message}
+                                // error={errors.title?.message}
                             />
 
-                            {/*Note Area*/}
+
+                            Note Area
                             <div className={"col-span-4"}>
                                 <label htmlFor="description"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes</label>
-                                <textarea id="note" rows={4} {...register('note')}
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                <textarea id="description" rows={4} {...register('description')}
                                           className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                           placeholder="Write your thoughts here..."></textarea>
+                                <div>
+                                    {errors.description?.message &&
+                                        <p className="text-red-500 text-sm mt-1">{errors.description?.message}</p>}
+                                </div>
                             </div>
 
-                            {/*<FormInputFieldElement*/}
-                            {/*    title={"Link"}*/}
-                            {/*    id={"link"}*/}
-                            {/*    columnSize={"2"}*/}
-                            {/*    placeholder={'URL to course content'}*/}
-                            {/*    defaultValue={""}*/}
-                            {/*    register={register('link')}*/}
-                            {/*    error={errors.link?.message}*/}
-                            {/*/>*/}
+                            {/*{Array.from({length: numberOfCourses}, (_, index) => (*/}
+                            {/*    <FormInputDropDownElementLearningPath*/}
+                            {/*        key={index + 1}*/}
+                            {/*        title={'Course ' + (index + 1)}*/}
+                            {/*        id={'category'}*/}
+                            {/*        dataSource={coursesData}*/}
+                            {/*        columnSize={'2'}*/}
+                            {/*        onChange={handleDropDownChange}*/}
+                            {/*        register={register('courses', {valueAsNumber: true})}*/}
+                            {/*        // error={errors.courses?.message}*/}
+                            {/*    />*/}
+                            {/*))}*/}
+
+                            {[...Array(numberOfCourses)].map((_, i) => renderDropdown(i))}
+
+                            <div className={"col-span-4"}>
+                                <CustomButton icon={FaPlus}
+                                              type={"button"}
+                                              buttonStyleType={"discard"}
+                                              onClick={() => setNumberOfCourses(numberOfCourses + 1)}>
+                                    Add More
+                                </CustomButton>
 
 
-                            {/*<FormInputDropDownElement title={'Platform'}*/}
-                            {/*                          id={'platform'}*/}
-                            {/*                          dataSource={platforms}*/}
-                            {/*                          columnSize={'1'}*/}
-                            {/*                          register={register('platformId', {valueAsNumber: true})}*/}
-                            {/*                          error={errors.platformId?.message}*/}
-                            {/*/>*/}
-
-                            {Array.from({length: totalCourses}, (_, index) => (
-                                <div key={index}>Course {index + 1}</div>
-                                // <FormInputDropDownElement
-                                //     key={index + 1}
-                                //     title={'Category'}
-                                //     id={'category'}
-                                //     dataSource={categories}
-                                //     columnSize={'1'}
-                                //     register={register('categoryId', {valueAsNumber: true})}
-                                //     error={errors.categoryId?.message}
-                                // />
-                            ))}
-
-                            {/*<FormInputDropDownElementEnums*/}
-                            {/*    key={index + 1}*/}
-                            {/*    title={'Status 0'}*/}
-                            {/*    id={'status'}*/}
-                            {/*    dataSource={statusMap}*/}
-                            {/*    columnSize={'1'}*/}
-                            {/*    register={register('status')}*/}
-                            {/*    error={errors.status?.message}*/}
-                            {/*/>*/}
-
-
-                            {/*<FormInputDropDownElementEnums title={'Difficulty'}*/}
-                            {/*                               id={'difficulty'}*/}
-                            {/*                               dataSource={difficultyMap}*/}
-                            {/*                               columnSize={'1'}*/}
-                            {/*                               register={register('difficulty')}*/}
-                            {/*                               error={errors.difficulty?.message}*/}
-                            {/*/>*/}
-
-
-                            {/*<FormInputDropDownElement title={'Category'}*/}
-                            {/*                          id={'category'}*/}
-                            {/*                          dataSource={categories}*/}
-                            {/*                          columnSize={'1'}*/}
-                            {/*                          register={register('categoryId', {valueAsNumber: true})}*/}
-                            {/*                          error={errors.categoryId?.message}*/}
-                            {/*/>*/}
-
-                            {/*<FormInputDropDownElementEnums title={'Priority'}*/}
-                            {/*                               id={'priority'}*/}
-                            {/*                               dataSource={priorityMap}*/}
-                            {/*                               columnSize={'1'}*/}
-                            {/*                               register={register('priority')}*/}
-                            {/*                               error={errors.priority?.message}*/}
-                            {/*/>*/}
-
-
-                            {/*TODO: format time nicer => based on timepicker from flowbite*/}
-                            {/*<div>*/}
-                            {/*    <label htmlFor="duration"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duration</label>*/}
-                            {/*    <input type="number" value="399"  id="duration" {...register('duration')}*/}
-                            {/*           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-primary-500 dark:focus:border-primary-500"*/}
-                            {/*           placeholder="$299"/>*/}
-                            {/*</div>*/}
-                            {/*<FormInputFieldElement*/}
-                            {/*    title={"Duration (Hours)"}*/}
-                            {/*    id={"duration"}*/}
-                            {/*    type={'number'}*/}
-                            {/*    columnSize={"1"}*/}
-                            {/*    placeholder={'Total hours'}*/}
-                            {/*    defaultValue={""}*/}
-                            {/*    register={register('duration', {valueAsNumber: true})}*/}
-                            {/*    error={errors.duration?.message}*/}
-                            {/*/>*/}
-
-                            {/*<FormInputFieldElement*/}
-                            {/*    title={"Last Seen"}*/}
-                            {/*    id={"lastSeen"}*/}
-                            {/*    columnSize={"2"}*/}
-                            {/*    placeholder={'Last seen video / episode'}*/}
-                            {/*    defaultValue={""}*/}
-                            {/*    register={register('lastSeen')}*/}
-                            {/*    error={errors.lastSeen?.message}*/}
-                            {/*/>*/}
+                                <CustomButton icon={FaMinus}
+                                              type={"button"}
+                                              buttonStyleType={"discard"}
+                                              onClick={() => setNumberOfCourses(numberOfCourses - 1)}>
+                                    Remove More
+                                </CustomButton>
+                            </div>
 
 
                             {/*/!*Multiple select area*!/*/}
@@ -248,27 +262,23 @@ export default function NewLearningPathForm({platformsData, categoriesData, tech
                         <div className="text-right">
                             <CustomButton href="/learning_paths/" icon={MdCancel}
                                           buttonStyleType={'discard'}>Cancel</CustomButton>
-                            <CustomButton type="submit" icon={FaSave} buttonStyleType={'primary'}>Add
+                            <CustomButton icon={FaSave} buttonStyleType={'primary'} type={'submit'}>Add
                                 Learning Path</CustomButton>
                         </div>
                     </form>
+
+                    <CustomButton icon={FaInfo} buttonStyleType={'danger'} type={'button'}
+                                  onClick={() => console.log(selectedCourses)}>Show available courses</CustomButton>
+                    <div>
+                        <h2>Selected courses:</h2>
+                        {selectedCourses.map(sc => (
+                            <p key={sc}>{sc}</p>
+                        ))}
+                    </div>
                 </div>
 
-
-                {/*<div id="defaultModal" tabIndex="-1" aria-hidden="true"*/
-                }
-                {/*     className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">*/
-                }
-                {/*    <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">*/
-                }
-                {/*        <!-- Modal content -->*/
-                }
-
-                {/*    </div>*/
-                }
-                {/*</div>*/
-                }
             </div>
+
         </>
     )
         ;

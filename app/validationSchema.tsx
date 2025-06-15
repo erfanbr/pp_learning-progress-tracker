@@ -4,22 +4,6 @@ import {Status} from "@/app/components/enums/Status";
 import {Difficulty} from "@/app/components/enums/Difficulty";
 import {Priority} from "@/app/components/enums/Priority";
 
-// z.setErrorMap((issue, ctx) => {
-//     if (issue.code === 'invalid_enum_value') {
-//         if (ctx.path.includes('status')) {
-//             return { message: 'Please select a valid status' };
-//         }
-//         if (ctx.path.includes('difficulty')) {
-//             return { message: 'Please select a valid difficulty' };
-//         }
-//         if (ctx.path.includes('priority')) {
-//             return { message: 'Please select a valid priority' };
-//         }
-//     }
-//     return { message: ctx.defaultError };
-// });
-
-
 
 export const createCategorySchema = z.object({
     title: z.string().min(3, 'Title has to be at least 3 characters').max(150)
@@ -28,10 +12,7 @@ export const createCategorySchema = z.object({
 export const createPlatformSchema = z.object({
     title: z.string().min(3, 'Title has to be at least 3 characters').max(150)
 })
-export const createLearningPathSchema = z.object({
-    title: z.string().min(3, 'Title has to be at least 3 characters').max(150),
-    description: z.string().min(0).max(1024, 'description can be max 1024 characters').nullable(),
-})
+
 
 export const createTechnologySchema = z.object({
     title: z.string().min(1, 'Title has to be at least 1 characters').max(150)
@@ -62,4 +43,10 @@ export const createCourseSchema = z.object({
     technology: z.array(z.coerce.string()).nonempty("Please select at least one technology"),
     note: z.string().max(32688).nullable(),
     description: z.string().max(32688).nullable()
+})
+
+export const createLearningPathSchema = z.object({
+    title: z.string().min(3, 'Title has to be at least 3 characters').max(150),
+    description: z.string().min(3, 'Description has to be at least 3 characters').max(1024, 'description can be max 1024 characters'),
+    // courses: z.array(z.coerce.number()).nonempty("Please select at least one course"),
 })
