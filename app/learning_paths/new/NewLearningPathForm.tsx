@@ -44,7 +44,7 @@ export default function NewLearningPathForm({coursesData}: Props) {
         setValue
     } = useForm({
         defaultValues: {
-            selectedFruits: Array(numberOfCourses).fill(''),
+            selectedCourses: Array(numberOfCourses).fill(''),
         },
     });
 
@@ -58,38 +58,31 @@ export default function NewLearningPathForm({coursesData}: Props) {
     const router = useRouter();
     const [error, setError] = useState('');
     const [isSubmitted, setSubmitted] = useState(false);
-
     const [coursesArray, setCoursesArray] = useState<number[]>([]);
-    // const [availableCourses, setAvailableCourses] = useState<string[]>(['Apple', 'Banana', 'Cherry', 'Date']);
-    // const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
 
 
     // const allOptions  = ['Apple', 'Banana', 'Cherry', 'Date'];
-    const tempRest: string[] = [];
-    coursesData.map(c => (
-        tempRest.push(c.title)
-    ))
-    const allOptions = tempRest;
-    const watchedFruits = watch('selectedFruits') || [];
-    const selectedCourses = watchedFruits.filter(f => f);
+    // const courseTitle: string[] = coursesData.map(c => c.title);
+    // const allOptions = courseTitle;
+
+    const allOptions = coursesData;
+
+
+    const watchedCourses = watch('selectedCourses') || [];
+    const selectedCourses = watchedCourses.filter(f => f);
 
 
     useEffect(() => {
-        const current = watch('selectedFruits') || [];
+        const current = watch('selectedCourses') || [];
         const newValues = [...current];
 
         while (newValues.length < numberOfCourses) newValues.push('');
         while (newValues.length > numberOfCourses) newValues.pop();
 
-        setValue('selectedFruits', newValues);
+        setValue('selectedCourses', newValues);
     }, [numberOfCourses]);
 
 
-    const removeCourse = (courseToRemove: string) => {
-        setAvailableCourses(prevCourses =>
-            prevCourses.filter(course => course !== courseToRemove)
-        );
-    };
 
     // const dynamicDropDown = (value) => {
     //     // console.log( 'dropdown click');
@@ -99,8 +92,9 @@ export default function NewLearningPathForm({coursesData}: Props) {
     // }
 
     const getFilteredOptions = (index: number, currentValue: string) => {
+        const selectedIds = watchedCourses.filter((_, i) => i !== index); // exclude current index
         return allOptions.filter(
-            (opt) => !watchedFruits.includes(opt) || opt === currentValue
+            (opt) => !selectedIds.includes(opt.id.toString()) || opt.id.toString() === currentValue
         );
     };
 
@@ -128,19 +122,21 @@ export default function NewLearningPathForm({coursesData}: Props) {
     const renderDropdown = (index: number) => (
         <Controller
             key={index}
-            name={`selectedFruits.${index}` as const}
+            name={`selectedCourses.${index}` as const}
             control={control}
-            render={({field}) => {
-                const filteredOptions = getFilteredOptions(index, field.value);
+            render={({ field }) => {
+                const currentId = field.value;
+                const filteredOptions = getFilteredOptions(index, currentId);
+
                 return (
                     <select
                         {...field}
-                        className="col-span-2 form-select bg-gray-700 text-white mb-2 p-2 rounded w-full"
+                        className="form-select bg-gray-700 text-white mb-2 p-2 rounded w-full"
                     >
-                        <option value="">Choose a course</option>
-                        {filteredOptions.map((fruit) => (
-                            <option key={fruit} value={fruit}>
-                                {fruit}
+                        <option value="">Select a course</option>
+                        {filteredOptions.map((c) => (
+                            <option key={c.id} value={c.id}>
+                                {c.title}
                             </option>
                         ))}
                     </select>
@@ -188,18 +184,18 @@ export default function NewLearningPathForm({coursesData}: Props) {
                             />
 
 
-                            Note Area
-                            <div className={"col-span-4"}>
-                                <label htmlFor="description"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                <textarea id="description" rows={4} {...register('description')}
-                                          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                          placeholder="Write your thoughts here..."></textarea>
-                                <div>
-                                    {errors.description?.message &&
-                                        <p className="text-red-500 text-sm mt-1">{errors.description?.message}</p>}
-                                </div>
-                            </div>
+                            {/*Note Area*/}
+                            {/*<div className={"col-span-4"}>*/}
+                            {/*    <label htmlFor="description"*/}
+                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>*/}
+                            {/*    <textarea id="description" rows={4} {...register('description')}*/}
+                            {/*              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"*/}
+                            {/*              placeholder="Write your thoughts here..."></textarea>*/}
+                            {/*    <div>*/}
+                            {/*        {errors.description?.message &&*/}
+                            {/*            <p className="text-red-500 text-sm mt-1">{errors.description?.message}</p>}*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
 
                             {/*{Array.from({length: numberOfCourses}, (_, index) => (*/}
                             {/*    <FormInputDropDownElementLearningPath*/}

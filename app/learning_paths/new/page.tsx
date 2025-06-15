@@ -7,6 +7,7 @@ export default async function  NewLearningPathPage() {
     const platforms = await prisma.platform.findMany();
     const courses = await prisma.course.findMany();
 
+
     return (
         <>
             <NewLearningPathForm  coursesData={courses}/>
