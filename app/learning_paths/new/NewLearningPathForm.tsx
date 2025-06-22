@@ -183,6 +183,7 @@ export default function NewLearningPathForm({coursesData}: Props) {
                                     key={i}
                                     index={i}
                                     control={control}
+                                    isRequired={false}
                                     error={errors.courses?.[i]?.message}
                                     getFilteredOptions={getFilteredOptions}
                                 />

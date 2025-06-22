@@ -10,12 +10,13 @@ interface Props {
     index: number;
     control: Control<any>;
     getFilteredOptions: (index: number, currentId: string) => Course[];
+    isRequired: boolean;
     error?: string;
 
 }
 
 
-const LearningPathCourseDropDown: React.FC<Props> = ({index, control, getFilteredOptions, error}) => {
+const LearningPathCourseDropDown: React.FC<Props> = ({index, control, getFilteredOptions, isRequired, error}) => {
     return (
         <Controller
             name={`courses.${index}` as const}
@@ -30,6 +31,7 @@ const LearningPathCourseDropDown: React.FC<Props> = ({index, control, getFiltere
                         <div className='col-span-2'>
                             <select
                                 {...field}
+                                required={isRequired}
                                 className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:text-zinc-700" dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500`}
                             >
                                 <option value="">Select a course</option>
