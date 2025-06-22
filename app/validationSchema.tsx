@@ -48,5 +48,6 @@ export const createCourseSchema = z.object({
 export const createLearningPathSchema = z.object({
     title: z.string().min(3, 'Title has to be at least 3 characters').max(150),
     description: z.string().min(3, 'Description has to be at least 3 characters').max(1024, 'description can be max 1024 characters'),
-    // courses: z.array(z.coerce.number()).nonempty("Please select at least one course"),
+    courses: z.array(z.coerce.string()).nonempty("Please select at least one course"),
+
 })

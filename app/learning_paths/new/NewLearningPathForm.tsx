@@ -19,15 +19,13 @@ import axios from "axios";
 import {MdCancel} from "react-icons/md";
 import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDropdownElement";
 import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInputsDropdownElementEnums";
-import FormInputDropDownElementLearningPath from "@/app/components/formInputs/FormInputDropDownElementLearningPath";
+import LearningPathDropDown from "@/app/components/formInputs/LearningPathCourseDropDown";
 
 type LearningPath = z.infer<typeof createLearningPathSchema>;
 
 interface Props {
     coursesData: { id: number; title: string }[],
-    // platformsData: { id: number; title: string }[],
-    // categoriesData: { id: number; title: string }[],
-    // technologiesData: { id: number; title: string }[],
+
 
 }
 
@@ -42,10 +40,14 @@ export default function NewLearningPathForm({coursesData}: Props) {
         getValues,
         formState: {errors},
         setValue
-    } = useForm({
+    } = useForm<LearningPath>({
         defaultValues: {
-            selectedCourses: Array(numberOfCourses).fill(''),
+            title: "",
+            description: "",
+            courses: Array(numberOfCourses).fill(''),
+
         },
+        resolver: zodResolver(createLearningPathSchema),
     });
 
 
@@ -61,35 +63,23 @@ export default function NewLearningPathForm({coursesData}: Props) {
     const [coursesArray, setCoursesArray] = useState<number[]>([]);
 
 
-    // const allOptions  = ['Apple', 'Banana', 'Cherry', 'Date'];
-    // const courseTitle: string[] = coursesData.map(c => c.title);
-    // const allOptions = courseTitle;
-
     const allOptions = coursesData;
 
 
-    const watchedCourses = watch('selectedCourses') || [];
-    const selectedCourses = watchedCourses.filter(f => f);
+    const watchedCourses = watch('courses') || [];
+    const courses = watchedCourses.filter(f => f);
 
 
     useEffect(() => {
-        const current = watch('selectedCourses') || [];
+        const current = watch('courses') || [];
         const newValues = [...current];
 
         while (newValues.length < numberOfCourses) newValues.push('');
         while (newValues.length > numberOfCourses) newValues.pop();
 
-        setValue('selectedCourses', newValues);
+        setValue('courses', newValues);
     }, [numberOfCourses]);
 
-
-
-    // const dynamicDropDown = (value) => {
-    //     // console.log( 'dropdown click');
-    //     // console.log( 'value that was click: ' + value );
-    //     setSelectedCourses(prevCourses => [...prevCourses, value]);
-    //     // removeCourse(value);
-    // }
 
     const getFilteredOptions = (index: number, currentValue: string) => {
         const selectedIds = watchedCourses.filter((_, i) => i !== index); // exclude current index
@@ -98,52 +88,35 @@ export default function NewLearningPathForm({coursesData}: Props) {
         );
     };
 
-    const onFormSubmit_v2 = handleSubmit(async (data) => {
-        console.log('Form submitted_v2!');
-        console.log('Data:', data);
+    const onFormSubmit = handleSubmit(async (data) => {
+        // Adding orderId to courses
+        const transformedCourses = data.courses.map((courseId: string, index: number) => ({
+            courseId: parseInt(courseId),
+            order: index + 1,
+        }));
 
-        // add id to technology array so it works on Many 2 Many
-        // const transformed = {
-        //     ...data,
-        //     technology: data.technology.map((id: string) => ({id: Number(id)}))
-        // };
-        // console.log(transformed);
-        // const url: string = 'http://localhost:3000/api/courses';
-        // try {
-        //     setSubmitted(true);
-        //     await axios.post(url, transformed);
-        //     router.push(`/courses`);
-        // } catch (error) {
-        //     setSubmitted(false);
-        //     setError('Unexpected error has happened');
-        // }
+        const finalData = {
+            title: data.title,
+            description: data.description,
+            courses: transformedCourses
+        }
+
+
+        console.log('Final Data:', finalData);
+
+        const url: string = 'http://localhost:3000/api/learning_paths_courses';
+        try {
+            setSubmitted(true);
+            await axios.post(url, finalData);
+            router.push(`/learning_paths`);
+
+        } catch (error) {
+            setSubmitted(false);
+            setError('Unexpected error has happened');
+        }
     });
 
-    const renderDropdown = (index: number) => (
-        <Controller
-            key={index}
-            name={`selectedCourses.${index}` as const}
-            control={control}
-            render={({ field }) => {
-                const currentId = field.value;
-                const filteredOptions = getFilteredOptions(index, currentId);
 
-                return (
-                    <select
-                        {...field}
-                        className="form-select bg-gray-700 text-white mb-2 p-2 rounded w-full"
-                    >
-                        <option value="">Select a course</option>
-                        {filteredOptions.map((c) => (
-                            <option key={c.id} value={c.id}>
-                                {c.title}
-                            </option>
-                        ))}
-                    </select>
-                );
-            }}
-        />
-    );
 
 
     return (
@@ -168,7 +141,7 @@ export default function NewLearningPathForm({coursesData}: Props) {
                         </Link>
                     </div>
                     {/*// <!-- Modal body -->*/}
-                    <form onSubmit={onFormSubmit_v2}>
+                    <form onSubmit={onFormSubmit}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-4">
 
                             {/*TODO: Add option to add Learning Path*/}
@@ -180,37 +153,39 @@ export default function NewLearningPathForm({coursesData}: Props) {
                                 defaultValue={""}
                                 placeholder={`Learning Path Title`}
                                 register={register('title')}
-                                // error={errors.title?.message}
+                                error={errors.title?.message}
                             />
 
 
-                            {/*Note Area*/}
-                            {/*<div className={"col-span-4"}>*/}
-                            {/*    <label htmlFor="description"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>*/}
-                            {/*    <textarea id="description" rows={4} {...register('description')}*/}
-                            {/*              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"*/}
-                            {/*              placeholder="Write your thoughts here..."></textarea>*/}
-                            {/*    <div>*/}
-                            {/*        {errors.description?.message &&*/}
-                            {/*            <p className="text-red-500 text-sm mt-1">{errors.description?.message}</p>}*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
+                            {/*Description Area*/}
+                            <div className={"col-span-4"}>
+                                <label htmlFor="description"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                <textarea id="description" rows={4} {...register('description')}
+                                          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                          placeholder="Write your thoughts here..."></textarea>
+                                <div>
+                                    {errors.description?.message &&
+                                        <p className="text-red-500 text-sm mt-1">{errors.description?.message}</p>}
+                                </div>
+                            </div>
 
-                            {/*{Array.from({length: numberOfCourses}, (_, index) => (*/}
-                            {/*    <FormInputDropDownElementLearningPath*/}
-                            {/*        key={index + 1}*/}
-                            {/*        title={'Course ' + (index + 1)}*/}
-                            {/*        id={'category'}*/}
-                            {/*        dataSource={coursesData}*/}
-                            {/*        columnSize={'2'}*/}
-                            {/*        onChange={handleDropDownChange}*/}
-                            {/*        register={register('courses', {valueAsNumber: true})}*/}
-                            {/*        // error={errors.courses?.message}*/}
-                            {/*    />*/}
-                            {/*))}*/}
 
-                            {[...Array(numberOfCourses)].map((_, i) => renderDropdown(i))}
+                            {/*TODO: Fix validation for empty courses entries*/}
+                            {[...Array(numberOfCourses)].map((_, i) => (
+                                <LearningPathDropDown
+                                    key={i}
+                                    index={i}
+                                    control={control}
+                                    errors={errors.courses?.message}
+                                    getFilteredOptions={getFilteredOptions}
+                                />
+                            ))}
+                            <div>
+                                {errors.courses?.message &&
+                                    <p className="text-red-500 text-sm mt-1">{errors.courses?.message}</p>}
+                            </div>
+
 
                             <div className={"col-span-4"}>
                                 <CustomButton icon={FaPlus}
@@ -230,29 +205,6 @@ export default function NewLearningPathForm({coursesData}: Props) {
                             </div>
 
 
-                            {/*/!*Multiple select area*!/*/}
-                            {/*<div className={"col-span-4"}>*/}
-                            {/*    <label htmlFor="technologies"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technologies*/}
-                            {/*    </label>*/}
-
-                            {/*    /!*<div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">*!/*/}
-                            {/*    /!*    {technologies.map(technology => (*!/*/}
-                            {/*    /!*        <FormCheckBoxElement*!/*/}
-                            {/*    /!*            title={technology.title}*!/*/}
-                            {/*    /!*            key={technology.id}*!/*/}
-                            {/*    /!*            id={technology.id}*!/*/}
-                            {/*    /!*            value={technology.id.toString()}*!/*/}
-                            {/*    /!*            register={register('technology')}/>*!/*/}
-                            {/*    /!*    ))}*!/*/}
-                            {/*    /!*</div>*!/*/}
-
-                            {/*    {errors.technology?.message && (*/}
-                            {/*        <p className="text-red-500 text-sm mt-1">{errors.technology.message}</p>*/}
-                            {/*    )}*/}
-                            {/*</div>*/}
-
-
                         </div>
 
                         <div className="text-right">
@@ -264,10 +216,10 @@ export default function NewLearningPathForm({coursesData}: Props) {
                     </form>
 
                     <CustomButton icon={FaInfo} buttonStyleType={'danger'} type={'button'}
-                                  onClick={() => console.log(selectedCourses)}>Show available courses</CustomButton>
+                                  onClick={() => console.log(courses)}>Show available courses</CustomButton>
                     <div>
                         <h2>Selected courses:</h2>
-                        {selectedCourses.map(sc => (
+                        {courses.map(sc => (
                             <p key={sc}>{sc}</p>
                         ))}
                     </div>

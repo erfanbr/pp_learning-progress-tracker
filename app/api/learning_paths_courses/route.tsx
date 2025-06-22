@@ -30,25 +30,10 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
 
-    // enable this later on
-    // const validatedData = createLearningPathSchema.safeParse(body);
-    // if (!validatedData.success) return NextResponse.json({error: validatedData.error.errors}, {status: 400})
 
-    // const validateCourseExistence = await prisma.learningPathCourse.findFirst({
-    //     where: {
-    //         learningPathId: body.learningPathId,
-    //         courseId: body.courseId,
-    //     }
-    // })
-    // if (validateCourseExistence) return NextResponse.json({error: "This course already exists in this learning path"}, {status: 400});
+    const validatedData = createLearningPathSchema.safeParse(body);
+    if (!validatedData.success) return NextResponse.json({error: validatedData.error.errors}, {status: 400})
 
-    // const validateOrder = await prisma.learningPathCourse.findFirst({
-    //     where: {
-    //         learningPathId: body.learningPathId,
-    //         order: body.order,
-    //     }
-    // })
-    // if (validateOrder) return NextResponse.json({error: "You cannot course with same order in a learning path"}, {status: 400});
 
     const newLearningPath = await prisma.learningPath.create({
         data: {
