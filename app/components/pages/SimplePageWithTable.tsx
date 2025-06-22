@@ -8,6 +8,7 @@ import axios from "axios";
 import delay from "delay"
 import PageHeader from "@/app/components/pages/PageHeader";
 import SimpleTable from "@/app/components/pages/SimpleTable";
+import { IoMdAddCircle } from "react-icons/io";
 
 interface Props{
     pageHeader : string,
@@ -51,7 +52,7 @@ export default async function SimplePageWithTable({pageHeader, apiPath, id, sort
                     />
 
                     <div className="text-right py-5">
-                        <CustomButton href={`/${pageHeader.toLowerCase().replace(/ /g, "_")}/new`} icon={FaSave} buttonStyleType={"primary"}>
+                        <CustomButton href={`/${pageHeader.toLowerCase().replace(/ /g, "_")}/new`} icon={IoMdAddCircle} buttonStyleType={"primary"}>
                             Add {id}
                         </CustomButton>
                     </div>

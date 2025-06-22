@@ -20,6 +20,7 @@ import {MdCancel} from "react-icons/md";
 import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDropdownElement";
 import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInputsDropdownElementEnums";
 import LearningPathDropDown from "@/app/components/formInputs/LearningPathCourseDropDown";
+import {IoMdAddCircle} from "react-icons/io";
 
 type LearningPath = z.infer<typeof createLearningPathSchema>;
 
@@ -217,7 +218,7 @@ export default function NewLearningPathForm({coursesData}: Props) {
                         <div className="text-right">
                             <CustomButton href="/learning_paths/" icon={MdCancel}
                                           buttonStyleType={'discard'}>Cancel</CustomButton>
-                            <CustomButton icon={FaSave} buttonStyleType={'primary'} type={'submit'}>Add
+                            <CustomButton icon={IoMdAddCircle} buttonStyleType={'primary'} type={'submit'}>Add
                                 Learning Path</CustomButton>
                         </div>
                     </form>
