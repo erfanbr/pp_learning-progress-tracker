@@ -44,7 +44,8 @@ export default function NewLearningPathForm({coursesData}: Props) {
         defaultValues: {
             title: "",
             description: "",
-            courses: Array(numberOfCourses).fill(''),
+            // courses: Array(numberOfCourses).fill(''),
+            courses: Array.from({ length: numberOfCourses }, () => '')
 
         },
         resolver: zodResolver(createLearningPathSchema),
@@ -60,11 +61,13 @@ export default function NewLearningPathForm({coursesData}: Props) {
     const router = useRouter();
     const [error, setError] = useState('');
     const [isSubmitted, setSubmitted] = useState(false);
-    const [coursesArray, setCoursesArray] = useState<number[]>([]);
 
 
-    const allOptions = coursesData;
 
+    const allOptions = coursesData.map(c => ({
+        id: c.id.toString(),
+        title: c.title
+    }));
 
     const watchedCourses = watch('courses') || [];
     const courses = watchedCourses.filter(f => f);
@@ -114,7 +117,11 @@ export default function NewLearningPathForm({coursesData}: Props) {
             setSubmitted(false);
             setError('Unexpected error has happened');
         }
-    });
+    },
+    (errors) => {
+        console.log("Form validation errors", errors); // 👈 log this
+    }
+    );
 
 
 
@@ -171,13 +178,12 @@ export default function NewLearningPathForm({coursesData}: Props) {
                             </div>
 
 
-                            {/*TODO: Fix validation for empty courses entries*/}
                             {[...Array(numberOfCourses)].map((_, i) => (
                                 <LearningPathDropDown
                                     key={i}
                                     index={i}
                                     control={control}
-                                    errors={errors.courses?.message}
+                                    error={errors.courses?.[i]?.message}
                                     getFilteredOptions={getFilteredOptions}
                                 />
                             ))}
@@ -215,14 +221,6 @@ export default function NewLearningPathForm({coursesData}: Props) {
                         </div>
                     </form>
 
-                    <CustomButton icon={FaInfo} buttonStyleType={'danger'} type={'button'}
-                                  onClick={() => console.log(courses)}>Show available courses</CustomButton>
-                    <div>
-                        <h2>Selected courses:</h2>
-                        {courses.map(sc => (
-                            <p key={sc}>{sc}</p>
-                        ))}
-                    </div>
                 </div>
 
             </div>
