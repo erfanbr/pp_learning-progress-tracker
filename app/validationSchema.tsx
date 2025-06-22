@@ -50,6 +50,7 @@ export const createLearningPathSchema = z.object({
     description: z.string().min(3, 'Description has to be at least 3 characters').max(1024, 'description can be max 1024 characters'),
     courses: z.array(z.coerce.string().min(1, 'Select a course'))
     // courses: z.array(z.string().min(1, "A course is required")).min(1, "At least one course is required"),
+
     // courses: z.array(
     //     z.object({
     //         courseId: z.number(),
