@@ -22,14 +22,36 @@ import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInput
 import LearningPathDropDown from "@/app/components/formInputs/LearningPathCourseDropDown";
 import {IoMdAddCircle} from "react-icons/io";
 
-type LearningPath = z.infer<typeof createLearningPathSchema>;
+type LearningPathType = z.infer<typeof createLearningPathSchema>;
+
+type LearningPaths = {
+    id: number;
+    title: string;
+    description: string;
+    // courses: Course[];
+};
+
+type LearningPathsCourses = {
+    id: number,
+    title: string,
+    description: string,
+    courses: Course[],
+    learningPath: LearningPaths[];
+};
+type Course = {
+    id: number,
+    title: string,
+    order: number,
+}
 
 interface Props {
     coursesData: { id: number; title: string }[],
+    learningPathsCoursesData: LearningPathsCourses
+
 }
 
-export default function NewLearningPathForm({coursesData}: Props) {
-    const [numberOfCourses, setNumberOfCourses] = useState(2);
+export default function LearningPathsEditPageForm({learningPathsCoursesData, coursesData}: Props) {
+    const [numberOfCourses, setNumberOfCourses] = useState(learningPathsCoursesData.length);
 
     const {
         register,
@@ -39,23 +61,19 @@ export default function NewLearningPathForm({coursesData}: Props) {
         getValues,
         formState: {errors},
         setValue
-    } = useForm<LearningPath>({
+    } = useForm<LearningPathType>({
         defaultValues: {
-            title: "",
-            description: "",
-            // courses: Array(numberOfCourses).fill(''),
-            courses: Array.from({ length: numberOfCourses }, () => '')
+            title: learningPathsCoursesData[0].learningPath.title || '',
+            description: learningPathsCoursesData[0].learningPath.description || '',
+            // courses: Array.from({ length: numberOfCourses }, () => '')
+            courses: learningPathsCoursesData.map(item => item.course.id.toString()),
 
         },
         resolver: zodResolver(createLearningPathSchema),
     });
 
 
-    // const {
-    //     register,
-    //     handleSubmit,
-    //     formState: {errors}
-    // } = useForm<LearningPath>({resolver: zodResolver(createLearningPathSchema)});
+
 
     const router = useRouter();
     const [error, setError] = useState('');
@@ -76,11 +94,19 @@ export default function NewLearningPathForm({coursesData}: Props) {
         const current = watch('courses') || [];
         const newValues = [...current];
 
+
         while (newValues.length < numberOfCourses) newValues.push('');
         while (newValues.length > numberOfCourses) newValues.pop();
 
         setValue('courses', newValues);
     }, [numberOfCourses]);
+
+    // useEffect(() => {
+    //     if (learningPathsCoursesData) {
+    //         setValue('title', learningPathsCoursesData[0].learningPath.title || '');
+    //         setValue('description', learningPathsCoursesData[0].learningPath.description || '');
+    //     }
+    // }, [learningPathsCoursesData, setValue]);
 
 
     const getFilteredOptions = (index: number, currentValue: string) => {
@@ -91,35 +117,32 @@ export default function NewLearningPathForm({coursesData}: Props) {
     };
 
     const onFormSubmit = handleSubmit(async (data) => {
-        // Adding orderId to courses
-        const transformedCourses = data.courses.map((courseId: string, index: number) => ({
-            courseId: parseInt(courseId),
-            order: index + 1,
-        }));
+            // Adding orderId to courses
+            const transformedCourses = data.courses.map((courseId: string, index: number) => ({
+                courseId: parseInt(courseId),
+                order: index + 1,
+            }));
 
-        const finalData = {
-            title: data.title,
-            description: data.description,
-            courses: transformedCourses
+            const finalData = {
+                title: data.title,
+                description: data.description,
+                courses: transformedCourses
+            }
+
+            const url: string = 'http://localhost:3000/api/learning_paths_courses';
+            try {
+                setSubmitted(true);
+                await axios.post(url, finalData);
+                router.push(`/learning_paths`);
+
+            } catch (error) {
+                setSubmitted(false);
+                setError('Unexpected error has happened');
+            }
+        },
+        (errors) => {
+            console.log("Form validation errors", errors); // 👈 log this
         }
-
-
-        console.log('Final Data:', finalData);
-
-        const url: string = 'http://localhost:3000/api/learning_paths_courses';
-        try {
-            setSubmitted(true);
-            await axios.post(url, finalData);
-            router.push(`/learning_paths`);
-
-        } catch (error) {
-            setSubmitted(false);
-            setError('Unexpected error has happened');
-        }
-    },
-    (errors) => {
-        console.log("Form validation errors", errors); // 👈 log this
-    }
     );
 
 
@@ -127,13 +150,15 @@ export default function NewLearningPathForm({coursesData}: Props) {
 
     return (
         <>
+            {/*{console.log(learningPathsCoursesData[0].learningPath.title)}*/}
+
             <div>
                 <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                     {/*// <!-- Modal header -->*/}
                     <div
                         className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            Add a Learning Path
+                            Edit - Learning Path
                         </h3>
                         <Link
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -149,9 +174,6 @@ export default function NewLearningPathForm({coursesData}: Props) {
                     {/*// <!-- Modal body -->*/}
                     <form onSubmit={onFormSubmit}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-4">
-
-                            {/*TODO: Add option to add Learning Path*/}
-
                             <FormInputFieldElement
                                 title={"Title"}
                                 id={"title"}
@@ -167,9 +189,12 @@ export default function NewLearningPathForm({coursesData}: Props) {
                             <div className={"col-span-4"}>
                                 <label htmlFor="description"
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                <textarea id="description" rows={4} {...register('description')}
+                                <textarea id="description"
+                                          rows={4}
+                                          {...register('description')}
                                           className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                          placeholder="Write your thoughts here..."></textarea>
+                                          placeholder="Write your thoughts here..."
+                                ></textarea>
                                 <div>
                                     {errors.description?.message &&
                                         <p className="text-red-500 text-sm mt-1">{errors.description?.message}</p>}

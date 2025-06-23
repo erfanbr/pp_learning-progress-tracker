@@ -5,7 +5,7 @@ import FormInputFieldElement from "@/app/components/formInputs/FormInputFieldEle
 import CustomButton from "../../components/buttons/CustomButton";
 import {FaMagnifyingGlass, FaTrashCan} from "react-icons/fa6";
 import {CourseStatusLearningPathBadge} from "@/app/components/CourseStatusBadge";
-import {FaCaretDown, FaCaretUp} from "react-icons/fa";
+import {FaCaretDown, FaCaretUp, FaRegEdit} from "react-icons/fa";
 
 // type LearningPaths = z.infer<typeof createLearningPathSchema>;
 
@@ -21,7 +21,7 @@ type LearningPathsCourses = {
     title: string,
     description: string,
     courses: Course[],
-    learningPaths: LearningPath[];
+    learningPaths: LearningPaths[];
 };
 type Course = {
     id: number,
@@ -38,7 +38,7 @@ interface Props {
     learningPathsCoursesData: LearningPathsCourses,
 }
 
-export default function LearningPathsEditPageForm({learningPathsCoursesData}: Props) {
+export default function LearningPathsDetailPageForm({learningPathsCoursesData, id}: Props) {
     const [isTitleCollapsed, setTitleCollapsed] = useState(true);
     const [isDescriptionCollapsed, setDescriptionCollapsed] = useState(true);
     const [isLearningPathCollapsed, setLearningPathCollapsed] = useState(false);
@@ -48,22 +48,34 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData}: Pr
             <div>
                 <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                     {/*// <!-- Modal header -->*/}
-                    <div
-                        className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                    <div className="flex justify-between items-start pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                        {/* Left-aligned title */}
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                             Learning Path - {learningPathsCoursesData[0]?.learningPath?.title}
                         </h3>
-                        <Link
-                            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            href="/learning_paths/">
-                            <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd"
-                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                      clipRule="evenodd"></path>
-                            </svg>
-                        </Link>
+
+                        {/* Right-aligned actions */}
+                        <div className="flex items-center space-x-2 ml-auto">
+                            <CustomButton icon={FaRegEdit}
+                                          type="button"
+                                          buttonStyleType="primary"
+                                          href={`/learning_paths/${id}/edit`}>
+                                Edit
+                            </CustomButton>
+                            <Link
+                                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                href="/learning_paths/"
+                            >
+                                <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path fillRule="evenodd"
+                                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                          clipRule="evenodd"></path>
+                                </svg>
+                            </Link>
+                        </div>
                     </div>
+
                     {/*// <!-- Modal body -->*/}
 
 
@@ -139,7 +151,7 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData}: Pr
 
                         </h2>
                         <div id="accordion-open-body-3" className={` ${isLearningPathCollapsed ? 'hidden' : ''}`} aria-labelledby="accordion-open-heading-3">
-                            <div className="p-10  border border-t-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800" >
+                            <div className="pl-7.5 pt-5 pr-7.5  border border-t-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800" >
                                         <ol className="relative border-s border-gray-200 dark:border-gray-700">
                                             {learningPathsCoursesData.map((c) => (
                                                 <li className="mb-10 ms-6" key={c.id}>
@@ -162,12 +174,12 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData}: Pr
                                                         className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
                                                         {"Learning Order: " + c.order}
                                                     </time>
-                                                    <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                                                    <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400 text-justify">
                                                         {c.course.description}
                                                     </p>
 
 
-                                                    <div className='text-right mt-2.5'>
+                                                    <div className='text-right'>
                                                         <CustomButton icon={FaMagnifyingGlass}
                                                                       buttonStyleType={"discard"}
                                                                       type={"button"}
@@ -180,6 +192,7 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData}: Pr
 
                             </div>
                         </div>
+
                     </div>
 
                 </div>

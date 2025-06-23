@@ -2,7 +2,7 @@ import React from "react";
 import LearningPathPage from "@/app/learning_paths/page";
 import axios from "axios";
 import {prisma} from "@/prisma/client";
-import LearningPathsEditPageForm from "@/app/learning_paths/[slug]/LearningPathsEditPageForm";
+import LearningPathsDetailPageForm from "@/app/learning_paths/[slug]/LearningPathsDetailPageForm";
 
 interface Props {
     params: { slug: string }
@@ -22,11 +22,11 @@ export default async function Page({params}: Props) {
 
     return (
         <>
-            <LearningPathsEditPageForm
+            <LearningPathsDetailPageForm
                 id={params.slug}
                 learningPathsCoursesData={learningPaths}>
 
-            </LearningPathsEditPageForm>
+            </LearningPathsDetailPageForm>
         </>
     );
 }
