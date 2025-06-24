@@ -21,6 +21,8 @@ import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDrop
 import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInputsDropdownElementEnums";
 import LearningPathDropDown from "@/app/components/formInputs/LearningPathCourseDropDown";
 import {IoMdAddCircle} from "react-icons/io";
+import Spinner from "@/app/components/Spinner";
+import ConfirmModal from "@/app/components/Modal/ConfirmModal";
 
 type LearningPathType = z.infer<typeof createLearningPathSchema>;
 
@@ -72,14 +74,11 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
         resolver: zodResolver(createLearningPathSchema),
     });
 
-
-
-
     const router = useRouter();
     const [error, setError] = useState('');
     const [isSubmitted, setSubmitted] = useState(false);
-
-
+    const [isDeleted, setDeleted] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     const allOptions = coursesData.map(c => ({
         id: c.id.toString(),
@@ -144,6 +143,24 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
             console.log("Form validation errors", errors); // 👈 log this
         }
     );
+
+    const handleDelete = async () => {
+        setShowModal(true);
+    };
+
+    const confirmDelete = async () => {
+        const url = `http://localhost:3000/api/learning_paths/${learningPathsCoursesData[0].learningPathId}`;
+        try {
+            setDeleted(true);
+            await axios.delete(url);
+            router.push(`/learning_paths`);
+        } catch (error) {
+            setDeleted(false);
+            setError('An unexpected error has happened!');
+        } finally {
+            setShowModal(false);
+        }
+    };
 
 
 
@@ -240,12 +257,32 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
                         </div>
 
                         <div className="text-right">
-                            <CustomButton href="/learning_paths/" icon={MdCancel}
-                                          buttonStyleType={'discard'}>Cancel</CustomButton>
-                            <CustomButton icon={IoMdAddCircle} buttonStyleType={'primary'} type={'submit'}>Add
-                                Learning Path</CustomButton>
+                            <CustomButton icon={FaTrashCan}
+                                          type={'button'}
+                                          buttonStyleType={'danger'}
+                                          onClick={handleDelete}
+                                          isDisabled={isDeleted}>
+                                Delete {isDeleted && <Spinner/>}
+                            </CustomButton>
+                            {/*<CustomButton href="/learning_paths/" icon={MdCancel}*/}
+                            {/*              buttonStyleType={'discard'}>Cancel</CustomButton>*/}
+                            <CustomButton
+                                icon={FaSave}
+                                buttonStyleType={'primary'}
+                                isDisabled={isSubmitted}>
+                                Save Changes {isSubmitted && <Spinner/>}
+                            </CustomButton>
                         </div>
                     </form>
+
+                    <ConfirmModal
+                        isOpen={showModal}
+                        title="Confirm Deletion"
+                        message={`Are you sure you want to delete --> ID: ${learningPathsCoursesData[0].learningPathId}, 
+                        Title: ${learningPathsCoursesData[0].learningPath.title }? `}
+                        onConfirm={confirmDelete}
+                        onCancel={() => setShowModal(false)}
+                    />
 
                 </div>
 
