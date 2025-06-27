@@ -81,7 +81,7 @@ export async function PUT(request: NextRequest, {params}: Props) {
     if (!dataValidation.success)
         return NextResponse.json({ error: dataValidation.error.errors }, { status: 400 });
 
-    // Check if the learning path exists
+
     const existing = await prisma.learningPath.findUnique({
         where: { id: learningPathId }
     });
@@ -89,7 +89,7 @@ export async function PUT(request: NextRequest, {params}: Props) {
     if (!existing)
         return NextResponse.json({ error: "Learning path not found!" }, { status: 404 });
 
-    // Update title and description
+
     const updatedLearningPath = await prisma.learningPath.update({
         where: { id: learningPathId },
         data: {

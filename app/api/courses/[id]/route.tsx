@@ -90,7 +90,7 @@ export async function PUT(request: NextRequest, {params}: Props) {
             description: body.description,
             technology: {
 
-                connect: body.technology.map((tech: { id: number }) => ({
+                set: body.technology.map((tech: { id: number }) => ({
                     id: tech.id
                 }))
             }
@@ -98,5 +98,4 @@ export async function PUT(request: NextRequest, {params}: Props) {
     })
 
     return NextResponse.json(updateCourse);
-
 }
