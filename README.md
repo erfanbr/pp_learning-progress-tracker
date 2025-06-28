@@ -26,7 +26,7 @@ StudyFlow is a web application that allows users to add courses and keep track o
 ### Features
  - Adding / modifying / deleting courses, technologies, platforms, categories (Done)
  - Filtering courses based on categories, priority, difficulty (Done)
- - Creating a learning path (TBA)
+ - Creating a learning path (Done)
  - User authentication (TBA)
  - Responsive layout(TBA)
 
