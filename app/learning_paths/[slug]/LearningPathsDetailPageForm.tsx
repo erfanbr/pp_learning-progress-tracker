@@ -48,7 +48,8 @@ export default function LearningPathsDetailPageForm({learningPathsCoursesData, i
             <div>
                 <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                     {/*// <!-- Modal header -->*/}
-                    <div className="flex justify-between items-start pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                    <div
+                        className="flex justify-between items-start pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                         {/* Left-aligned title */}
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                             Learning Path - {learningPathsCoursesData[0]?.learningPath?.title}
@@ -96,7 +97,8 @@ export default function LearningPathsDetailPageForm({learningPathsCoursesData, i
                                 {isTitleCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
                             </button>
                         </h2>
-                        <div id="accordion-open-body-1" className={` ${isTitleCollapsed ? 'hidden' : ''}`} aria-labelledby="accordion-open-heading-1">
+                        <div id="accordion-open-body-1" className={` ${isTitleCollapsed ? 'hidden' : ''}`}
+                             aria-labelledby="accordion-open-heading-1">
                             <div
                                 className="p-10 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
                                 <p className="mb-2 text-gray-500 dark:text-gray-400">
@@ -122,15 +124,16 @@ export default function LearningPathsDetailPageForm({learningPathsCoursesData, i
                                 {isDescriptionCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
                             </button>
                         </h2>
-                        <div id="accordion-open-body-2" className={` ${isDescriptionCollapsed ? 'hidden' : ''}`} aria-labelledby="accordion-open-heading-2">
-                            <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                        <div id="accordion-open-body-2" className={` ${isDescriptionCollapsed ? 'hidden' : ''}`}
+                             aria-labelledby="accordion-open-heading-2">
+                            <div
+                                className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
                                 <p className="mb-2 text-gray-500 dark:text-gray-400">
                                     {learningPathsCoursesData[0]?.learningPath?.description}
                                 </p>
 
                             </div>
                         </div>
-
 
 
                         {/*Learning Path Section*/}
@@ -150,11 +153,13 @@ export default function LearningPathsDetailPageForm({learningPathsCoursesData, i
                             </button>
 
                         </h2>
-                        <div id="accordion-open-body-3" className={` ${isLearningPathCollapsed ? 'hidden' : ''}`} aria-labelledby="accordion-open-heading-3">
-                            <div className="pl-7.5 pt-5 pr-7.5  border border-t-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800" >
-                                        <ol className="relative border-s border-gray-200 dark:border-gray-700">
-                                            {learningPathsCoursesData.map((c) => (
-                                                <li className="mb-10 ms-6" key={c.id}>
+                        <div id="accordion-open-body-3" className={` ${isLearningPathCollapsed ? 'hidden' : ''}`}
+                             aria-labelledby="accordion-open-heading-3">
+                            <div
+                                className="pl-7.5 pt-5 pr-7.5  border border-t-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                                <ol className="relative border-s border-gray-200 dark:border-gray-700">
+                                    {learningPathsCoursesData.map((c) => (
+                                        <li className="mb-10 ms-6" key={c.id}>
                                                     <span
                                                         className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-2 ring-white dark:ring-gray-100 dark:bg-primary-500">
                                                         <svg className="w-2.5 h-2.5 text-blue-800 dark:text-gray-100"
@@ -165,30 +170,32 @@ export default function LearningPathsDetailPageForm({learningPathsCoursesData, i
                                                                 d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                                                         </svg>
                                                     </span>
-                                                    <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                                                        {c.course.title}
-                                                        <CourseStatusLearningPathBadge status={c.course.status}/>
+                                            <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                                                {c.course.title}
+                                                <CourseStatusLearningPathBadge status={c.course.status}/>
 
-                                                    </h3>
-                                                    <time
-                                                        className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                                                        {"Learning Order: " + c.order}
-                                                    </time>
-                                                    <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400 text-justify">
-                                                        {c.course.description}
-                                                    </p>
+                                            </h3>
+                                            <time className="flex justify-between text-sm font-normal leading-none text-gray-400 dark:text-gray-500 mb-2">
+                                                <span>{"Duration: " + c.course.duration + " hours"}</span>
+                                                <span>{"Learning Order: " + c.order}</span>
+                                            </time>
+
+                                            <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400 text-justify">
+                                                {c.course.description}
+
+                                            </p>
 
 
-                                                    <div className='text-right'>
-                                                        <CustomButton icon={FaMagnifyingGlass}
-                                                                      buttonStyleType={"discard"}
-                                                                      type={"button"}
-                                                                      href={`/courses/${c.course.id}`}>Course Details
-                                                        </CustomButton>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ol>
+                                            <div className='text-right'>
+                                                <CustomButton icon={FaMagnifyingGlass}
+                                                              buttonStyleType={"discard"}
+                                                              type={"button"}
+                                                              href={`/courses/${c.course.id}`}>Course Details
+                                                </CustomButton>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ol>
 
                             </div>
                         </div>

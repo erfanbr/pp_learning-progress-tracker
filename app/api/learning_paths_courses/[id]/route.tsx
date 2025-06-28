@@ -27,6 +27,7 @@ export async function GET(request: NextRequest, {params}: Props) {
                     id: true,
                     title: true,
                     status: true,
+                    duration: true,
                     description: true,
                 }
             }
