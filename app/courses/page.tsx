@@ -12,6 +12,7 @@ interface Props {
 }
 
 export default async function CoursesPage( {searchParams} : Props) {
+    searchParams = await searchParams;
     const sortBy = searchParams?.sortBy || "id";
     const sortType = searchParams?.sortType || "asc";
 

@@ -8,7 +8,8 @@ interface Props {
     };
 }
 
-export default function TechnologyPage({searchParams}: Props) {
+export default async function TechnologyPage({searchParams}: Props) {
+    searchParams = await searchParams;
     const sortBy = searchParams?.sortBy || "id";
     const sortType = searchParams?.sortType || "asc";
 

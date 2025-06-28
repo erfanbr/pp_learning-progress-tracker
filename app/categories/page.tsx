@@ -10,7 +10,8 @@ interface Props {
     };
 }
 
-export default function CategoriesPage( {searchParams}: Props) {
+export default async function CategoriesPage( {searchParams}: Props) {
+    searchParams = await searchParams;
     const sortBy = searchParams?.sortBy || "id";
     const sortType = searchParams?.sortType || "asc";
 

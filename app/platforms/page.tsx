@@ -9,6 +9,7 @@ interface Props {
 }
 
 export default async function PlatformPage( {searchParams}: Props) {
+    searchParams = await searchParams;
     const sortBy = searchParams?.sortBy || "id";
     const sortType = searchParams?.sortType || "asc";
 
