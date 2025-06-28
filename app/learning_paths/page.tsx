@@ -7,7 +7,8 @@ export const createLearningPathSchema = z.object({
     description: z.string().min(0).max(1024, 'description can be max 1024 characters')
 })
 
-export default function LearningPathPage( {searchParams} : Props) {
+export default async function LearningPathPage( {searchParams} : Props) {
+    searchParams = await searchParams;
     const sortBy = searchParams?.sortBy || "id";
     const sortType = searchParams?.sortType || "asc";
 

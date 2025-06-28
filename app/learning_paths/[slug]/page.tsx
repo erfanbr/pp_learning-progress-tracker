@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default async function Page({params}: Props) {
-
+    params = await params;
     // const apiURL = "http://localhost:3000/api/learning_paths/" + params.slug;
     const apiURL = "http://localhost:3000/api/learning_paths_courses/" + params.slug;
     const response = await axios.get(apiURL);

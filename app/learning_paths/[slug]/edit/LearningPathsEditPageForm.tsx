@@ -128,10 +128,12 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
                 courses: transformedCourses
             }
 
-            const url: string = 'http://localhost:3000/api/learning_paths_courses';
+            const url: string = `http://localhost:3000/api/learning_paths_courses/${learningPathsCoursesData[0].learningPathId}`;
             try {
+                // console.log('Final data: ', finalData);
                 setSubmitted(true);
-                await axios.post(url, finalData);
+                const response= await axios.put(url, finalData);
+                console.log(response);
                 router.push(`/learning_paths`);
 
             } catch (error) {
@@ -140,7 +142,7 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
             }
         },
         (errors) => {
-            console.log("Form validation errors", errors); // 👈 log this
+            console.log("Form validation errors", errors);
         }
     );
 
@@ -149,7 +151,7 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
     };
 
     const confirmDelete = async () => {
-        const url = `http://localhost:3000/api/learning_paths/${learningPathsCoursesData[0].learningPathId}`;
+        const url = `http://localhost:3000/api/learning_paths_courses/${learningPathsCoursesData[0].learningPathId}`;
         try {
             setDeleted(true);
             await axios.delete(url);

@@ -3,7 +3,7 @@ import {prisma} from "@/prisma/client";
 import {createPlatformSchema} from "@/app/validationSchema";
 
 interface Props {
-    params: {id: string}
+    params: { id: string }
 }
 
 export async function GET(request: NextRequest, {params}: Props) {
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest, {params}: Props) {
     return NextResponse.json(result)
 }
 
-export async function DELETE(request: NextRequest, {params}: Props){
+export async function DELETE(request: NextRequest, {params}: Props) {
     const result = await prisma.learningPath.findUnique({
         where: {
             id: parseInt(params.id)
@@ -53,19 +53,19 @@ export async function DELETE(request: NextRequest, {params}: Props){
     return NextResponse.json(resultToDelete);
 }
 
-export async function PUT(request: NextRequest, {params} : Props){
+export async function PUT(request: NextRequest, {params}: Props) {
     const body = await request.json();
-
+    const param  = await params;
     const result = await prisma.learningPath.findUnique({
-        where: {id: parseInt(params.id)}
+        where: {id: parseInt(param.id)}
     })
 
     const dataValidation = createPlatformSchema.safeParse(body);
 
-    if (!dataValidation.success) return  NextResponse.json({error: dataValidation.error.errors}, {status: 400})
-    if (!result) return NextResponse.json({error: "Learning path not found!"}, {status:400});
+    if (!dataValidation.success) return NextResponse.json({error: dataValidation.error.errors}, {status: 400})
+    if (!result) return NextResponse.json({error: "Learning path not found!"}, {status: 400});
 
-    const updatedResult  = await prisma.learningPath.update({
+    const updatedResult = await prisma.learningPath.update({
         where: {id: result.id},
         data: {
             title: body.title,
