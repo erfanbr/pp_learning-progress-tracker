@@ -90,9 +90,9 @@ export default function LearningPathsDetailPageForm({learningPathsCoursesData, i
                                 <span className="flex items-center"><svg className="w-5 h-5 me-2 shrink-0"
                                                                          fill="currentColor" viewBox="0 0 20 20"
                                                                          xmlns="http://www.w3.org/2000/svg"><path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                                    clip-rule="evenodd"></path></svg> Title: </span>
+                                    clipRule="evenodd"></path></svg> Title: </span>
                                 {isTitleCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
                             </button>
                         </h2>
@@ -116,9 +116,9 @@ export default function LearningPathsDetailPageForm({learningPathsCoursesData, i
                                 <span className="flex items-center"><svg className="w-5 h-5 me-2 shrink-0"
                                                                          fill="currentColor" viewBox="0 0 20 20"
                                                                          xmlns="http://www.w3.org/2000/svg"><path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                                    clip-rule="evenodd"></path></svg>Description:</span>
+                                    clipRule="evenodd"></path></svg>Description:</span>
                                 {isDescriptionCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
                             </button>
                         </h2>
@@ -145,7 +145,7 @@ export default function LearningPathsDetailPageForm({learningPathsCoursesData, i
                                                                          xmlns="http://www.w3.org/2000/svg"><path
                                     fill-rule="evenodd"
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                                    clip-rule="evenodd"></path></svg>Learning Path Breakdown:</span>
+                                    clipRule="evenodd"></path></svg>Learning Path Breakdown:</span>
                                 {isLearningPathCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
                             </button>
 
