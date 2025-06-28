@@ -67,7 +67,6 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
         defaultValues: {
             title: learningPathsCoursesData[0].learningPath.title || '',
             description: learningPathsCoursesData[0].learningPath.description || '',
-            // courses: Array.from({ length: numberOfCourses }, () => '')
             courses: learningPathsCoursesData.map(item => item.course.id.toString()),
 
         },
@@ -100,14 +99,6 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
         setValue('courses', newValues);
     }, [numberOfCourses]);
 
-    // useEffect(() => {
-    //     if (learningPathsCoursesData) {
-    //         setValue('title', learningPathsCoursesData[0].learningPath.title || '');
-    //         setValue('description', learningPathsCoursesData[0].learningPath.description || '');
-    //     }
-    // }, [learningPathsCoursesData, setValue]);
-
-
     const getFilteredOptions = (index: number, currentValue: string) => {
         const selectedIds = watchedCourses.filter((_, i) => i !== index); // exclude current index
         return allOptions.filter(
@@ -130,10 +121,8 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
 
             const url: string = `http://localhost:3000/api/learning_paths_courses/${learningPathsCoursesData[0].learningPathId}`;
             try {
-                // console.log('Final data: ', finalData);
                 setSubmitted(true);
                 const response= await axios.put(url, finalData);
-                console.log(response);
                 router.push(`/learning_paths`);
 
             } catch (error) {
@@ -169,8 +158,6 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
 
     return (
         <>
-            {/*{console.log(learningPathsCoursesData[0].learningPath.title)}*/}
-
             <div>
                 <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                     {/*// <!-- Modal header -->*/}
@@ -266,8 +253,6 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
                                           isDisabled={isDeleted}>
                                 Delete {isDeleted && <Spinner/>}
                             </CustomButton>
-                            {/*<CustomButton href="/learning_paths/" icon={MdCancel}*/}
-                            {/*              buttonStyleType={'discard'}>Cancel</CustomButton>*/}
                             <CustomButton
                                 icon={FaSave}
                                 buttonStyleType={'primary'}
