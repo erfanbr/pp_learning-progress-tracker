@@ -2,8 +2,8 @@
 import React, {useState} from "react";
 import Link from "next/link";
 import {sort} from "fast-sort";
-import {FaCaretDown, FaCaretUp, FaSave} from "react-icons/fa";
-import {IoAddCircleSharp} from "react-icons/io5";
+import {FaCaretDown, FaCaretUp, FaListUl, FaSave} from "react-icons/fa";
+import {IoAddCircleSharp, IoGrid} from "react-icons/io5";
 import {CustomButton, CourseStatusBadge, TableHeadWithSorting, CourseDifficultyBadge} from '@/app/components'
 import delay from "delay";
 
@@ -12,6 +12,8 @@ import CourseFilter from "@/app/courses/CourseFilter";
 import {MdCancel} from "react-icons/md";
 import PageHeader from "@/app/components/pages/PageHeader";
 import CourseListView from "@/app/courses/CourseListView";
+import CourseGridView from "@/app/courses/CourseGridView";
+import classNames from "classnames";
 
 
 interface Props<T extends string> {
@@ -46,6 +48,7 @@ export default function CoursesTable({
     const [currentPlatformFilter, setCurrentPlatformFilter] = useState('');
     const [currentCategoryFilter, setCurrentCategoryFilter] = useState('');
     const [currentTechnologyFilter, setCurrentTechnologyFilter] = useState('');
+    const [isGridView, setIsGridView] = useState(true);
 
     const [isCollapsed, setIsCollapsed] = useState(true);
 
@@ -89,63 +92,105 @@ export default function CoursesTable({
 
     return (
         <>
+        <div
+
+            className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+            <PageHeader pageHeader="Courses Detail"/>
+
             <div
+                className="pb-4 mb-4 rounded-t sm:mb-5 dark:border-gray-600">
 
-                className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-                <PageHeader pageHeader="Courses Detail"/>
+                <h2 id="accordion-collapse-heading-2">
+                    <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}
+                            className={`flex items-center p-3 justify-between w-full font-medium rtl:text-right text-gray-500 mb-4 border-b sm:mb-5  border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-600 dark:text-gray-400 ${isCollapsed ? 'dark:bg-gray-800' : 'dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700 gap-3`}
+                            data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
+                            aria-controls="accordion-collapse-body-2">
+                        <span>Filters</span>
+                        {isCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
 
-                <div
-                    className="pb-4 mb-4 rounded-t sm:mb-5 dark:border-gray-600">
+                    </button>
+                </h2>
+                <div className={` ${isCollapsed ? 'hidden' : ''}`}>
+                    <CourseFilter platformData={platformsData}
+                                  categoryData={categoryData}
+                                  technologiesData={technologiesData}
+                                  onPlatformValueClick={(platformId) => setCurrentPlatformFilter(parseInt(platformId))}
+                                  onCategoryValueClick={(category) => setCurrentCategoryFilter(parseInt(category))}
+                                  onTechnologyValueClick={(technology) => setCurrentTechnologyFilter(parseInt(technology))}
+                                  onStatusValueClick={(status) => setCurrentStatusFilter(status)}
+                                  onDifficultyValueClick={(difficulty) => setCurrentDifficultyFilter(difficulty)}
+                                  onPriorityValueClick={(priority) => setCurrentPriorityFilter(priority)}
+                    >
 
-                    <h2 id="accordion-collapse-heading-2">
-                        <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}
-                                className={`flex items-center p-3 justify-between w-full font-medium rtl:text-right text-gray-500 mb-4 border-b sm:mb-5  border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-600 dark:text-gray-400 ${isCollapsed ? 'dark:bg-gray-800' : 'dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-700 gap-3`}
-                                data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
-                                aria-controls="accordion-collapse-body-2">
-                            <span>Filters</span>
-                            {isCollapsed ? <FaCaretDown/> : <FaCaretUp/>}
+                    </CourseFilter>
 
+                    <div className="pb-4 mb-4 text-right border-b dark:border-gray-600">
+                        <CustomButton
+                            icon={MdCancel}
+                            onClick={() => handleClearFilter()}
+                            buttonStyleType={"discard"}>
+                            Clear Filters
+                        </CustomButton>
+                    </div>
+                </div>
+
+
+                <div className="flex justify-start">
+                    <ul className="inline-flex divide-x divide-gray-200 dark:divide-gray-700 rounded-lg shadow-sm text-sm font-medium text-gray-500 dark:text-gray-400">
+                        <li>
+                            <button
+                                onClick={() => setIsGridView(true)}
+                                aria-current="page"
+                                className={classNames(
+                                    "inline-flex items-center gap-2 px-4 py-2 text-gray-900 bg-gray-100 dark:text-white rounded-s-lg",
+                                    {
+                                        "dark:bg-primary-500": isGridView,
+                                        "dark:bg-gray-700 ": !isGridView
+                                    }
+                                )}>
+                            <IoGrid className="w-4 h-4"/> Grid View
                         </button>
-                    </h2>
-                    <div className={` ${isCollapsed ? 'hidden' : ''}`}>
-                        <CourseFilter platformData={platformsData}
-                                      categoryData={categoryData}
-                                      technologiesData={technologiesData}
-                                      onPlatformValueClick={(platformId) => setCurrentPlatformFilter(parseInt(platformId))}
-                                      onCategoryValueClick={(category) => setCurrentCategoryFilter(parseInt(category))}
-                                      onTechnologyValueClick={(technology) => setCurrentTechnologyFilter(parseInt(technology))}
-                                      onStatusValueClick={(status) => setCurrentStatusFilter(status)}
-                                      onDifficultyValueClick={(difficulty) => setCurrentDifficultyFilter(difficulty)}
-                                      onPriorityValueClick={(priority) => setCurrentPriorityFilter(priority)}
-                        >
-
-                        </CourseFilter>
-
-                        <div className="pb-4 mb-4 text-right border-b dark:border-gray-600">
-                            <CustomButton
-                                icon={MdCancel}
-                                onClick={() => handleClearFilter()}
-                                buttonStyleType={"discard"}>
-                                Clear Filters
-                            </CustomButton>
-                        </div>
-                    </div>
-                    <div>
-                        List view
-                    </div>
-                </div>
-
-                <CourseListView
-                    sortedPlatforms={sortedPlatforms}
-                    sortBy={sortBy}
-                    sortMethod={sortMethod}>
-                </CourseListView>
-
-                <div className="text-right py-5">
-                    <CustomButton href="/courses/new" icon={IoAddCircleSharp} buttonStyleType={"primary"}>Add
-                        Course</CustomButton>
-                </div>
+                    </li>
+                    <li>
+                        <button
+                            onClick={() => setIsGridView(false)}
+                            className={classNames(
+                                "inline-flex items-center gap-2 px-4 py-2 text-gray-900 bg-gray-100 dark:text-white rounded-e-lg",
+                                {
+                                    "dark:bg-primary-500": !isGridView,
+                                    "dark:bg-gray-700 ": isGridView
+                                }
+                            )}>
+                            <FaListUl className="w-4 h-4"/> List View
+                        </button>
+                    </li>
+                </ul>
             </div>
-        </>
-    );
+        </div>
+
+
+        {isGridView
+            ?
+            <CourseGridView
+                sortedPlatforms={sortedPlatforms}
+                sortBy={sortBy}
+                sortMethod={sortMethod}>
+            </CourseGridView>
+            :
+            <CourseListView
+                sortedPlatforms={sortedPlatforms}
+                sortBy={sortBy}
+                sortMethod={sortMethod}>
+            </CourseListView>
+        }
+
+
+        <div className="text-right py-5">
+            <CustomButton href="/courses/new" icon={IoAddCircleSharp} buttonStyleType={"primary"}>Add
+                Course</CustomButton>
+        </div>
+        </div>
+</>
+)
+    ;
 }
