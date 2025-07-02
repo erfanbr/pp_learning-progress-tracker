@@ -11,6 +11,7 @@ import CourseFilter from "@/app/courses/CourseFilter";
 
 import {MdCancel} from "react-icons/md";
 import PageHeader from "@/app/components/pages/PageHeader";
+import CourseListView from "@/app/courses/CourseListView";
 
 
 interface Props<T extends string> {
@@ -91,7 +92,7 @@ export default function CoursesTable({
             <div
 
                 className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-                <PageHeader pageHeader="Courses Detail" />
+                <PageHeader pageHeader="Courses Detail"/>
 
                 <div
                     className="pb-4 mb-4 rounded-t sm:mb-5 dark:border-gray-600">
@@ -128,70 +129,18 @@ export default function CoursesTable({
                                 Clear Filters
                             </CustomButton>
                         </div>
-
                     </div>
-
+                    <div>
+                        List view
+                    </div>
                 </div>
 
+                <CourseListView
+                    sortedPlatforms={sortedPlatforms}
+                    sortBy={sortBy}
+                    sortMethod={sortMethod}>
+                </CourseListView>
 
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <TableHeadWithSorting title={"ID"} stringTitle={"id"} sortMethod={sortMethod}
-                                              url={`/courses?sortBy=id&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
-                                              sortBy={sortBy}/>
-
-                        <TableHeadWithSorting title={"Course name"} stringTitle={"title"} sortMethod={sortMethod}
-                                              url={`/courses?sortBy=title&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
-                                              sortBy={sortBy}/>
-
-                        <TableHeadWithSorting title={"Status"} stringTitle={"status"} sortMethod={sortMethod}
-                                              url={`/courses?sortBy=status&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
-                                              sortBy={sortBy}/>
-
-
-                        {/*/!*TODO: Fix category sorting*!/*/}
-                        <TableHeadWithSorting title={"Category"} stringTitle={"categoryId"} sortMethod={sortMethod}
-                                              url={`/courses?sortBy=categoryId&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
-                                              sortBy={sortBy}/>
-
-                        <TableHeadWithSorting title={"Difficulty"} stringTitle={"difficulty"}
-                                              sortMethod={sortMethod}
-                                              url={`/courses?sortBy=difficulty&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
-                                              sortBy={sortBy}/>
-
-                        {/*/!*TODO: Fix Platform sorting*!/*/}
-                        <TableHeadWithSorting title={"Platform"} stringTitle={"platformId"} sortMethod={sortMethod}
-                                              url={`/courses?sortBy=platformId&sortType=${sortMethod === "asc" ? "desc" : "asc"}`}
-                                              sortBy={sortBy}/>
-
-                        <th scope="col" className="px-6 py-3">
-                            Action
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {sortedPlatforms.map((course) => (
-
-                        <tr key={course.id}
-                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {course.id}
-                            </th>
-                            <td className="px-6 py-4">{course.title}</td>
-                            <td className="px-6 py-4"><CourseStatusBadge status={course.status}/></td>
-                            <td className="px-6 py-4">{(course.category!.title)}</td>
-                            <td className="px-6 py-4"><CourseDifficultyBadge difficulty={course.difficulty}/></td>
-                            <td className="px-6 py-4">{(course.platform!.title)}</td>
-                            <td className="px-6 py-4">
-                                <Link href={`/courses/${course.id}`}
-                                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
-                            </td>
-                        </tr>
-
-                    ))}
-                    </tbody>
-                </table>
                 <div className="text-right py-5">
                     <CustomButton href="/courses/new" icon={IoAddCircleSharp} buttonStyleType={"primary"}>Add
                         Course</CustomButton>
