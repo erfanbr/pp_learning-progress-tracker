@@ -3,6 +3,7 @@ import {CourseDifficultyBadge, CourseStatusBadge, TableHeadWithSorting} from "@/
 import Link from "next/link";
 import CustomButton from "../components/buttons/CustomButton";
 import {FaMagnifyingGlass} from "react-icons/fa6";
+import {FaInfoCircle} from "react-icons/fa";
 
 interface Props<T extends string> {
     sortMethod: string,
@@ -21,7 +22,7 @@ export default function CourseGridView({sortMethod, sortBy, sortedPlatforms}: Pr
                      className="w-full flex flex-col mb-5 items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row dark:border-gray-700 dark:bg-gray-900"
                 >
                     <img
-                        className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-56 md:rounded-none md:rounded-s-lg"
+                        className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-80 md:rounded-none md:rounded-s-lg"
                         src="/images/placeholder_image.png"
                         alt="Technology"
                     />
@@ -37,8 +38,7 @@ export default function CourseGridView({sortMethod, sortBy, sortedPlatforms}: Pr
                         <p className={"mb-1 font-light dark:text-gray-500 text-sm "}>
                             {"Last seen: Episode " + course.lastSeen}
                         </p>
-                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-
+                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 overflow-hidden text-ellipsis line-clamp-2">
                             {course.description}
                         </p>
                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
@@ -53,8 +53,8 @@ export default function CourseGridView({sortMethod, sortBy, sortedPlatforms}: Pr
 
 
                         <div className='text-right'>
-                            <CustomButton icon={FaMagnifyingGlass}
-                                          buttonStyleType={"primary"}
+                            <CustomButton icon={FaInfoCircle}
+                                          buttonStyleType={"primary_xs"}
                                           type={"button"}
                                           href={`/courses/${course.id}`}>Course Details
                             </CustomButton>
