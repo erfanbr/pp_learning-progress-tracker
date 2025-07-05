@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import CourseEditPageForm from "@/app/courses/[slug]/CourseEditPageForm";
+import CourseDetailPageForm from "@/app/courses/[slug]/CourseDetailPageForm";
 import {prisma} from "@/prisma/client";
 
 interface Props {
@@ -26,7 +26,7 @@ export default async function CourseDetailPage({params}: Props) {
 
     return (
         <>
-            <CourseEditPageForm
+            <CourseDetailPageForm
                 id={params.slug}
                 platformsData={platforms}
                 categoriesData={categories}
@@ -36,7 +36,7 @@ export default async function CourseDetailPage({params}: Props) {
             >
 
 
-            </CourseEditPageForm>
+            </CourseDetailPageForm>
         </>
     );
 }
