@@ -185,7 +185,7 @@ export default function CoursesTable({
         }
 
 
-        TODO: Add Sort Button
+        {/*TODO: Add Sort Button*/}
 
 
         <div className="text-right py-5">

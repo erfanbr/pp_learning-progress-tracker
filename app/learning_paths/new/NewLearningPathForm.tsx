@@ -150,8 +150,6 @@ export default function NewLearningPathForm({coursesData}: Props) {
                     <form onSubmit={onFormSubmit}>
                         <div className="grid gap-4 mb-4 sm:grid-cols-4">
 
-                            {/*TODO: Add option to add Learning Path*/}
-
                             <FormInputFieldElement
                                 title={"Title"}
                                 id={"title"}
