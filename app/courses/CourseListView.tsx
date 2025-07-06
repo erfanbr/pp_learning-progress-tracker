@@ -62,7 +62,7 @@ export default function CourseListView({sortMethod, sortBy, sortedPlatforms}: Pr
                         <td className="px-6 py-4">{(course.platform!.title)}</td>
                         <td className="px-6 py-4">
                             <Link href={`/courses/${course.id}`}
-                                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Details</Link>
                         </td>
                     </tr>
 

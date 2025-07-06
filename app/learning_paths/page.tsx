@@ -19,6 +19,7 @@ export default async function LearningPathPage( {searchParams} : Props) {
                                  id={"Learning Paths"}
                                  sortBy={sortBy}
                                  sortType={sortType}
+                                 actionText={"Details"}
             />
         </>
     );

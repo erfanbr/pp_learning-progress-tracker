@@ -16,6 +16,7 @@ interface Props{
     apiPath: string,
     sortBy: string,
     sortType: string
+    actionText?: string
 }
 
 type Element = {
@@ -23,7 +24,7 @@ type Element = {
     title: string;
 };
 
-export default async function SimplePageWithTable({pageHeader, apiPath, id, sortBy, sortType} : Props) {
+export default async function SimplePageWithTable({pageHeader, apiPath, id, sortBy, sortType, actionText} : Props) {
     // used for checking loading and skeleton
     // await delay(2000);
 
@@ -49,6 +50,7 @@ export default async function SimplePageWithTable({pageHeader, apiPath, id, sort
                                  id={id} sortBy={sortBy}
                                  sortType={sortType}
                                  sortedPlatforms={sortedPlatforms}
+                                 actionText={actionText}
                     />
 
                     <div className="text-right py-5">
