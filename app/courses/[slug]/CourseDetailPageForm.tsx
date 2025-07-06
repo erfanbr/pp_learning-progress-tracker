@@ -143,7 +143,7 @@ export default function CourseDetailPageForm({
                     </div>
                     {/*// <!-- Modal body -->*/}
                     <form onSubmit={onFormSubmit}>
-                        <div className="grid gap-4 mb-4 p-4 rounded-2xl sm:grid-cols-3 bg-gray-100">
+                        <div className="grid gap-4 mb-4 p-4 rounded-2xl sm:grid-cols-3 bg-gray-50">
 
                             <img
                                 className="row-span-2 col-span-1 rounded-lg object-cover w-full h-full"
@@ -179,137 +179,45 @@ export default function CourseDetailPageForm({
                                     </span>
                                     ))}
                                 </p>
-                                <p>Link: <span className="font-light text-gray-500">{courseData.link}</span></p>
+                                <p className="col-span-full flex flex-wrap items-center">Link: <span className="font-light text-gray-500">{courseData.link}</span></p>
                             </div>
 
 
 
-                            <div className="text-gray-800 col-span-3">
+                            <div className="text-gray-800 col-span-4">
                                 <p className="font-bold">Description:</p>
                                 <p>{courseData.description}</p>
                             </div>
 
-
-                            {/*<FormInputDropDownElement title={'Platform'}*/}
-                            {/*                          id={'platform'}*/}
-                            {/*                          dataSource={platforms}*/}
-                            {/*                          defaultValue={courseData.platformId}*/}
-                            {/*                          columnSize={'1'}*/}
-                            {/*                          register={register('platformId', {valueAsNumber: true})}*/}
-                            {/*                          error={errors.platformId?.message}*/}
-                            {/*/>*/}
+                            <div className="text-gray-800 col-span-4">
+                                <p className="font-bold">Notes:</p>
+                                <p>{courseData.note}</p>
+                            </div>
 
 
-                            {/*<FormInputDropDownElementEnums title={'Status'}*/}
-                            {/*                               id={'status'}*/}
-                            {/*                               dataSource={statusMap}*/}
-                            {/*                               defaultValue={courseData.status}*/}
-                            {/*                               columnSize={'1'}*/}
-                            {/*                               register={register('status')}*/}
-                            {/*                               error={errors.status?.message}*/}
-                            {/*/>*/}
 
-                            {/*<FormInputDropDownElementEnums title={'Difficulty'}*/}
-                            {/*                               id={'difficulty'}*/}
-                            {/*                               dataSource={difficultyMap}*/}
-                            {/*                               defaultValue={courseData.difficulty}*/}
-                            {/*                               columnSize={'1'}*/}
-                            {/*                               register={register('difficulty')}*/}
-                            {/*                               error={errors.difficulty?.message}*/}
-                            {/*/>*/}
+                            <div className="col-span-4 flex justify-end space-x-4 mt-4">
+                                <CustomButton
+                                    icon={FaTrashCan}
+                                    type="button"
+                                    buttonStyleType="danger"
+                                    onClick={handleDelete}
+                                    isDisabled={isDeleted}
+                                >
+                                    Delete {isDeleted && <Spinner />}
+                                </CustomButton>
 
-
-                            {/*<FormInputDropDownElement title={'Category'}*/}
-                            {/*                          id={'category'}*/}
-                            {/*                          dataSource={categories}*/}
-                            {/*                          defaultValue={courseData.categoryId}*/}
-                            {/*                          columnSize={'1'}*/}
-                            {/*                          register={register('categoryId', {valueAsNumber: true})}*/}
-                            {/*                          error={errors.categoryId?.message}*/}
-                            {/*/>*/}
-
-                            {/*<FormInputDropDownElementEnums title={'Priority'}*/}
-                            {/*                               id={'priority'}*/}
-                            {/*                               dataSource={priorityMap}*/}
-                            {/*                               defaultValue={courseData.priority}*/}
-                            {/*                               columnSize={'1'}*/}
-                            {/*                               register={register('priority')}*/}
-                            {/*                               error={errors.priority?.message}*/}
-                            {/*/>*/}
-
-
-                            {/*<FormInputFieldElement*/}
-                            {/*    title={"Duration (Hours)"}*/}
-                            {/*    id={"duration"}*/}
-                            {/*    type={'number'}*/}
-                            {/*    columnSize={"1"}*/}
-                            {/*    placeholder={'Total hours'}*/}
-                            {/*    defaultValue={courseData.duration}*/}
-                            {/*    register={register('duration', {valueAsNumber: true})}*/}
-                            {/*    error={errors.duration?.message}*/}
-                            {/*/>*/}
-
-                            {/*<FormInputFieldElement*/}
-                            {/*    title={"Last Seen"}*/}
-                            {/*    id={"lastSeen"}*/}
-                            {/*    columnSize={"2"}*/}
-                            {/*    placeholder={'Last seen video / episode'}*/}
-                            {/*    defaultValue={courseData.lastSeen}*/}
-                            {/*    register={register('lastSeen')}*/}
-                            {/*    error={errors.lastSeen?.message}*/}
-                            {/*/>*/}
-
-
-                            {/*/!*Multiple select area*!/*/}
-                            {/*<div className={"col-span-4"}>*/}
-                            {/*    <label htmlFor="technologies"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technologies*/}
-                            {/*    </label>*/}
-
-                            {/*    <div className="grid grid-cols-2 gap-2 px-4 md:px-2 md:grid-cols-4 col-span-4">*/}
-                            {/*        {technologies.map(technology => (*/}
-                            {/*            <FormCheckBoxElement*/}
-                            {/*                title={technology.title}*/}
-                            {/*                key={technology.id}*/}
-                            {/*                id={technology.id}*/}
-                            {/*                value={technology.id.toString()}*/}
-                            {/*                isCheck={currentTechnologiesId.includes(technology.id)}*/}
-                            {/*                register={register('technology')}/>*/}
-                            {/*        ))}*/}
-                            {/*    </div>*/}
-
-                            {/*    {errors.technology?.message && (*/}
-                            {/*        <p className="text-red-500 text-sm mt-1">{errors.technology.message}</p>*/}
-                            {/*    )}*/}
-                            {/*</div>*/}
-
-
-                            {/*Note Area*/}
-                            {/*<div className={"col-span-4"}>*/}
-                            {/*    <label htmlFor="note"*/}
-                            {/*           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes</label>*/}
-                            {/*    <textarea id="note" rows={4} {...register('note')}*/}
-                            {/*              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"*/}
-                            {/*              placeholder="Write your thoughts here..."></textarea>*/}
-                            {/*</div>*/}
+                                <CustomButton
+                                    icon={FaSave}
+                                    buttonStyleType="primary"
+                                    isDisabled={isSubmitted}
+                                >
+                                    Save Changes {isSubmitted && <Spinner />}
+                                </CustomButton>
+                            </div>
                         </div>
 
-                        <div className="text-right">
-                            <CustomButton icon={FaTrashCan}
-                                          type={'button'}
-                                          buttonStyleType={'danger'}
-                                          onClick={handleDelete}
-                                          isDisabled={isDeleted}>
-                                Delete {isDeleted && <Spinner/>}
-                            </CustomButton>
 
-                            <CustomButton
-                                icon={FaSave}
-                                buttonStyleType={'primary'}
-                                isDisabled={isSubmitted}>
-                                Save Changes {isSubmitted && <Spinner/>}
-                            </CustomButton>
-                        </div>
                     </form>
 
                     <ConfirmModal
@@ -322,19 +230,6 @@ export default function CourseDetailPageForm({
                 </div>
 
 
-                {/*<div id="defaultModal" tabIndex="-1" aria-hidden="true"*/
-                }
-                {/*     className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">*/
-                }
-                {/*    <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">*/
-                }
-                {/*        <!-- Modal content -->*/
-                }
-
-                {/*    </div>*/
-                }
-                {/*</div>*/
-                }
             </div>
         </>
     );
