@@ -39,7 +39,6 @@ export async function GET(request: NextRequest, {params}: Props) {
 }
 
 
-// TODO: its working from API but not web app, figure out why
 export async function DELETE(request: NextRequest, {params}: Props) {
     const learningPathCourse = await prisma.learningPathCourse.findMany({
         where: {
