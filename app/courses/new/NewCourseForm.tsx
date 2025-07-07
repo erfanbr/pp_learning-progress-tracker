@@ -53,6 +53,7 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
             setSubmitted(true);
             await axios.post(url, transformed);
             router.push(`/courses`);
+            router.refresh();
         } catch (error) {
             setSubmitted(false);
             setError('Unexpected error has happened');

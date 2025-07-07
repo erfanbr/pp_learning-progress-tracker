@@ -87,6 +87,7 @@ export default function CourseDetailPageForm({
             setDeleted(true);
             await axios.delete(url);
             router.push(`/courses`);
+            router.refresh();
         } catch (error) {
             setDeleted(false);
             setError('An unexpected error has happened!');

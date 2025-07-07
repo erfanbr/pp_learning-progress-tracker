@@ -45,6 +45,7 @@ export default function SimpleEditPage({id, backURL, apiURL, dataElement}: Props
             setSubmitted(true);
             await axios.put(url, data);
             router.push(`/${apiURL}`);
+            router.refresh();
         } catch (error) {
             setSubmitted(false);
             setError('unexpect error has happened!');

@@ -38,6 +38,7 @@ export default function SimpleAddPage({id, backURL, apiURL}: Props) {
             setSubmitted(true);
             await axios.post(url, data);
             router.push(`/${apiURL}`);
+            router.refresh();
         } catch (error) {
             setSubmitted(false);
             setError('Unexpected error has happened');
