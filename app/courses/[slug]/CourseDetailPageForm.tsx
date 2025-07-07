@@ -179,7 +179,7 @@ export default function CourseDetailPageForm({
                                     </span>
                                     ))}
                                 </p>
-                                <p className="col-span-full flex flex-wrap items-center">Link: <span className="font-light text-gray-500">{courseData.link}</span></p>
+                                <p className="col-span-full flex flex-wrap items-center">Link: <span className="font-light text-gray-500 ml-1">{ courseData.link}</span></p>
                             </div>
 
 
