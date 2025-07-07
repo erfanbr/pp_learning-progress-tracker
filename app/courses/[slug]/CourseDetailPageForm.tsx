@@ -23,6 +23,7 @@ import Spinner from "@/app/components/Spinner";
 import {FaTrashCan} from "react-icons/fa6";
 import {CourseDifficultyBadge, CourseStatusBadge} from "@/app/components";
 import CoursePriorityBadge from "@/app/components/CoursePriorityBadge";
+import delay from "delay";
 
 
 type CourseTechnology = z.infer<typeof createCourseSchema>;
@@ -103,17 +104,7 @@ export default function CourseDetailPageForm({
     return (
         <>
             <div>
-                {/*<h1>Post: {myProp.params.slug}</h1>*/}
-                {/*<div>{course!.title}</div>*/}
-                {/*<div>{course!.id}</div>*/}
-
-
-                {/*<div className="flex justify-center m-5">*/}
-                {/*    <button id="defaultModalButton" data-modal-target="defaultModal" data-modal-toggle="defaultModal" className="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">*/}
-                {/*        Create product*/}
-                {/*    </button>*/}
-                {/*</div>*/}
-
+                {/*{delay(500000)}*/}
                 <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                     {/*// <!-- Modal header -->*/}
                     <div
