@@ -19,6 +19,7 @@ import axios from "axios";
 import {MdCancel} from "react-icons/md";
 import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDropdownElement";
 import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInputsDropdownElementEnums";
+import FormInputTextAreaElement from "@/app/components/formInputs/FormInputTextAreaElement";
 
 type CourseTechnology = z.infer<typeof createCourseSchema>;
 
@@ -218,15 +219,32 @@ export default function NewCourseForm({platformsData, categoriesData, technologi
                                 )}
                             </div>
 
+                            {/*Description Area*/}
+                            <FormInputTextAreaElement
+                                title={"Description"}
+                                id={'description'}
+                                defaultValue={""}
+                                placeholderText={"Briefly write what the course is about"}
+                                register={register('description')}
+                                isDisabled={false}
+                                columnSize={"4"}
+                                textHeight={2}
+                                error={errors.description?.message}
+                            />
+
 
                             {/*Note Area*/}
-                            <div className={"col-span-4"}>
-                                <label htmlFor="note"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes</label>
-                                <textarea id="note" rows={4} {...register('note')}
-                                          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-zinc-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                          placeholder="Write your thoughts here..."></textarea>
-                            </div>
+                            <FormInputTextAreaElement
+                                title={"Notes"}
+                                id={'note'}
+                                defaultValue={""}
+                                placeholderText={"Write your notes here..."}
+                                register={register('note')}
+                                isDisabled={false}
+                                columnSize={"4"}
+                                textHeight={4}
+                                error={errors.note?.message}
+                            />
                         </div>
 
                         <div className="text-right">
