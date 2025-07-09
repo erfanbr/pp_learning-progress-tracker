@@ -42,7 +42,7 @@ export const createCourseSchema = z.object({
     lastSeen: z.string().max(150),
     technology: z.array(z.coerce.string()).nonempty("Please select at least one technology"),
     note: z.string().max(32688).nullable(),
-    description: z.string().min(3, 'Description has to be at least 3 characters').max(32688).nullable()
+    description: z.string().min(3, 'Description has to be at least 3 characters').max(32688)
 })
 
 export const createLearningPathSchema = z.object({
