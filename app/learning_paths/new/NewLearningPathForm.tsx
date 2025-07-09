@@ -21,6 +21,7 @@ import FormInputDropDownElement from "@/app/components/formInputs/FormInputsDrop
 import FormInputDropDownElementEnums from "@/app/components/formInputs/FormInputsDropdownElementEnums";
 import LearningPathDropDown from "@/app/components/formInputs/LearningPathCourseDropDown";
 import {IoMdAddCircle} from "react-icons/io";
+import ErrorModal from "@/app/components/Modal/ErrorModal";
 
 type LearningPath = z.infer<typeof createLearningPathSchema>;
 
@@ -60,6 +61,7 @@ export default function NewLearningPathForm({coursesData}: Props) {
     const router = useRouter();
     const [error, setError] = useState('');
     const [isSubmitted, setSubmitted] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
 
 
 
@@ -103,9 +105,6 @@ export default function NewLearningPathForm({coursesData}: Props) {
             courses: transformedCourses
         }
 
-
-        console.log('Final Data:', finalData);
-
         const url: string = 'http://localhost:3000/api/learning_paths_courses';
         try {
             setSubmitted(true);
@@ -113,6 +112,7 @@ export default function NewLearningPathForm({coursesData}: Props) {
             router.push(`/learning_paths`);
 
         } catch (error) {
+            setShowErrorModal(true);
             setSubmitted(false);
             setError('Unexpected error has happened');
         }
@@ -219,6 +219,13 @@ export default function NewLearningPathForm({coursesData}: Props) {
                                 Learning Path</CustomButton>
                         </div>
                     </form>
+
+                    <ErrorModal
+                        isOpen={showErrorModal}
+                        title={"Error!"}
+                        message={"Unexpected error has happened!"}
+                        onConfirm={() => setShowErrorModal(false)}
+                    />
 
                 </div>
 

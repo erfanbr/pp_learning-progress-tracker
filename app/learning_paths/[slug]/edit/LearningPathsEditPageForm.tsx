@@ -23,6 +23,7 @@ import LearningPathDropDown from "@/app/components/formInputs/LearningPathCourse
 import {IoMdAddCircle} from "react-icons/io";
 import Spinner from "@/app/components/Spinner";
 import ConfirmModal from "@/app/components/Modal/ConfirmModal";
+import ErrorModal from "@/app/components/Modal/ErrorModal";
 
 type LearningPathType = z.infer<typeof createLearningPathSchema>;
 
@@ -74,10 +75,11 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
     });
 
     const router = useRouter();
-    const [error, setError] = useState('');
+    const [error, setError] = useState(false);
     const [isSubmitted, setSubmitted] = useState(false);
     const [isDeleted, setDeleted] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const allOptions = coursesData.map(c => ({
         id: c.id.toString(),
@@ -121,13 +123,15 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
 
             const url: string = `http://localhost:3000/api/learning_paths_courses/${learningPathsCoursesData[0].learningPathId}`;
             try {
+                // throw new Error();
                 setSubmitted(true);
-                const response= await axios.put(url, finalData);
+                const response = await axios.put(url, finalData);
                 router.push(`/learning_paths`);
 
             } catch (error) {
+                setShowErrorModal(true);
+                setError(true);
                 setSubmitted(false);
-                setError('Unexpected error has happened');
             }
         },
         (errors) => {
@@ -136,7 +140,7 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
     );
 
     const handleDelete = async () => {
-        setShowModal(true);
+        setShowConfirmationModal(true);
     };
 
     const confirmDelete = async () => {
@@ -146,14 +150,13 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
             await axios.delete(url);
             router.push(`/learning_paths`);
         } catch (error) {
+            setShowErrorModal(true);
             setDeleted(false);
-            setError('An unexpected error has happened!');
+            setError(true);
         } finally {
-            setShowModal(false);
+            setShowConfirmationModal(false);
         }
     };
-
-
 
 
     return (
@@ -263,14 +266,19 @@ export default function LearningPathsEditPageForm({learningPathsCoursesData, cou
                     </form>
 
                     <ConfirmModal
-                        isOpen={showModal}
+                        isOpen={showConfirmationModal}
                         title="Confirm Deletion"
                         message={`Are you sure you want to delete --> ID: ${learningPathsCoursesData[0].learningPathId}, 
-                        Title: ${learningPathsCoursesData[0].learningPath.title }? `}
+                        Title: ${learningPathsCoursesData[0].learningPath.title}? `}
                         onConfirm={confirmDelete}
-                        onCancel={() => setShowModal(false)}
+                        onCancel={() => setShowConfirmationModal(false)}
                     />
-
+                    <ErrorModal
+                        isOpen={showErrorModal}
+                        title={"Error!"}
+                        message={"Unexpected error has happened!"}
+                        onConfirm={() => setShowErrorModal(false)}
+                    />
                 </div>
 
             </div>
