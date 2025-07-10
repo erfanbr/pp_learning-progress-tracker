@@ -27,8 +27,8 @@ interface Props {
     platformsData: { id: number; title: string }[],
     categoriesData: { id: number; title: string }[],
     technologiesData: { id: number; title: string }[],
-
 }
+// TODO: Add Error Modal to Course, Technology etc pages. For edit and add (similar to learning paths)
 
 export default function NewCourseForm({platformsData, categoriesData, technologiesData}: Props) {
     const {
