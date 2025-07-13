@@ -21,6 +21,11 @@ export async function GET(request: NextRequest, {params}: Props) {
                     title: true,
                 },
             },
+            platform: {
+                select: {
+                    title: true,
+                },
+            },
         }
     });
     if (!course) return NextResponse.json({error: "Course not found"}, {status: 404});

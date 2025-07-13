@@ -148,13 +148,14 @@ export default function CourseDetailPageForm({
                                 {courseData.title}
                             </h3>
 
-
                             <div className="col-span-2 grid grid-cols-2 md:grid-cols-3 gap-2 font-semibold text-gray-800">
                                 <p>Status: <span className="font-light text-gray-500"><CourseStatusBadge status={courseData.status}/>    </span></p>
                                 <p>Difficulty: <span className="font-light text-gray-500"><CourseDifficultyBadge difficulty={courseData.difficulty}/> </span></p>
-                                <p>Category: <span className="font-light text-gray-500">{courseData.category!.title}</span></p>
-                                <p>Platform: <span className="font-light text-gray-500">{platformsData[courseData.platformId].title}</span></p>
+                                <p>Category: <span className="font-light text-gray-500">{courseData.category?.title}</span></p>
+                                <p>Platform: <span className="font-light text-gray-500">{courseData.platform?.title}</span></p>
                                 <p>Priority: <span className="font-light text-gray-500"> <CoursePriorityBadge priority={courseData.priority} /></span></p>
+
+
 
 
                                 <p>Last Seen: <span className="font-light text-gray-500">{"E" + courseData.lastSeen}</span></p>

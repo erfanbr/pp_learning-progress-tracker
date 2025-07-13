@@ -73,13 +73,13 @@ INSERT INTO `_prisma_migrations` VALUES ('0c618ee5-f2d8-4710-a7ec-f8864b90a870',
 UNLOCK TABLES;
 
 --
--- Table structure for table `category`
+-- Table structure for table `Category`
 --
 
-DROP TABLE IF EXISTS `category`;
+DROP TABLE IF EXISTS `Category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `category` (
+CREATE TABLE `Category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
@@ -87,13 +87,13 @@ CREATE TABLE `category` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `category`
+-- Dumping data for table `Category`
 --
 
-LOCK TABLES `category` WRITE;
-/*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Front-End'),(2,'Back-End'),(3,'Mobile Development'),(4,'AI & ML'),(5,'Database ');
-/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+LOCK TABLES `Category` WRITE;
+/*!40000 ALTER TABLE `Category` DISABLE KEYS */;
+INSERT INTO `Category` VALUES (1,'Front-End'),(2,'Back-End'),(3,'Mobile Development'),(4,'AI & ML'),(5,'Database ');
+/*!40000 ALTER TABLE `Category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -130,9 +130,9 @@ CREATE TABLE `course` (
 -- Dumping data for table `course`
 --
 
-LOCK TABLES `course` WRITE;
-/*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (8,'SQL Mastery','IN_PROGRESS','2025-05-12 22:48:29.969','2025-07-06 22:24:31.879',5,1,'BEGINNER',5,'12','https://github.com/erfanbr','','VERY_LOW','Become fluent in SQL (Structured Query Language) and take full control of data. This course guides you from the basics of writing queries to advanced data manipulation techniques used by analysts, engineers, and developers worldwide.'),(9,'Django v2','NOT_STARTED_YET','2025-05-12 23:15:20.827','2025-07-09 22:37:02.844',2,2,'INTERMEDIATE',5,'5','','','MEDIUM',''),(10,'Responsive Web Design','ABANDONED','2025-05-12 23:15:20.827','2025-07-05 22:09:11.058',1,2,'INTERMEDIATE',15,'43','','','MEDIUM',''),(11,'Another Course','BLOCKED','2025-05-12 23:15:20.827','2025-06-04 18:44:54.433',2,2,'ADVANCED',5,'26','','','VERY_HIGH',NULL),(12,'React: Zero to Hero','BLOCKED','2025-05-12 23:15:20.827','2025-06-08 23:18:22.193',2,2,'INTERMEDIATE',4,'45','','','MEDIUM','Dive into React, the powerful JavaScript library used by top tech companies to build fast, interactive web applications. This course will teach you how to create dynamic, component-based user interfaces with clean, maintainable code.'),(13,'Angular basics','DONE','2025-05-12 23:15:20.827','2025-06-09 09:59:03.904',1,2,'BEGINNER',8,'25','','','MEDIUM','Get started with Angular, the powerful front-end framework maintained by Google. This course will teach you how to build dynamic, single-page applications (SPAs) using a structured, component-driven approach.'),(14,'Another Course v5','IN_PROGRESS','2025-05-12 23:15:20.827','2025-06-05 19:43:16.119',5,1,'INTERMEDIATE',6,'10','','','MEDIUM',NULL),(15,'Another Course v6','IN_PROGRESS','2025-05-12 23:15:20.827','2025-06-04 20:12:18.482',5,1,'INTERMEDIATE',12,'42','','','VERY_LOW',NULL),(18,'Learn Typescript & Java Script','ABANDONED','2025-05-12 23:15:20.827','2025-06-08 23:18:34.764',5,3,'MASTERY',15,'8','','','MEDIUM','Master the language of the web with JavaScript, and level up your development with the power of TypeScript. This course introduces core programming concepts and shows how TypeScript enhances JavaScript with type safety and modern tooling.'),(21,'Another course test','DONE','2025-05-18 22:27:38.758','2025-05-25 21:57:37.224',4,3,'BEGINNER',21,'15','www.google.com','','URGENT',NULL),(22,'my last test b4 sleep','ABANDONED','2025-05-18 22:28:19.005','2025-05-18 22:28:19.005',1,1,'BEGINNER',123,'19','','','LOW',NULL),(23,'Basics of HTML & CSS','DONE','2025-05-19 21:05:04.261','2025-06-08 23:18:43.472',2,11,'MASTERY',12,'69','','','HIGH','Learn the building blocks of the web! This beginner-friendly course introduces you to HTML and CSS, the essential languages for creating and styling websites.'),(24,'Another title test','NOT_STARTED_YET','2025-05-19 21:07:43.220','2025-05-19 21:07:43.220',2,2,'MASTERY',56,'22','','','MEDIUM',NULL),(25,'My title','ABANDONED','2025-05-19 21:08:30.322','2025-05-19 21:08:30.322',3,11,'MASTERY',56,'56','','','LOW',NULL),(26,'Testin Enum component','ABANDONED','2025-05-19 21:39:02.817','2025-06-08 23:19:04.018',5,11,'MASTERY',69,'24','test url','','URGENT','Variables, data types, and operators  Functions, conditionals, and loops  Arrays and objects  DOM manipulation and events  ES6+ features like arrow functions, destructuring, and modules'),(27,'Testing disbale course','DONE','2025-05-20 21:42:49.883','2025-05-20 21:42:49.883',1,1,'ADVANCED',12,'12','asd12re12r','','LOW',NULL),(28,'My Test Course directly v3','DONE','2025-05-21 20:52:42.516','2025-05-21 20:52:42.516',4,2,'BEGINNER',12,'38','https://www.facebook.com/raya.abbassi/videos/906040140123576/','','URGENT',NULL);
+LOCK TABLES `Course` WRITE;
+/*!40000 ALTER TABLE `Course` DISABLE KEYS */;
+INSERT INTO `Course` VALUES (8,'SQL Mastery','IN_PROGRESS','2025-05-12 22:48:29.969','2025-07-06 22:24:31.879',5,1,'BEGINNER',5,'12','https://github.com/erfanbr','','VERY_LOW','Become fluent in SQL (Structured Query Language) and take full control of data. This course guides you from the basics of writing queries to advanced data manipulation techniques used by analysts, engineers, and developers worldwide.'),(9,'Django v2','NOT_STARTED_YET','2025-05-12 23:15:20.827','2025-07-09 22:37:02.844',2,2,'INTERMEDIATE',5,'5','','','MEDIUM',''),(10,'Responsive Web Design','ABANDONED','2025-05-12 23:15:20.827','2025-07-05 22:09:11.058',1,2,'INTERMEDIATE',15,'43','','','MEDIUM',''),(11,'Another Course','BLOCKED','2025-05-12 23:15:20.827','2025-06-04 18:44:54.433',2,2,'ADVANCED',5,'26','','','VERY_HIGH',NULL),(12,'React: Zero to Hero','BLOCKED','2025-05-12 23:15:20.827','2025-06-08 23:18:22.193',2,2,'INTERMEDIATE',4,'45','','','MEDIUM','Dive into React, the powerful JavaScript library used by top tech companies to build fast, interactive web applications. This course will teach you how to create dynamic, component-based user interfaces with clean, maintainable code.'),(13,'Angular basics','DONE','2025-05-12 23:15:20.827','2025-06-09 09:59:03.904',1,2,'BEGINNER',8,'25','','','MEDIUM','Get started with Angular, the powerful front-end framework maintained by Google. This course will teach you how to build dynamic, single-page applications (SPAs) using a structured, component-driven approach.'),(14,'Another Course v5','IN_PROGRESS','2025-05-12 23:15:20.827','2025-06-05 19:43:16.119',5,1,'INTERMEDIATE',6,'10','','','MEDIUM',NULL),(15,'Another Course v6','IN_PROGRESS','2025-05-12 23:15:20.827','2025-06-04 20:12:18.482',5,1,'INTERMEDIATE',12,'42','','','VERY_LOW',NULL),(18,'Learn Typescript & Java Script','ABANDONED','2025-05-12 23:15:20.827','2025-06-08 23:18:34.764',5,3,'MASTERY',15,'8','','','MEDIUM','Master the language of the web with JavaScript, and level up your development with the power of TypeScript. This course introduces core programming concepts and shows how TypeScript enhances JavaScript with type safety and modern tooling.'),(21,'Another course test','DONE','2025-05-18 22:27:38.758','2025-05-25 21:57:37.224',4,3,'BEGINNER',21,'15','www.google.com','','URGENT',NULL),(22,'my last test b4 sleep','ABANDONED','2025-05-18 22:28:19.005','2025-05-18 22:28:19.005',1,1,'BEGINNER',123,'19','','','LOW',NULL),(23,'Basics of HTML & CSS','DONE','2025-05-19 21:05:04.261','2025-06-08 23:18:43.472',2,11,'MASTERY',12,'69','','','HIGH','Learn the building blocks of the web! This beginner-friendly course introduces you to HTML and CSS, the essential languages for creating and styling websites.'),(24,'Another title test','NOT_STARTED_YET','2025-05-19 21:07:43.220','2025-05-19 21:07:43.220',2,2,'MASTERY',56,'22','','','MEDIUM',NULL),(25,'My title','ABANDONED','2025-05-19 21:08:30.322','2025-05-19 21:08:30.322',3,11,'MASTERY',56,'56','','','LOW',NULL),(26,'Testin Enum component','ABANDONED','2025-05-19 21:39:02.817','2025-06-08 23:19:04.018',5,11,'MASTERY',69,'24','test url','','URGENT','Variables, data types, and operators  Functions, conditionals, and loops  Arrays and objects  DOM manipulation and events  ES6+ features like arrow functions, destructuring, and modules'),(27,'Testing disbale course','DONE','2025-05-20 21:42:49.883','2025-05-20 21:42:49.883',1,1,'ADVANCED',12,'12','asd12re12r','','LOW',NULL),(28,'My Test Course directly v3','DONE','2025-05-21 20:52:42.516','2025-05-21 20:52:42.516',4,2,'BEGINNER',12,'38','https://www.facebook.com/raya.abbassi/videos/906040140123576/','','URGENT',NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,13 +192,13 @@ INSERT INTO `learningpathcourse` VALUES (1,1,8,4),(2,1,12,3),(3,1,23,1),(4,2,26,
 UNLOCK TABLES;
 
 --
--- Table structure for table `platform`
+-- Table structure for table `Platform`
 --
 
-DROP TABLE IF EXISTS `platform`;
+DROP TABLE IF EXISTS `Platform`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `platform` (
+CREATE TABLE `Platform` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
@@ -206,23 +206,23 @@ CREATE TABLE `platform` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `platform`
+-- Dumping data for table `Platform`
 --
 
-LOCK TABLES `platform` WRITE;
-/*!40000 ALTER TABLE `platform` DISABLE KEYS */;
-INSERT INTO `platform` VALUES (1,'Udemy'),(2,'Coursera'),(3,'Youtube'),(11,'Linkedin'),(13,'FrontEnd Masters'),(15,'Books');
-/*!40000 ALTER TABLE `platform` ENABLE KEYS */;
+LOCK TABLES `Platform` WRITE;
+/*!40000 ALTER TABLE `Platform` DISABLE KEYS */;
+INSERT INTO `Platform` VALUES (1,'Udemy'),(2,'Coursera'),(3,'Youtube'),(11,'Linkedin'),(13,'FrontEnd Masters'),(15,'Books');
+/*!40000 ALTER TABLE `Platform` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `technology`
+-- Table structure for table `Technology`
 --
 
-DROP TABLE IF EXISTS `technology`;
+DROP TABLE IF EXISTS `Technology`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `technology` (
+CREATE TABLE `Technology` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
@@ -230,13 +230,13 @@ CREATE TABLE `technology` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `technology`
+-- Dumping data for table `Technology`
 --
 
-LOCK TABLES `technology` WRITE;
-/*!40000 ALTER TABLE `technology` DISABLE KEYS */;
-INSERT INTO `technology` VALUES (1,'React'),(2,'TypeScript'),(3,'Python'),(4,'Django'),(5,'JavaScript'),(6,'Java'),(8,'C#'),(18,'Angular');
-/*!40000 ALTER TABLE `technology` ENABLE KEYS */;
+LOCK TABLES `Technology` WRITE;
+/*!40000 ALTER TABLE `Technology` DISABLE KEYS */;
+INSERT INTO `Technology` VALUES (1,'React'),(2,'TypeScript'),(3,'Python'),(4,'Django'),(5,'JavaScript'),(6,'Java'),(8,'C#'),(18,'Angular');
+/*!40000 ALTER TABLE `Technology` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
