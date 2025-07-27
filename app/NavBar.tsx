@@ -1,7 +1,7 @@
 'use client';
 import React, {useState} from "react";
 import Link from "next/link";
-import { TbLamp2 } from "react-icons/tb";
+import {TbLamp2} from "react-icons/tb";
 import {useRouter} from 'next/router';
 import {GiBookCover, GiFlexibleLamp, GiPlatform} from "react-icons/gi";
 import {
@@ -21,7 +21,7 @@ import {IconType} from "react-icons";
 import classNames from "classnames";
 import navBarLinks from "@/app/components/NavBar/NavBarLinks";
 import {useSession} from "next-auth/react";
-
+import AuthStatus from "@/app/AuthStatus";
 
 
 export default function NavBar() {
@@ -80,58 +80,12 @@ export default function NavBar() {
                     </Link>
 
                     {/* User Info */}
-                    <div className="pt-4 pb-8 ml-1">
-                        {status === "authenticated" ? (
-                            <div className="flex items-center space-x-4">
-                                {session?.user?.image && (
-                                    <img
-                                        src={session.user.image}
-                                        alt="User Avatar"
-                                        className="w-12 h-12 rounded-full object-cover"
-                                    />
-                                )}
-
-
-                                <div className="flex flex-col">
-                                    <div className="flex items-center space-x-2">
-                                    <span className="text-white font-semibold">
-                                        {session?.user?.name}
-                                    </span>
-                                        {/* Disabled edit icon for now until I decide if user modification is needed */}
-                                        {/*<MdEdit className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer"/>*/}
-                                    </div>
-                                    <Link
-                                        href="/api/auth/signout"
-                                        className="text-blue-400 hover:underline text-sm"
-                                    >
-                                        Log Out
-                                    </Link>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="flex items-center space-x-4">
-                                <RxAvatar className="w-12 h-12 rounded-full object-cover"/>
-                                <div className="flex flex-col">
-                                    <div className="flex items-center space-x-2">
-                                        <span className="text-white font-semibold">
-                                            Unknown User
-                                        </span>
-
-                                    </div>
-                                    <Link
-                                        href="/api/auth/signin"
-                                        className="text-blue-400 hover:underline block"
-                                    >
-                                        Login
-                                    </Link>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-
+                    <AuthStatus
+                        status={status}
+                        session={session}
+                    />
 
                     <ul className="space-y-2 font-medium">
-
                         {links.map((link) => {
                             const isActive =
                                 link.href === '/'
