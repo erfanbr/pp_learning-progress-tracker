@@ -1,8 +1,9 @@
 'use client';
 import React, {useState} from "react";
 import Link from "next/link";
+import { TbLamp2 } from "react-icons/tb";
 import {useRouter} from 'next/router';
-import {GiBookCover, GiPlatform} from "react-icons/gi";
+import {GiBookCover, GiFlexibleLamp, GiPlatform} from "react-icons/gi";
 import {
     MdLibraryBooks,
     MdSpaceDashboard,
@@ -14,13 +15,13 @@ import {
 import {CgPerformance} from "react-icons/cg";
 import {IoHardwareChip} from "react-icons/io5";
 import {usePathname} from "next/navigation";
-import {RxHamburgerMenu} from "react-icons/rx";
+import {RxAvatar, RxHamburgerMenu} from "react-icons/rx";
 import {MdClose} from "react-icons/md";
 import {IconType} from "react-icons";
 import classNames from "classnames";
 import navBarLinks from "@/app/components/NavBar/NavBarLinks";
 import {useSession} from "next-auth/react";
-import Box from "next-auth/providers/box";
+
 
 
 export default function NavBar() {
@@ -73,7 +74,7 @@ export default function NavBar() {
 
 
                     {/*LOGO*/}
-                    <Link href="/" className="flex items-center mx-2 border-b-2 mb-3 pb-5"><GiBookCover
+                    <Link href="/" className="flex items-center mx-2 border-b-2 mb-3 pb-5"><TbLamp2
                         className={sideBarLogoStyle}/><span
                         className="mx-3 self-center text-xl font-semibold whitespace-nowrap dark:text-white">Studyflow</span>
                     </Link>
@@ -108,12 +109,23 @@ export default function NavBar() {
                                 </div>
                             </div>
                         ) : (
-                            <Link
-                                href="/api/auth/signin"
-                                className="text-blue-400 hover:underline block mt-4"
-                            >
-                                Login
-                            </Link>
+                            <div className="flex items-center space-x-4">
+                                <RxAvatar className="w-12 h-12 rounded-full object-cover"/>
+                                <div className="flex flex-col">
+                                    <div className="flex items-center space-x-2">
+                                        <span className="text-white font-semibold">
+                                            Unknown User
+                                        </span>
+
+                                    </div>
+                                    <Link
+                                        href="/api/auth/signin"
+                                        className="text-blue-400 hover:underline block"
+                                    >
+                                        Login
+                                    </Link>
+                                </div>
+                            </div>
                         )}
                     </div>
 
