@@ -122,9 +122,25 @@ export default function NavBar() {
                         })}
 
                     </ul>
-                    <div>
+
+
+                    {/* User Info */}
+                    <div className="space-y-2 font-medium">
                         {status === "authenticated" && (
-                            <Link href={"/api/auth/signout"}>Welcome back, {session?.user?.name}! Log Out</Link>
+                            <>
+                                <div>
+                                    {session?.user?.image && (
+                                    <img
+                                        src={session.user.image}
+                                        alt="User Avatar"
+                                        className="w-10 h-10 rounded-full"
+                                    />
+                                )}
+
+                                </div>
+                                <p>{session?.user?.name}!</p>
+                                <Link href={"/api/auth/signout"}>Log Out</Link>
+                            </>
                         )}
                         {status === "unauthenticated" && (
                             <Link href={"/api/auth/signin"}>Login</Link>
