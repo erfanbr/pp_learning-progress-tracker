@@ -6,6 +6,7 @@ import {ThemeModeScript} from 'flowbite-react';
 import {Button, createTheme, ThemeProvider} from "flowbite-react";
 import '../styles/input.css'
 import DynamicTitle from "@/app/DynamicTitle";
+import AuthProvider from "@/app/auth/Provider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -46,15 +47,17 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-            <DynamicTitle/>
-            <NavBar></NavBar>
-            <main>
-                <div className="p-4 sm:ml-64">
-                    <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+            <AuthProvider>
+                <DynamicTitle/>
+                <NavBar></NavBar>
+                <main>
+                    <div className="p-4 sm:ml-64">
+                        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                         {children}
                     </div>
-                </div>
-            </main>
+                    </div>
+                </main>
+            </AuthProvider>
             </body>
         </ThemeProvider>
         </html>

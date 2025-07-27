@@ -19,11 +19,14 @@ import {MdClose} from "react-icons/md";
 import {IconType} from "react-icons";
 import classNames from "classnames";
 import navBarLinks from "@/app/components/NavBar/NavBarLinks";
+import {useSession} from "next-auth/react";
+import Box from "next-auth/providers/box";
 
 
 export default function NavBar() {
     const currentPath = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const {status, data: session} = useSession();
 
 
     const sideBarLogoStyle = "w-8 h-8 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -77,6 +80,7 @@ export default function NavBar() {
 
 
                     <ul className="space-y-2 font-medium">
+
                         {links.map((link) => {
                             const isActive =
                                 link.href === '/'
@@ -116,7 +120,17 @@ export default function NavBar() {
                             );
 
                         })}
+
                     </ul>
+                    <div>
+                        {status === "authenticated" && (
+                            <Link href={"/api/auth/signout"}>Welcome back, {session?.user?.name}! Log Out</Link>
+                        )}
+                        {status === "unauthenticated" && (
+                            <Link href={"/api/auth/signin"}>Login</Link>
+                        )}
+
+                    </div>
                 </div>
             </aside>
         </>
