@@ -9,7 +9,7 @@ import {
     MdEvent,
     MdSpeakerNotes,
     MdSettingsApplications,
-    MdCategory
+    MdCategory, MdEdit
 } from "react-icons/md";
 import {CgPerformance} from "react-icons/cg";
 import {IoHardwareChip} from "react-icons/io5";
@@ -78,6 +78,45 @@ export default function NavBar() {
                         className="mx-3 self-center text-xl font-semibold whitespace-nowrap dark:text-white">Studyflow</span>
                     </Link>
 
+                    {/* User Info */}
+                    <div className="pt-4 pb-8 ml-1">
+                        {status === "authenticated" ? (
+                            <div className="flex items-center space-x-4">
+                                {session?.user?.image && (
+                                    <img
+                                        src={session.user.image}
+                                        alt="User Avatar"
+                                        className="w-12 h-12 rounded-full object-cover"
+                                    />
+                                )}
+
+
+                                <div className="flex flex-col">
+                                    <div className="flex items-center space-x-2">
+                                    <span className="text-white font-semibold">
+                                        {session?.user?.name}
+                                    </span>
+                                        {/* Disabled edit icon for now until I decide if user modification is needed */}
+                                        {/*<MdEdit className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer"/>*/}
+                                    </div>
+                                    <Link
+                                        href="/api/auth/signout"
+                                        className="text-blue-400 hover:underline text-sm"
+                                    >
+                                        Log Out
+                                    </Link>
+                                </div>
+                            </div>
+                        ) : (
+                            <Link
+                                href="/api/auth/signin"
+                                className="text-blue-400 hover:underline block mt-4"
+                            >
+                                Login
+                            </Link>
+                        )}
+                    </div>
+
 
                     <ul className="space-y-2 font-medium">
 
@@ -122,29 +161,6 @@ export default function NavBar() {
                     </ul>
 
 
-                    {/* User Info */}
-                    <div className="space-y-2 font-medium">
-                        {status === "authenticated" && (
-                            <>
-                                <div>
-                                    {session?.user?.image && (
-                                    <img
-                                        src={session.user.image}
-                                        alt="User Avatar"
-                                        className="w-10 h-10 rounded-full"
-                                    />
-                                )}
-
-                                </div>
-                                <p>{session?.user?.name}!</p>
-                                <Link href={"/api/auth/signout"}>Log Out</Link>
-                            </>
-                        )}
-                        {status === "unauthenticated" && (
-                            <Link href={"/api/auth/signin"}>Login</Link>
-                        )}
-
-                    </div>
                 </div>
             </aside>
         </>
