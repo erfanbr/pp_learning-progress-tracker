@@ -2,13 +2,12 @@ import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
 import {createPlatformSchema} from "@/app/validationSchema";
 import {getServerSession} from "next-auth";
-import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import authOptions from "@/app/auth/authOptions";
+
+
+export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
-    const session = await getServerSession(authOptions);
-    if (!session)
-        return NextResponse.json({}, {status: 401});
-
     const platforms = await prisma.platform.findMany();
     return NextResponse.json(platforms);
 }

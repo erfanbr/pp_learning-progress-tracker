@@ -2,20 +2,19 @@ import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
 import {createPlatformSchema} from "@/app/validationSchema";
 import {getServerSession} from "next-auth";
-import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import authOptions from "@/app/auth/authOptions";
+
 
 interface Props {
     params: {id: string}
 }
 
 export async function GET(request: NextRequest, {params}: Props) {
-    const session = await getServerSession(authOptions);
-    if (!session)
-        return NextResponse.json({}, {status: 401});
+    const res = await params;
 
     const platform = await prisma.platform.findUnique({
             where: {
-                id: parseInt(params.id)
+                id: parseInt(res.id)
             },
         include: {
                 Course: true
@@ -28,6 +27,7 @@ export async function GET(request: NextRequest, {params}: Props) {
 
 export async function DELETE(request: NextRequest, {params}: Props){
     const session = await getServerSession(authOptions);
+
     if (!session)
         return NextResponse.json({}, {status: 401});
 

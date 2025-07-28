@@ -2,13 +2,9 @@ import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
 import {createCategorySchema} from "@/app/validationSchema";
 import {getServerSession} from "next-auth";
-import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import authOptions from "@/app/auth/authOptions";
 
 export async function GET(request: NextRequest) {
-    const session = await getServerSession(authOptions);
-    if (!session)
-        return NextResponse.json({}, {status: 401});
-
     const categories = await prisma.category.findMany();
     return NextResponse.json(categories);
 }
