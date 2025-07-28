@@ -1,7 +1,7 @@
 'use client'
 import React, {useEffect} from "react";
 import {usePathname} from "next/navigation";
-import navBarLinks from "@/app/components/NavBar/NavBarLinks";
+import navBarLinksMapping from "@/app/components/NavBar/NavBarLinksMapping";
 import {IconType} from "react-icons";
 
 export default function DynamicTitle() {
@@ -9,7 +9,7 @@ export default function DynamicTitle() {
 
 
     useEffect(() => {
-            navBarLinks.map((link) => {
+            navBarLinksMapping.map((link) => {
                 const isActive = link.href === currentPath;
                 if (isActive) document.title = link.label + ' | StudyFlow';
             })

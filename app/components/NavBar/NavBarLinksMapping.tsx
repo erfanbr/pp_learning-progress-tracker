@@ -12,7 +12,7 @@ import {IoHardwareChip} from "react-icons/io5";
 import {GiPathDistance} from "react-icons/gi";
 
 
-const navBarLinks = [
+const navBarLinksMapping = [
     {label: "Overview", href: "/", icon: MdSpaceDashboard},
     {label: "Learning Paths", href: "/learning_paths", icon: GiPathDistance},
     {label: "Courses", href: "/courses", icon: MdLibraryBooks},
@@ -26,4 +26,4 @@ const navBarLinks = [
     // {label: "Settings", href: "/settings", icon: MdSettingsApplications},
 ]
 
-export default navBarLinks;
+export default navBarLinksMapping;
