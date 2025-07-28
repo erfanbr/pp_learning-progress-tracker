@@ -1,8 +1,14 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
 import {createLearningPathSchema, createPlatformSchema} from "@/app/validationSchema";
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(request: NextRequest) {
+    const session = await getServerSession(authOptions);
+    if (!session)
+        return NextResponse.json({}, {status: 401});
+
     const result = await prisma.learningPathCourse.findMany({
         include: {
             course: {
@@ -27,10 +33,11 @@ export async function GET(request: NextRequest) {
 
 
 export async function POST(request: NextRequest) {
+    const session = await getServerSession(authOptions);
+    if (!session)
+        return NextResponse.json({}, {status: 401});
+
     const body = await request.json();
-
-
-
     const validatedData = createLearningPathSchema.safeParse(body);
     if (!validatedData.success) return NextResponse.json({error: validatedData.error.errors}, {status: 400})
 

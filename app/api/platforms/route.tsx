@@ -1,14 +1,24 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
 import {createPlatformSchema} from "@/app/validationSchema";
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(request: NextRequest) {
+    const session = await getServerSession(authOptions);
+    if (!session)
+        return NextResponse.json({}, {status: 401});
+
     const platforms = await prisma.platform.findMany();
     return NextResponse.json(platforms);
 }
 
 
 export async function POST(request: NextRequest) {
+    const session = await getServerSession(authOptions);
+    if (!session)
+        return NextResponse.json({}, {status: 401});
+
     const body = await request.json();
 
     const validatedData = createPlatformSchema.safeParse(body);

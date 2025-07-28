@@ -1,12 +1,18 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
 import {createCategorySchema, createLearningPathSchema} from "@/app/validationSchema";
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 
 interface Props {
     params: { id: string }
 }
 
 export async function GET(request: NextRequest, {params}: Props) {
+    const session = await getServerSession(authOptions);
+    if (!session)
+        return NextResponse.json({}, {status: 401});
+
     params = await params;
     const result = await prisma.learningPathCourse.findMany({
         where: {
@@ -40,6 +46,10 @@ export async function GET(request: NextRequest, {params}: Props) {
 
 
 export async function DELETE(request: NextRequest, {params}: Props) {
+    const session = await getServerSession(authOptions);
+    if (!session)
+        return NextResponse.json({}, {status: 401});
+
     const learningPathCourse = await prisma.learningPathCourse.findMany({
         where: {
             learningPathId: parseInt(params.id)
@@ -75,6 +85,10 @@ export async function DELETE(request: NextRequest, {params}: Props) {
 }
 
 export async function PUT(request: NextRequest, {params}: Props) {
+    const session = await getServerSession(authOptions);
+    if (!session)
+        return NextResponse.json({}, {status: 401});
+
     const body = await request.json();
     console.log("Update learningPathCourses...");
     console.log(body);

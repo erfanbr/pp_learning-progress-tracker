@@ -1,12 +1,18 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
 import {createTechnologySchema} from "@/app/validationSchema";
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 
 interface Props {
     params: {id: string}
 }
 
 export async function GET(request: NextRequest, {params}: Props) {
+    const session = await getServerSession(authOptions);
+    if (!session)
+        return NextResponse.json({}, {status: 401});
+
     const technology = await prisma.technology.findUnique({
         where: {
             id: parseInt(params.id)
@@ -21,6 +27,10 @@ export async function GET(request: NextRequest, {params}: Props) {
 }
 
 export async function DELETE(request: NextRequest, {params}: Props){
+    const session = await getServerSession(authOptions);
+    if (!session)
+        return NextResponse.json({}, {status: 401});
+
     const technology = await prisma.technology.findUnique({
         where: {
             id: parseInt(params.id)
@@ -39,6 +49,10 @@ export async function DELETE(request: NextRequest, {params}: Props){
 }
 
 export async function PUT(request: NextRequest, {params} : Props){
+    const session = await getServerSession(authOptions);
+    if (!session)
+        return NextResponse.json({}, {status: 401});
+
     const body = await request.json();
 
     const technology = await prisma.technology.findUnique({
